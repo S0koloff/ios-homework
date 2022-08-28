@@ -10,8 +10,10 @@ import UIKit
 class FeedViewController: UIViewController {
     
     private lazy var button: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0 , y: 0, width: 150, height: 150))
-        button.setImage(UIImage(systemName: "p.circle"), for: .normal)
+        let button = UIButton(frame: CGRect(x: 105, y: 750, width: 200, height: 50))
+        button.backgroundColor = UIColor.blue
+        button.setTitle("Post", for: UIControl.State.normal)
+        button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
         return button
         
@@ -21,8 +23,6 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.view.addSubview(self.button)
-        self.button.center = self.view.center
-        
     }
     
     @objc private func buttonAction() {
