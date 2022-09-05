@@ -10,8 +10,10 @@ import UIKit
 class InfoViewController: UIViewController {
     
     private lazy var closeButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
-        button.setImage(UIImage(systemName: "stop.circle"), for: .normal)
+        let button = UIButton(frame: CGRect(x: 105, y: 750, width: 200, height: 50))
+        button.backgroundColor = UIColor.blue
+        button.setTitle("Close Info", for: UIControl.State.normal)
+        button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(self.didTapCloseButton), for: .touchUpInside)
         return button
     }()
@@ -21,8 +23,6 @@ class InfoViewController: UIViewController {
         self.view.backgroundColor = .systemGray
         
         self.view.addSubview(self.closeButton)
-        self.closeButton.center = self.view.center
-        
     }
     
     @objc private func didTapCloseButton() {

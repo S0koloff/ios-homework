@@ -23,10 +23,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = UITabBarController()
         
+        tabBarController.tabBar.backgroundColor = .white
+        
         tabBarController.viewControllers = [feedViewController, profileViewController]
         
         tabBarController.viewControllers?.enumerated().forEach {
-            $1.tabBarItem.title = $0 == 0 ? "Timeline" : "Person"
+            $1.tabBarItem.title = $0 == 0 ? "Feed" : "Profile"
             $1.tabBarItem.image = $0 == 0
             ? UIImage(systemName: "textbox")
             : UIImage(systemName: "person.circle")
