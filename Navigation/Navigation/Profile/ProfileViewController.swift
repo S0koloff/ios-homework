@@ -10,14 +10,16 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     private var profileHeaderView: ProfileHeaderView = {
-        let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 70, width: 414, height: 896))
+        let profileHeaderView = ProfileHeaderView(frame: .zero)
         profileHeaderView.backgroundColor = .lightGray
+        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        profileHeaderView.insetsLayoutMarginsFromSafeArea = true
         return profileHeaderView
     }()
     
     private let profile = Profile(name: "Sad Cat", label: "Waiting for something...")
-
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,16 @@ class ProfileViewController: UIViewController {
         self.view.addSubview(self.profileHeaderView)
         self.profileHeaderView.setup(with: self.profile)
         self.navigationController?.navigationBar.backgroundColor = .white
-        
+        self.setupView ()
+    }
+    
+    private func setupView () {
+        NSLayoutConstraint.activate([
+            self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.profileHeaderView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.profileHeaderView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.profileHeaderView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
     }
 }
+
