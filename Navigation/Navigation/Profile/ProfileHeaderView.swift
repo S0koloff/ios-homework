@@ -13,7 +13,6 @@ class ProfileHeaderView: UIView {
     private lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,21 +68,41 @@ class ProfileHeaderView: UIView {
     }
     
     private func setupView() {
+        
         self.addSubview(self.avatarImage)
         self.addSubview(self.nameLabel)
         self.addSubview(self.statusLabel)
         self.addSubview(self.editButton)
         self.addSubview(self.lowButton)
         
+        NSLayoutConstraint.activate ([
+    
+        self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+        self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+        self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+        self.avatarImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
         
-        let avatarImageConstraints = self.avatarImageConstraints()
+        self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
+        self.nameLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+        self.nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.357922),
+        self.nameLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0387812),
         
-        NSLayoutConstraint.activate(avatarImageConstraints)
-        NSLayoutConstraint.activate(nameLabelConstraints())
-        NSLayoutConstraint.activate(statusLabelConstraints())
-        NSLayoutConstraint.activate(editButtonConstraints())
-        NSLayoutConstraint.activate(lowButtonConstraints())
+        self.statusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 74),
+        self.statusLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+        self.statusLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.397922),
+        self.statusLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0387812),
+
+        self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 16),
+        self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+        self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+        self.editButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447),
         
+        self.lowButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+        self.lowButton.leftAnchor.constraint(equalTo: self.leftAnchor),
+        self.lowButton.widthAnchor.constraint(equalTo: self.widthAnchor),
+        self.lowButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447)
+        
+            ])
         
     }
     
@@ -100,51 +119,7 @@ class ProfileHeaderView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
-    }
-    
-    private func avatarImageConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16)
-        let leftConstraint = self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16)
-        let widthConstraint = self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
-        let heightConstraint = self.avatarImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.15 )
-        
-        return [topConstraint, leftConstraint, widthConstraint, heightConstraint]
-    }
-    
-    private func nameLabelConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27)
-        let leftConstraint = self.nameLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16)
-        let widthConstraint = self.nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.357922)
-        let heightConstraint = self.nameLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0387812)
-        
-        return [topConstraint, leftConstraint, widthConstraint, heightConstraint]
-    }
-    
-    private func statusLabelConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.statusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 74)
-        let leftConstraint = self.statusLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16)
-        let widthConstraint = self.statusLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.397922)
-        let heightConstraint = self.statusLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0387812)
-        
-        return [topConstraint, leftConstraint, widthConstraint, heightConstraint]
-    }
-    
-    private func editButtonConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 16)
-        let leftConstraint = self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16)
-        let rightConstraint = self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16)
-        let heightConstraint = self.editButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447)
-        
-        return [topConstraint, leftConstraint, rightConstraint, heightConstraint]
-    }
-    
-    private func lowButtonConstraints() -> [NSLayoutConstraint] {
-        let bottomConstraint = self.lowButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-        let leftConstraint = self.lowButton.leftAnchor.constraint(equalTo: self.leftAnchor)
-        let widthConstraint = self.lowButton.widthAnchor.constraint(equalTo: self.widthAnchor)
-        let heightConstraint = self.lowButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447)
-        
-        return [bottomConstraint, leftConstraint, widthConstraint, heightConstraint]
+        avatarImage.clipsToBounds = true
     }
     
 }
