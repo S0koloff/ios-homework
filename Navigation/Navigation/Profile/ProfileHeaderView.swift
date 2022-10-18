@@ -21,7 +21,7 @@ class ProfileHeaderView: UIView {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,19 +48,20 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    private lazy var lowButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.insetsLayoutMarginsFromSafeArea = true
-        button.backgroundColor = .systemBlue
-        button.setTitle("New button", for: UIControl.State.normal)
-        button.layer.masksToBounds = false
-        return button
-    }()
+//    private lazy var lowButton: UIButton = {
+//        let button = UIButton()
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.insetsLayoutMarginsFromSafeArea = true
+//        button.backgroundColor = .systemBlue
+//        button.setTitle("New button", for: UIControl.State.normal)
+//        button.layer.masksToBounds = false
+//        return button
+//    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
+        self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -73,7 +74,10 @@ class ProfileHeaderView: UIView {
         self.addSubview(self.nameLabel)
         self.addSubview(self.statusLabel)
         self.addSubview(self.editButton)
-        self.addSubview(self.lowButton)
+//        self.addSubview(self.lowButton)
+    }
+    
+    private func setupConstraints() {
         
         NSLayoutConstraint.activate ([
     
@@ -85,23 +89,23 @@ class ProfileHeaderView: UIView {
         self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
         self.nameLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
         self.nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.357922),
-        self.nameLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0387812),
+        self.nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -20),
         
         self.statusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 74),
         self.statusLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
         self.statusLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.397922),
-        self.statusLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0387812),
+        self.statusLabel.bottomAnchor.constraint(equalTo: editButton.topAnchor, constant: -10),
 
         self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 16),
         self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
         self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-        self.editButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447),
+        self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
         
-        self.lowButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-        self.lowButton.leftAnchor.constraint(equalTo: self.leftAnchor),
-        self.lowButton.widthAnchor.constraint(equalTo: self.widthAnchor),
-        self.lowButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447)
-        
+//        self.lowButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+//        self.lowButton.leftAnchor.constraint(equalTo: self.leftAnchor),
+//        self.lowButton.widthAnchor.constraint(equalTo: self.widthAnchor),
+//        self.lowButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447)
+//
             ])
         
     }
