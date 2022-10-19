@@ -46,6 +46,7 @@ class LogInViewController: UIViewController {
         textField.backgroundColor = .systemGray6
 //        textField.layer.cornerRadius = 10
         textField.borderStyle = .roundedRect
+        textField.placeholder = "Email of phone"
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         return textField
@@ -60,6 +61,7 @@ class LogInViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
+        textField.placeholder = "Password"
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         return textField
