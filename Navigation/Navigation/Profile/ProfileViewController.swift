@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UIScrollViewDelegate {
+class ProfileViewController: UIViewController {
     
     private var profileHeaderView: ProfileHeaderView = {
         let profileHeaderView = ProfileHeaderView(frame: .zero)
@@ -33,13 +33,13 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         return tableView
     }()
     
-    private lazy var scrollView: UIScrollView = {
-       let scrollView = UIScrollView()
-        scrollView.frame = CGRect(x: 0, y: 0, width: 600, height: 1000)
-        scrollView.contentSize = CGSize(width: 600, height: 600)
-        return scrollView
-        
-    }()
+//    private lazy var scrollView: UIScrollView = {
+//       let scrollView = UIScrollView()
+//        scrollView.frame = CGRect(x: 0, y: 0, width: 600, height: 1000)
+//        scrollView.contentSize = CGSize(width: 600, height: 600)
+//        return scrollView
+//        
+//    }()
     
     
 
@@ -75,21 +75,21 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         ])
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let yOffset = scrollView.contentOffset.y
-        
-        if scrollView == self.scrollView {
-            if yOffset >= scrollView.contentSize.height{
-            }
-        }
-        
-        if scrollView == self.tableView {
-            if yOffset <= 0 {
-
-            }
-        }
-
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let yOffset = scrollView.contentOffset.y
+//
+//        if scrollView == self.scrollView {
+//            if yOffset >= scrollView.contentSize.height{
+//            }
+//        }
+//
+//        if scrollView == self.tableView {
+//            if yOffset <= 0 {
+//
+//            }
+//        }
+//
+//    }
     
 }
     
