@@ -1,0 +1,138 @@
+//
+//  PhotosTableViewCell.swift
+//  Navigation
+//
+//  Created by Sokolov on 19.10.2022.
+//
+
+import UIKit
+
+class PhotosTableViewCell: UITableViewCell {
+    
+    struct PhotosViewModel {
+        let title: String = "Photos"
+        let photo1: UIImage? = UIImage(named: "f1")
+        let photo2: UIImage? = UIImage(named: "f2")
+        let photo3: UIImage? = UIImage(named: "f3")
+        let photo4: UIImage? = UIImage(named: "f4")
+
+        
+    }
+    
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        return titleLabel
+    }()
+    
+    private var button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var photo1View: UIImageView = {
+        let photosView = UIImageView()
+        photosView.backgroundColor = .black
+        photosView.layer.cornerRadius = 6
+        photosView.clipsToBounds = true
+//        imageView.contentMode = .scaleAspectFit
+        photosView.translatesAutoresizingMaskIntoConstraints = false
+        return photosView
+    }()
+    private lazy var photo2View: UIImageView = {
+        let photosView = UIImageView()
+        photosView.backgroundColor = .black
+        photosView.layer.cornerRadius = 6
+        photosView.clipsToBounds = true
+//        imageView.contentMode = .scaleAspectFit
+        photosView.translatesAutoresizingMaskIntoConstraints = false
+        return photosView
+    }()
+    private lazy var photo3View: UIImageView = {
+        let photosView = UIImageView()
+        photosView.backgroundColor = .black
+        photosView.layer.cornerRadius = 6
+        photosView.clipsToBounds = true
+//        imageView.contentMode = .scaleAspectFit
+        photosView.translatesAutoresizingMaskIntoConstraints = false
+        return photosView
+    }()
+    private lazy var photo4View: UIImageView = {
+        let photosView = UIImageView()
+        photosView.backgroundColor = .black
+        photosView.layer.cornerRadius = 6
+        photosView.clipsToBounds = true
+//        imageView.contentMode = .scaleAspectFit
+        photosView.translatesAutoresizingMaskIntoConstraints = false
+        return photosView
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setupView()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup(with viewModelPhoto: PhotosViewModel) {
+        self.titleLabel.text = viewModelPhoto.title
+        self.photo1View.image = viewModelPhoto.photo1
+        self.photo2View.image = viewModelPhoto.photo2
+        self.photo3View.image = viewModelPhoto.photo3
+        self.photo4View.image = viewModelPhoto.photo4
+
+    }
+    
+    private func setupView() {
+        self.contentView.addSubview(self.titleLabel)
+        self.contentView.addSubview(self.photo1View)
+        self.contentView.addSubview(self.photo2View)
+        self.contentView.addSubview(self.photo3View)
+        self.contentView.addSubview(self.photo4View)
+        self.contentView.addSubview(self.button)
+
+        
+        NSLayoutConstraint.activate([
+            
+            self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12),
+            self.titleLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 12),
+            
+            self.button.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12),
+            self.button.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -12),
+//            self.button.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.1),
+            
+//            self.button.bottomAnchor.constraint(equalTo: self.photo4View.topAnchor, constant: -12),
+            
+            self.photo1View.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.22),
+            self.photo1View.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 12),
+            self.photo1View.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
+            self.photo1View.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 44),
+            
+            self.photo2View.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.22),
+            self.photo2View.leftAnchor.constraint(equalTo: self.photo1View.rightAnchor, constant: 8),
+            self.photo2View.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
+            self.photo2View.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 44),
+            
+            self.photo3View.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.22),
+            self.photo3View.leftAnchor.constraint(equalTo: self.photo2View.rightAnchor, constant: 8),
+            self.photo3View.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
+            self.photo3View.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 44),
+            
+            self.photo4View.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.22),
+            self.photo4View.leftAnchor.constraint(equalTo: self.photo3View.rightAnchor, constant: 8),
+            self.photo4View.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
+            self.photo4View.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 44),
+            
+            ])
+    }
+
+}
+
+
+

@@ -14,9 +14,7 @@ class CustomTableViewCell: UITableViewCell {
         let image: UIImage?
         let text: String
         let likes: String?
-        let likeN: String? = "Likes:"
         let views: String?
-        let viewN: String? = "Views:"
     }
     
     private lazy var myImageView: UIImageView = {
@@ -43,30 +41,19 @@ class CustomTableViewCell: UITableViewCell {
          subTextLabel.numberOfLines = 0
         return subTextLabel
     }()
-
-    private lazy var likeN: UITextField = {
-        let likeI = UITextField()
-        likeI.translatesAutoresizingMaskIntoConstraints = false
-        return likeI
-    }()
     
-    private lazy var likeLabel: UITextField = {
-        let likeLabel = UITextField()
+    private lazy var likeLabel: UILabel = {
+        let likeLabel = UILabel()
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
         return likeLabel
     }()
     
-    private lazy var viewsLabel: UITextField = {
-        let viewsLabel = UITextField()
+    private lazy var viewsLabel: UILabel = {
+        let viewsLabel = UILabel()
         viewsLabel.translatesAutoresizingMaskIntoConstraints = false
         return viewsLabel
     }()
-    
-    private lazy var viewN: UITextField = {
-        let viewsN = UITextField()
-        viewsN.translatesAutoresizingMaskIntoConstraints = false
-        return viewsN
-    }()
+
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -83,9 +70,7 @@ class CustomTableViewCell: UITableViewCell {
         self.titleLabel.text = viewModel.title
         self.subTextLabel.text = viewModel.text
         self.likeLabel.text = viewModel.likes
-        self.likeN.text = viewModel.likeN
         self.viewsLabel.text = viewModel.views
-        self.viewN.text = viewModel.viewN
         
     }
     
@@ -97,10 +82,8 @@ class CustomTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.myImageView)
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.subTextLabel)
-        self.contentView.addSubview(self.likeN)
         self.contentView.addSubview(self.likeLabel)
         self.contentView.addSubview(self.viewsLabel)
-        self.contentView.addSubview(self.viewN)
 
         
         NSLayoutConstraint.activate([
@@ -118,16 +101,10 @@ class CustomTableViewCell: UITableViewCell {
             self.subTextLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -15),
             self.subTextLabel.bottomAnchor.constraint(equalTo: self.likeLabel.topAnchor, constant: -16),
             
-            self.likeN.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            self.likeN.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10),
-            
             
             self.likeLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            self.likeLabel.leftAnchor.constraint(equalTo: self.likeN.rightAnchor, constant: 5),
-            
-            
-            self.viewN.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            self.viewN.rightAnchor.constraint(equalTo: self.viewsLabel.leftAnchor, constant: -5),
+            self.likeLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10),
+        
             
             self.viewsLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             self.viewsLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -10)

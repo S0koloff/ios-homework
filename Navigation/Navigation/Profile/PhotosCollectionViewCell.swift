@@ -1,0 +1,66 @@
+//
+//  PhotosCollectionViewCell.swift
+//  Navigation
+//
+//  Created by Sokolov on 21.10.2022.
+//
+
+import UIKit
+
+class PhotosCollectionViewCell: UICollectionViewCell {
+    
+//    var data: DataViewModel? {
+//        didSet {
+//            guard let data = data else {
+//                
+//                return
+//            }
+//            collectionImage.image = data.photo
+//
+//        }
+//    }
+    
+    struct DataViewModel {
+        let photo: UIImage?
+        
+    }
+    
+    private lazy var collectionImage: UIImageView = {
+        let collectionImage = UIImageView ()
+        collectionImage.image = UIImage(named: "p1")
+        collectionImage.contentMode = .scaleAspectFit
+        collectionImage.clipsToBounds = true
+        collectionImage.translatesAutoresizingMaskIntoConstraints = false
+        return collectionImage
+    }()
+
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(collectionImage)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup(with dataPhoto: DataViewModel) {
+        self.collectionImage.image = dataPhoto.photo
+
+    }
+
+    private func setupView() {
+        self.contentView.addSubview(self.collectionImage)
+        
+        NSLayoutConstraint.activate([
+            self.collectionImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            self.collectionImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            self.collectionImage.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
+            self.collectionImage.rightAnchor.constraint(equalTo: self.contentView.rightAnchor)
+            ])
+    }
+    
+
+}
+
