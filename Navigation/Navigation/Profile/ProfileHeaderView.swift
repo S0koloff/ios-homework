@@ -48,16 +48,6 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-//    private lazy var lowButton: UIButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.insetsLayoutMarginsFromSafeArea = true
-//        button.backgroundColor = .systemBlue
-//        button.setTitle("New button", for: UIControl.State.normal)
-//        button.layer.masksToBounds = false
-//        return button
-//    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
@@ -74,39 +64,33 @@ class ProfileHeaderView: UIView {
         self.addSubview(self.nameLabel)
         self.addSubview(self.statusLabel)
         self.addSubview(self.editButton)
-//        self.addSubview(self.lowButton)
     }
     
     private func setupConstraints() {
         
         NSLayoutConstraint.activate ([
-    
-        self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-        self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-        self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
-        self.avatarImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
-        
-        self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
-        self.nameLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
-        self.nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.357922),
-        self.nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -20),
-        
-        self.statusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 74),
-        self.statusLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
-        self.statusLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.397922),
-        self.statusLabel.bottomAnchor.constraint(equalTo: editButton.topAnchor, constant: -10),
-
-        self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 16),
-        self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-        self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-        self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
-        
-//        self.lowButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-//        self.lowButton.leftAnchor.constraint(equalTo: self.leftAnchor),
-//        self.lowButton.widthAnchor.constraint(equalTo: self.widthAnchor),
-//        self.lowButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0652447)
-//
-            ])
+            
+            self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            self.avatarImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            
+            self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
+            self.nameLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+            self.nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.357922),
+            self.nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -20),
+            
+            self.statusLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 74),
+            self.statusLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+            self.statusLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.397922),
+            self.statusLabel.bottomAnchor.constraint(equalTo: editButton.topAnchor, constant: -10),
+            
+            self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 16),
+            self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
+            
+        ])
         
     }
     
@@ -127,4 +111,5 @@ class ProfileHeaderView: UIView {
     }
     
 }
+
 

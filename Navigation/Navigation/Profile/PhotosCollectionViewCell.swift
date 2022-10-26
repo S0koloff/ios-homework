@@ -9,16 +9,16 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
-//    var data: DataViewModel? {
-//        didSet {
-//            guard let data = data else {
-//                
-//                return
-//            }
-//            collectionImage.image = data.photo
-//
-//        }
-//    }
+    //    var data: DataViewModel? {
+    //        didSet {
+    //            guard let data = data else {
+    //                
+    //                return
+    //            }
+    //            collectionImage.image = data.photo
+    //
+    //        }
+    //    }
     
     struct DataViewModel {
         let photo: UIImage?
@@ -27,17 +27,17 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     private lazy var collectionImage: UIImageView = {
         let collectionImage = UIImageView ()
-        collectionImage.image = UIImage(named: "p1")
-        collectionImage.contentMode = .scaleAspectFit
+        //        collectionImage.contentMode = .scaleAspectFit
         collectionImage.clipsToBounds = true
         collectionImage.translatesAutoresizingMaskIntoConstraints = false
         return collectionImage
     }()
-
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(collectionImage)
+        setupView()
         
     }
     
@@ -47,9 +47,9 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     func setup(with dataPhoto: DataViewModel) {
         self.collectionImage.image = dataPhoto.photo
-
+        
     }
-
+    
     private func setupView() {
         self.contentView.addSubview(self.collectionImage)
         
@@ -58,9 +58,9 @@ class PhotosCollectionViewCell: UICollectionViewCell {
             self.collectionImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             self.collectionImage.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
             self.collectionImage.rightAnchor.constraint(equalTo: self.contentView.rightAnchor)
-            ])
+        ])
     }
     
-
+    
 }
 

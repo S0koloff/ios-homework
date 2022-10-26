@@ -15,7 +15,7 @@ class PhotosTableViewCell: UITableViewCell {
         let photo2: UIImage? = UIImage(named: "f2")
         let photo3: UIImage? = UIImage(named: "f3")
         let photo4: UIImage? = UIImage(named: "f4")
-
+        
         
     }
     
@@ -40,7 +40,7 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-//        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -49,7 +49,7 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-//        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -58,7 +58,7 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-//        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -67,7 +67,7 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-//        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -86,7 +86,7 @@ class PhotosTableViewCell: UITableViewCell {
         self.photo2View.image = viewModelPhoto.photo2
         self.photo3View.image = viewModelPhoto.photo3
         self.photo4View.image = viewModelPhoto.photo4
-
+        
     }
     
     private func setupView() {
@@ -96,7 +96,7 @@ class PhotosTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.photo3View)
         self.contentView.addSubview(self.photo4View)
         self.contentView.addSubview(self.button)
-
+        
         
         NSLayoutConstraint.activate([
             
@@ -105,9 +105,6 @@ class PhotosTableViewCell: UITableViewCell {
             
             self.button.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12),
             self.button.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -12),
-//            self.button.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.1),
-            
-//            self.button.bottomAnchor.constraint(equalTo: self.photo4View.topAnchor, constant: -12),
             
             self.photo1View.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.22),
             self.photo1View.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 12),
@@ -129,9 +126,9 @@ class PhotosTableViewCell: UITableViewCell {
             self.photo4View.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
             self.photo4View.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 44),
             
-            ])
+        ])
     }
-
+    
 }
 
 

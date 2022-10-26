@@ -20,7 +20,7 @@ class CustomTableViewCell: UITableViewCell {
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
-//        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -33,12 +33,12 @@ class CustomTableViewCell: UITableViewCell {
         return titleLabel
     }()
     
-     private lazy var subTextLabel: UILabel = {
+    private lazy var subTextLabel: UILabel = {
         let subTextLabel = UILabel()
-         subTextLabel.translatesAutoresizingMaskIntoConstraints = false
-         subTextLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-         subTextLabel.textColor = .systemGray
-         subTextLabel.numberOfLines = 0
+        subTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        subTextLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        subTextLabel.textColor = .systemGray
+        subTextLabel.numberOfLines = 0
         return subTextLabel
     }()
     
@@ -53,7 +53,7 @@ class CustomTableViewCell: UITableViewCell {
         viewsLabel.translatesAutoresizingMaskIntoConstraints = false
         return viewsLabel
     }()
-
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -84,7 +84,7 @@ class CustomTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.subTextLabel)
         self.contentView.addSubview(self.likeLabel)
         self.contentView.addSubview(self.viewsLabel)
-
+        
         
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),
@@ -104,11 +104,11 @@ class CustomTableViewCell: UITableViewCell {
             
             self.likeLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             self.likeLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10),
-        
+            
             
             self.viewsLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             self.viewsLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -10)
-
+            
         ])
     }
 }
