@@ -9,20 +9,8 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
-    //    var data: DataViewModel? {
-    //        didSet {
-    //            guard let data = data else {
-    //                
-    //                return
-    //            }
-    //            collectionImage.image = data.photo
-    //
-    //        }
-    //    }
-    
     struct DataViewModel {
         let photo: UIImage?
-        
     }
     
     private lazy var collectionImage: UIImageView = {
@@ -38,7 +26,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(collectionImage)
         setupView()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +34,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     func setup(with dataPhoto: DataViewModel) {
         self.collectionImage.image = dataPhoto.photo
-        
     }
     
     private func setupView() {

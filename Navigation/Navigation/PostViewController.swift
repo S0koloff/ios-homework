@@ -13,25 +13,18 @@ class PostViewController: UIViewController {
     
     private func setupViews() {
         createNavigationBar()
-        
         let infoButton = createButtom(imageName: "info.circle", selector: #selector(infoButtomTapped))
-        
         navigationItem.rightBarButtonItems = [infoButton]
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
         self.view.backgroundColor = .lightGray
-        
         self.navigationItem.title = titlePost
-        
         setupViews()
     }
     
     @objc private func infoButtomTapped() {
-        
         let vc = InfoViewController()
         vc.modalPresentationStyle = .popover
         self.present(vc, animated: true)

@@ -1,13 +1,13 @@
 //
-//  ProfileHeaderView.swift
+//  ProfileHeaderTable.swift
 //  Navigation
 //
-//  Created by Sokolov on 27.08.2022.
+//  Created by Sokolov on 27.10.2022.
 //
 
 import UIKit
 
-class ProfileHeaderView: UIView {
+class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     
     
     private lazy var avatarImage: UIImageView = {
@@ -48,11 +48,12 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         self.setupView()
         self.setupConstraints()
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -72,6 +73,7 @@ class ProfileHeaderView: UIView {
             
             self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+
             self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             self.avatarImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             
@@ -109,7 +111,4 @@ class ProfileHeaderView: UIView {
         avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
         avatarImage.clipsToBounds = true
     }
-    
 }
-
-
