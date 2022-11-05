@@ -9,12 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    private var profileHeaderView: ProfileHeaderViewTable = {
+    private lazy var profileHeaderView: ProfileHeaderViewTable = {
         let profileHeaderView = ProfileHeaderViewTable(frame: .zero)
-//        profileHeaderView.backgroundColor = .systemGray6
-//        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-//        profileHeaderView.insetsLayoutMarginsFromSafeArea = true
-        
         return profileHeaderView
     }()
     
@@ -32,6 +28,29 @@ class ProfileViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    private lazy var avatar: UIImageView = {
+        let avatar = UIImageView(frame: .zero)
+        avatar.image = UIImage(named: "cat")
+        avatar.isHidden = true
+        avatar.translatesAutoresizingMaskIntoConstraints = false
+        return avatar
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let backButton = UIButton(frame: .zero)
+        backButton.isHidden = false
+        backButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward"), for: .normal)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
+        
+        return backButton
+    }()
+    
+    private var avatarWidthConstraint: NSLayoutConstraint?
+    private var avatarHeightConstraint: NSLayoutConstraint?
+    private var avatarLeadingConstant: NSLayoutConstraint?
+    private var avatarTopConstant: NSLayoutConstraint?
+
     
     let viewModel = postSetup
     
@@ -39,22 +58,66 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.navigationItem.title = "Profile"
-        self.view.addSubview(self.tableView)
+        self.view.insertSubview(tableView, at: 0)
+        self.view.addSubview(self.avatar)
+        self.view.addSubview(self.backButton)
         self.profileHeaderView.setup(with: self.profile)
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupProfileView ()
     }
     
     private func setupProfileView () {
+        
+        self.avatarHeightConstraint = self.avatar.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1)
+        self.avatarWidthConstraint = self.avatar.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1)
+        self.avatarLeadingConstant = self.avatar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        self.avatarTopConstant = self.avatar.topAnchor.constraint(equalTo: self.view.topAnchor)
+        
         NSLayoutConstraint.activate([
+            
+            self.avatarWidthConstraint,
+            self.avatarHeightConstraint,
+            self.avatarLeadingConstant,
+            self.avatarTopConstant,
+            
+            self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
+            self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 320),
+            self.backButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15),
+            self.backButton.bottomAnchor.constraint(equalTo: self.avatar.topAnchor, constant: -15),
             
             self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-        ])
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ].compactMap({$0 }))
     }
+    
+    func animateAvatar(avatar: UIImageView) {
+        UIView.animateKeyframes(withDuration: 0.8, delay: 0, options: .calculationModeCubic) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.avatarWidthConstraint?.constant = self.view.frame.width
+                self.avatarHeightConstraint?.constant = self.view.frame.width
+                self.avatarLeadingConstant?.constant = 0
+                self.avatarTopConstant?.constant = self.view.frame.width/3
+                self.avatar.layer.cornerRadius = 0
+                self.avatar.alpha = 1
+                self.avatar.isHidden = false
+                
+                self.view.layoutIfNeeded()
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.8) {
+                self.backButton.alpha = 1
+                self.backButton.isHidden = false
+            }
+        } completion: { _ in
+        }
+    }
+    
+    @objc func backButtonAction() {
+        self.avatar.isHidden = true
+        self.backButton.isHidden = true
+    }
+    
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
@@ -107,6 +170,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let header =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! ProfileHeaderViewTable
+            header.profileVC = self
             header.setup(with: profile)
             return header
         } else {

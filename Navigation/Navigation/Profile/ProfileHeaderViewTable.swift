@@ -9,13 +9,13 @@ import UIKit
 
 class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     
-    
     private lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -48,19 +48,21 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         return button
     }()
     
+    weak var profileVC: ProfileViewController?
+    private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 220, height: 220)
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         self.setupView()
         self.setupConstraints()
+        self.setupTapAvatar()
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupView() {
-        
         self.addSubview(self.avatarImage)
         self.addSubview(self.nameLabel)
         self.addSubview(self.statusLabel)
@@ -70,10 +72,9 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     private func setupConstraints() {
         
         NSLayoutConstraint.activate ([
-            
+        
             self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-
             self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             self.avatarImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             
@@ -91,7 +92,6 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
             self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
             self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
             self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
-            
         ])
         
     }
@@ -106,9 +106,21 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         print(statusLabel.text ?? "No text")
     }
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
         avatarImage.clipsToBounds = true
     }
+    
+    func setupTapAvatar() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapAvatarImage(_:)))
+        self.avatarImage.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func didTapAvatarImage(_ sender: UITapGestureRecognizer) {
+        self.profileVC?.animateAvatar(avatar: self.avatarImage)
+    }
 }
+
+
