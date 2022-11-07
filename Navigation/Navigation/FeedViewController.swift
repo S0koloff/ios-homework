@@ -26,9 +26,7 @@ class FeedViewController: UIViewController {
     }
     
     @objc private func buttonAction() {
-        
         let postViewController = PostViewController()
-        
         self.navigationController?.pushViewController(postViewController, animated: true)
     }
     

@@ -21,12 +21,10 @@ class InfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGray
-        
         self.view.addSubview(self.closeButton)
     }
     
     @objc private func didTapCloseButton() {
-        
         let alertController = UIAlertController(title: "Close info", message: "Do you wanna close?", preferredStyle: .actionSheet)
         let firstAction = UIAlertAction(title: "Yes", style: .default) { _ in
             print("YES")

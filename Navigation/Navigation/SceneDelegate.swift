@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let feedViewController = UINavigationController(rootViewController: FeedViewController())
     
-    let profileViewController = UINavigationController(rootViewController: ProfileViewController())
+    let profileViewController = UINavigationController(rootViewController: LogInViewController())
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
