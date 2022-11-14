@@ -23,7 +23,7 @@ class ProfileViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.register(ProfileHeaderViewTable.self, forHeaderFooterViewReuseIdentifier: "TableHeader")
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -52,7 +52,8 @@ class ProfileViewController: UIViewController {
     private var avatarTopConstant: NSLayoutConstraint?
 
     
-    let viewModel = postSetup
+    let posts = postSetup
+    let header = headerSetup
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,7 +134,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 0 {
             return 1
         }
-        return self.viewModel.count
+        return self.posts.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -141,13 +142,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == .zero {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosViewCell", for: indexPath) as! PhotosTableViewCell
-            cell.setup(with: PhotosTableViewCell.PhotosViewModel())
+            cell.setup(with: PostHeader())
             return cell
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! CustomTableViewCell
-            let post = viewModel[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! PostTableViewCell
+            let post = posts[indexPath.row]
             cell.selectionStyle = UITableViewCell.SelectionStyle.none
             cell.setup(with: post)
             return cell

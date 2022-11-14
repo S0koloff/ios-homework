@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import StorageService
-
 
 class PhotosViewController: UIViewController {
     
@@ -31,9 +29,6 @@ class PhotosViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
-    
-    let dataSetup = dataPhoto
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,23 +60,19 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSetup.count
+        return Photos.shared.examples.count
     }
     
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! PhotosCollectionViewCell
-        cell.backgroundColor = .gray
-        cell.clipsToBounds = true
-        
-        let ph = dataSetup[indexPath.row]
-        
-        
-        cell.setup(with: ph)
-        
-        return cell
-    }
+    
+    
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! PhotosCollectionViewCell
+    cell.backgroundColor = .gray
+    cell.clipsToBounds = true
+    cell.configCellCollection(photo: Photos.shared.examples[indexPath.item])
+    
+    return cell
+}
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         

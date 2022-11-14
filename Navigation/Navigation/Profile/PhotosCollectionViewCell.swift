@@ -6,13 +6,10 @@
 //
 
 import UIKit
-import StorageService
 
-public class PhotosCollectionViewCell: UICollectionViewCell {
+class PhotosCollectionViewCell: UICollectionViewCell {
     
-     public struct DataViewModel {
-        let photo: UIImage?
-    }
+    var photos = [UIImage]()
     
     private lazy var collectionImage: UIImageView = {
         let collectionImage = UIImageView ()
@@ -33,8 +30,8 @@ public class PhotosCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with dataPhoto: DataViewModel) {
-        self.collectionImage.image = dataPhoto.photo
+    func configCellCollection(photo: UIImage) {
+        self.collectionImage.image = photo
     }
     
     private func setupView() {

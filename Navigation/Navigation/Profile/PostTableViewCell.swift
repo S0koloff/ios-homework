@@ -8,15 +8,7 @@
 import UIKit
 import StorageService
 
-public class CustomTableViewCell: UITableViewCell {
-    
-     public struct ViewModel {
-        let title: String
-        let image: UIImage?
-        let text: String
-        let likes: String?
-        let views: String?
-    }
+public class PostTableViewCell: UITableViewCell {
     
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
@@ -65,12 +57,12 @@ public class CustomTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-     func setup(with viewModel: ViewModel) {
-        self.myImageView.image = viewModel.image
-        self.titleLabel.text = viewModel.title
-        self.subTextLabel.text = viewModel.text
-        self.likeLabel.text = viewModel.likes
-        self.viewsLabel.text = viewModel.views
+   public func setup(with post: Post) {
+        self.myImageView.image = post.image
+        self.titleLabel.text = post.title
+        self.subTextLabel.text = post.text
+        self.likeLabel.text = post.likes
+        self.viewsLabel.text = post.views
         
     }
     
