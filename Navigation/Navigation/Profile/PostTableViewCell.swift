@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import StorageService
 
-class CustomTableViewCell: UITableViewCell {
+public class CustomTableViewCell: UITableViewCell {
     
-    struct ViewModel {
+     public struct ViewModel {
         let title: String
         let image: UIImage?
         let text: String
@@ -20,7 +21,6 @@ class CustomTableViewCell: UITableViewCell {
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
-        //        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -65,7 +65,7 @@ class CustomTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with viewModel: ViewModel) {
+     func setup(with viewModel: ViewModel) {
         self.myImageView.image = viewModel.image
         self.titleLabel.text = viewModel.title
         self.subTextLabel.text = viewModel.text

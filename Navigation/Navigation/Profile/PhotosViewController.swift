@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import StorageService
+
 
 class PhotosViewController: UIViewController {
     
@@ -66,7 +68,7 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         return dataSetup.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! PhotosCollectionViewCell

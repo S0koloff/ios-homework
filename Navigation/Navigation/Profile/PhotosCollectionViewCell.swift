@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import StorageService
 
-class PhotosCollectionViewCell: UICollectionViewCell {
+public class PhotosCollectionViewCell: UICollectionViewCell {
     
-    struct DataViewModel {
+     public struct DataViewModel {
         let photo: UIImage?
     }
     

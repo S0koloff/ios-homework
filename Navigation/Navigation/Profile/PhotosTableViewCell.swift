@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import StorageService
 
-class PhotosTableViewCell: UITableViewCell {
+public class PhotosTableViewCell: UITableViewCell {
     
-    struct PhotosViewModel {
+   public struct PhotosViewModel {
         let title: String = "Photos"
         let photo1: UIImage? = UIImage(named: "f1")
         let photo2: UIImage? = UIImage(named: "f2")
@@ -80,7 +81,7 @@ class PhotosTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with viewModelPhoto: PhotosViewModel) {
+    public func setup(with viewModelPhoto: PhotosViewModel) {
         self.titleLabel.text = viewModelPhoto.title
         self.photo1View.image = viewModelPhoto.photo1
         self.photo2View.image = viewModelPhoto.photo2

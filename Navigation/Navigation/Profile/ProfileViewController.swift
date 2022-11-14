@@ -56,7 +56,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         self.navigationItem.title = "Profile"
         self.view.insertSubview(tableView, at: 0)
         self.view.addSubview(self.avatar)
@@ -64,6 +63,14 @@ class ProfileViewController: UIViewController {
         self.profileHeaderView.setup(with: self.profile)
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupProfileView ()
+        
+        #if DEBUG
+        view.backgroundColor = .white
+        
+        #else
+        view.backgroundColor = .systemGray
+        
+        #endif
     }
     
     private func setupProfileView () {
@@ -129,7 +136,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         return self.viewModel.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == .zero {
             
