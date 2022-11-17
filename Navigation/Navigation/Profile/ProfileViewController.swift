@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
         return profileHeaderView
     }()
     
-    private let profile = Profile(name: "Sad Cat", label: "Waiting for something...")
+    let profile = Profile(name: "Sad Cat", label: "Waiting for something...")
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -64,6 +64,8 @@ class ProfileViewController: UIViewController {
         self.profileHeaderView.setup(with: self.profile)
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupProfileView ()
+        self.tabBarController?.tabBar.isHidden = true
+
         
         #if DEBUG
         view.backgroundColor = .white
@@ -185,6 +187,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return nil
         }
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 220 : 0
+    }
+
     
 }
 
