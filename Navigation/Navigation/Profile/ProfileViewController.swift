@@ -13,8 +13,8 @@ class ProfileViewController: UIViewController {
         let profileHeaderView = ProfileHeaderViewTable(frame: .zero)
         return profileHeaderView
     }()
-    
-    let profile = Profile(name: "Sad Cat", label: "Waiting for something...")
+        
+    private var profile = Profile(name: "Sad Cat", label: "Waiting for something...")
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -53,7 +53,6 @@ class ProfileViewController: UIViewController {
 
     
     let posts = postSetup
-    let header = headerSetup
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,14 +63,13 @@ class ProfileViewController: UIViewController {
         self.profileHeaderView.setup(with: self.profile)
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupProfileView ()
-        self.tabBarController?.tabBar.isHidden = true
-
+        self.tabBarController?.tabBar.isHidden = false
         
         #if DEBUG
-        view.backgroundColor = .white
+        view.backgroundColor = .blue
         
         #else
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .white
         
         #endif
     }
@@ -181,17 +179,24 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 0 {
             let header =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! ProfileHeaderViewTable
             header.profileVC = self
+            #if DEBUG
+            profile.name = userTest.name
+            profile.image = userTest.image
+            profile.label = userTest.label
+            
+            #else
+            profile.name = userAlex.name
+            profile.image = userAlex.image
+            profile.label = userAlex.label
+            
+            #endif
             header.setup(with: profile)
+
             return header
         } else {
             return nil
         }
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 220 : 0
-    }
-
     
 }
 

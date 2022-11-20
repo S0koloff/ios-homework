@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     
@@ -15,6 +14,7 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -22,28 +22,33 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.numberOfLines = 0
         label.textColor = .gray
         return label
     }()
     
     private lazy var statusTextField: UITextField = {
-        let statusTextField = UITextField()
-        statusTextField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        statusTextField.layer.cornerRadius = 4
-        statusTextField.layer.borderWidth = 1
-        statusTextField.layer.borderColor = UIColor.gray.cgColor
-        statusTextField.placeholder = " Waiting for something..."
-        return statusTextField
-    }()
+            let statusTextField = UITextField()
+            statusTextField.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+            statusTextField.layer.cornerRadius = 4
+            statusTextField.layer.borderWidth = 1
+            statusTextField.layer.borderColor = UIColor.gray.cgColor
+            statusTextField.placeholder = " Waiting for something..."
+        statusTextField.translatesAutoresizingMaskIntoConstraints = false
+            return statusTextField
+        }()
     
     private lazy var editButton: UIButton = {
         let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
         button.backgroundColor = .systemBlue
         button.setTitle("Show Status", for: UIControl.State.normal)
@@ -79,33 +84,31 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     
     private func setupConstraints() {
         
-        avatarImage.snp.makeConstraints { maker in
-            maker.top.equalTo(self).inset(16)
-            maker.left.equalTo(self).inset(16)
-            maker.width.height.equalTo(140)
-        }
-
-        nameLabel.snp.makeConstraints { maker in
-            maker.top.equalTo(avatarImage).inset(25)
-            maker.left.equalTo(avatarImage).inset(156)
-        }
-
-        statusLabel.snp.makeConstraints { maker in
-            maker.top.equalTo(avatarImage).inset(65)
-            maker.left.equalTo(avatarImage).inset(156)
-        }
+        NSLayoutConstraint.activate ([
         
-        statusTextField.snp.makeConstraints { maker in
-            maker.top.equalTo(avatarImage).inset(105)
-            maker.left.equalTo(avatarImage).inset(156)
-            maker.right.equalTo(self).inset(16)
-            maker.bottom.equalTo(editButton).inset(60)
-        }
-        editButton.snp.makeConstraints { maker in
-            maker.top.equalTo(avatarImage).inset(156)
-            maker.left.right.equalTo(self).inset(16)
-            maker.bottom.equalTo(self).inset(9)
-        }
+            self.avatarImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            self.avatarImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            self.avatarImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            self.avatarImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
+            
+            self.nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
+            self.nameLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+            
+            self.statusLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 6),
+            self.statusLabel.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+            self.statusLabel.rightAnchor.constraint(equalTo: self.rightAnchor,constant: -16),
+            
+            
+            self.statusTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 110),
+            self.statusTextField.leftAnchor.constraint(equalTo: avatarImage.rightAnchor, constant: 16),
+            self.statusTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            self.statusTextField.bottomAnchor.constraint(equalTo: editButton.topAnchor, constant: -10),
+            
+            self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor, constant: 16),
+            self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
+        ])
         
     }
     
@@ -116,9 +119,10 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     }
     
     @objc private func buttonAction() {
-        self.statusLabel.text = statusTextField.text
+        statusLabel.text = statusTextField.text
         print(statusLabel.text ?? "No text")
-        self.endEditing(true)
+        statusTextField.text = ""
+        statusTextField.placeholder = "\(statusLabel.text! + "...")"
     }
     
     

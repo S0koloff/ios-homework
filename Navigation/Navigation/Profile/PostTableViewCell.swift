@@ -7,11 +7,8 @@
 
 import UIKit
 import StorageService
-import iOSIntPackage
 
 public class PostTableViewCell: UITableViewCell {
-    
-    var filter = ImageProcessor()
     
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
@@ -60,16 +57,13 @@ public class PostTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with post: Post) {
-//        self.myImageView.image = post.image
+   public func setup(with post: Post) {
+        self.myImageView.image = post.image
         self.titleLabel.text = post.title
         self.subTextLabel.text = post.text
         self.likeLabel.text = post.likes
         self.viewsLabel.text = post.views
         
-        filter.processImage(sourceImage: post.image!, filter: .noir) { image in
-                    self.myImageView.image = image
-                }
     }
     
     func changeText(_ text: String) {
@@ -82,6 +76,7 @@ public class PostTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.subTextLabel)
         self.contentView.addSubview(self.likeLabel)
         self.contentView.addSubview(self.viewsLabel)
+        
         
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),

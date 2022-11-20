@@ -9,6 +9,10 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    var checkLoginCurrent = CurrentUserService()
+    var checkLoginTest = TestUserService()
+    var user: User?
+    
     let logoImage = UIImage(named: "vklogo")
     
     private lazy var logoImageView: UIImageView = {
@@ -79,8 +83,7 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.tabBarController?.tabBar.isHidden = false
-
+        self.tabBarController?.tabBar.isHidden = true
         
         setupGesture()
         
@@ -163,10 +166,25 @@ class LogInViewController: UIViewController {
         
 
     @objc private func buttonAction() {
+    
+        #if DEBUG
+        if checkLoginTest.check(login: loginTextField.text!) != nil {
+
+            let profileViewController = ProfileViewController()
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        } else {
+            print ("Incorrect login") }
         
-        let profileViewController = ProfileViewController()
+        #else
         
-        self.navigationController?.pushViewController(profileViewController, animated: true)
+        if checkLoginCurrent.check(login: loginTextField.text!) != nil {
+
+            let profileViewController = ProfileViewController()
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        } else {
+            print ("Incorrect login") }
+        
+        #endif
     }
 
 }
