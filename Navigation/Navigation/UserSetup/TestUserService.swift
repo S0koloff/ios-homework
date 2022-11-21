@@ -15,7 +15,7 @@ class TestUserService: UserService {
         if login == userTest.login {
             return userTest
         } else {
-            return user
+            return nil
         }
     }
 }

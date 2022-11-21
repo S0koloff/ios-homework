@@ -15,7 +15,7 @@ class CurrentUserService: UserService {
         if login == userAlex.login {
             return userAlex
         } else {
-            return  user
+            return nil
         }
     }
 }

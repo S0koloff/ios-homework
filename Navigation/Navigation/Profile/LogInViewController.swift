@@ -9,9 +9,11 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
-    var checkLoginCurrent = CurrentUserService()
-    var checkLoginTest = TestUserService()
-    var user: User?
+#if DEBUG
+        var userService = TestUserService()
+#else
+        var userService = CurrentUserService()
+#endif
     
     let logoImage = UIImage(named: "vklogo")
     
@@ -167,24 +169,13 @@ class LogInViewController: UIViewController {
 
     @objc private func buttonAction() {
     
-        #if DEBUG
-        if checkLoginTest.check(login: loginTextField.text!) != nil {
+        if userService.check(login: loginTextField.text!) != nil {
 
             let profileViewController = ProfileViewController()
             self.navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             print ("Incorrect login") }
         
-        #else
-        
-        if checkLoginCurrent.check(login: loginTextField.text!) != nil {
-
-            let profileViewController = ProfileViewController()
-            self.navigationController?.pushViewController(profileViewController, animated: true)
-        } else {
-            print ("Incorrect login") }
-        
-        #endif
     }
 
 }
