@@ -9,6 +9,8 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    var loginDelegate: LoginViewControllerDelegate?
+
 #if DEBUG
         var userService = TestUserService()
 #else
@@ -89,7 +91,6 @@ class LogInViewController: UIViewController {
         
         setupGesture()
         
-        
         self.view.addSubview(self.scrollView)
         
         self.scrollView.addSubview(self.textFieldsStackView)
@@ -169,12 +170,17 @@ class LogInViewController: UIViewController {
 
     @objc private func buttonAction() {
     
-        if userService.check(login: loginTextField.text!) != nil {
+        let user = userService.user
 
-            let profileViewController = ProfileViewController()
+        if loginDelegate?.check(log: loginTextField.text!, pass: passwordTextField.text!) == true {
+//        if userService.checkService(login: loginTextField.text!) != nil {
+            let profileViewController = ProfileViewController(user: user)
             self.navigationController?.pushViewController(profileViewController, animated: true)
         } else {
-            print ("Incorrect login") }
+            let alert = UIAlertController(title: "Incorrect login", message: "Please, enter correct login", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated: true)
+        }
         
     }
 

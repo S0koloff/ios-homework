@@ -9,13 +9,9 @@ import UIKit
 
 class CurrentUserService: UserService {
     
-    var user: User?
-    
-    func check(login: String) -> User? {
-        if login == userAlex.login {
-            return userAlex
-        } else {
-            return nil
-        }
+    let user = User(login: "alex", name: "Alex", image: UIImage(named: "p6")!, label: "Im very tired")
+
+    func checkService(login: String) -> User? {
+        login == user.login ? user : nil
     }
 }

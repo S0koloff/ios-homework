@@ -21,7 +21,3 @@ class User {
         self.label = label
     }
 }
-
-let userAlex = User(login: "alex", name: "Alex", image: UIImage(named: "p6")!, label: "Im very tired")
-
-let userTest = User(login: "Test", name: "Test", image: UIImage(named: "p3")!, label: "Test")

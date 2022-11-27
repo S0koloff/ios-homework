@@ -9,6 +9,17 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    var user: User
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var profileHeaderView: ProfileHeaderViewTable = {
         let profileHeaderView = ProfileHeaderViewTable(frame: .zero)
         return profileHeaderView
@@ -179,17 +190,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 0 {
             let header =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! ProfileHeaderViewTable
             header.profileVC = self
-            #if DEBUG
-            profile.name = userTest.name
-            profile.image = userTest.image
-            profile.label = userTest.label
             
-            #else
-            profile.name = userAlex.name
-            profile.image = userAlex.image
-            profile.label = userAlex.label
-            
-            #endif
+            profile.name = user.name
+            profile.image = user.image
+            profile.label = user.label
+
             header.setup(with: profile)
 
             return header
