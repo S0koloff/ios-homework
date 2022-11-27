@@ -10,6 +10,6 @@ import Foundation
 struct MyLoginFactory: LoginFactory {
     
     func makeLoginInspector() -> LoginInspector {
-        LoginInspector.
+        LoginInspector()
     }
 }

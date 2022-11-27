@@ -35,6 +35,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
+        
+        let factory = MyLoginFactory()
+        let loginInspector = factory.makeLoginInspector()
+        let loginVC = LogInViewController()
+        loginVC.loginDelegate = loginInspector
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

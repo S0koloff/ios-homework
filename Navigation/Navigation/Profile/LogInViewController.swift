@@ -10,6 +10,8 @@ import UIKit
 class LogInViewController: UIViewController {
     
     var loginDelegate: LoginViewControllerDelegate?
+    
+    var factory = MyLoginFactory()
 
 #if DEBUG
         var userService = TestUserService()
@@ -134,7 +136,6 @@ class LogInViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.loginTextField.becomeFirstResponder()
-
     }
     
 
@@ -171,8 +172,8 @@ class LogInViewController: UIViewController {
     @objc private func buttonAction() {
     
         let user = userService.user
-
-        if loginDelegate?.check(log: loginTextField.text!, pass: passwordTextField.text!) == true {
+            
+        if factory.makeLoginInspector().check(log: loginTextField.text!, pass: passwordTextField.text!) == true {
 //        if userService.checkService(login: loginTextField.text!) != nil {
             let profileViewController = ProfileViewController(user: user)
             self.navigationController?.pushViewController(profileViewController, animated: true)
@@ -185,3 +186,4 @@ class LogInViewController: UIViewController {
     }
 
 }
+
