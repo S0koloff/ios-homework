@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
     var photos = [UIImage]()
+    
+    let imageFacade = ImagePublisherFacade()
     
     private lazy var collectionImage: UIImageView = {
         let collectionImage = UIImageView ()
@@ -24,6 +27,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(collectionImage)
         setupView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +37,11 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     func configCellCollection(photo: UIImage) {
         self.collectionImage.image = photo
     }
+    
+    func setupCell(for imageName:String, or indexPath: IndexPath, arrayOfImages: [UIImage]) {
+        let arrayOfFinishedImages: [UIImage] = PhotoCollectionFilter().createArrayOfImages(arrayOf: arrayOfImages)
+            collectionImage.image = arrayOfFinishedImages[indexPath.row]
+        }
     
     private func setupView() {
         self.contentView.addSubview(self.collectionImage)

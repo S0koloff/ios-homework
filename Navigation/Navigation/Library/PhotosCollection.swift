@@ -16,7 +16,7 @@ final class Photos {
     private init() {
         var photos = [UIImage]()
         for i in 1...20 { photos.append((UIImage(named: "p\(i)") ?? UIImage())) }
-        examples = photos.shuffled()
+        examples = photos
     }
 }
 
