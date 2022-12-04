@@ -37,28 +37,37 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     
     private lazy var statusTextField: UITextField = {
             let statusTextField = UITextField()
-            statusTextField.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-            statusTextField.layer.cornerRadius = 4
-            statusTextField.layer.borderWidth = 1
-            statusTextField.layer.borderColor = UIColor.gray.cgColor
-            statusTextField.placeholder = " Waiting for something..."
+        statusTextField.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        statusTextField.layer.cornerRadius = 4
+        statusTextField.layer.borderWidth = 1
+        statusTextField.layer.borderColor = UIColor.gray.cgColor
+        statusTextField.placeholder = " Waiting for something..."
         statusTextField.translatesAutoresizingMaskIntoConstraints = false
             return statusTextField
         }()
     
-    private lazy var editButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
-        button.backgroundColor = .systemBlue
-        button.setTitle("Show Status", for: UIControl.State.normal)
-        button.layer.cornerRadius = 4
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowOpacity = 0.7
-        button.layer.shadowRadius = 4
-        button.layer.masksToBounds = false
-        return button
+    private lazy var editButton: CustomButton = {
+        let button = CustomButton(title: "Show Status", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: true)
+        button.tapAction = { self.buttonAction() }
+        
+       return button
     }()
+    
+//    private lazy var editButton: UIButton = {
+//        let button = UIButton()
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
+//        button.backgroundColor = .systemBlue
+//        button.setTitle("Show Status", for: UIControl.State.normal)
+//        button.layer.cornerRadius = 4
+//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+//        button.layer.shadowOpacity = 0.7
+//        button.layer.shadowRadius = 4
+//        button.layer.masksToBounds = false
+//        return button
+//    }()
+    
+    
     
     weak var profileVC: ProfileViewController?
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 220, height: 220)

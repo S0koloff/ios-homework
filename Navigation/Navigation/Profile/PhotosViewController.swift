@@ -57,17 +57,13 @@ class PhotosViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-//            navigationController?.navigationBar.isHidden = true
-            imageFacade.removeSubscription(for: self)
-        }
-        override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-//            navigationController?.navigationBar.isHidden = false
-            imageFacade.subscribe(self)
-        }
-
-    
+        super.viewWillDisappear(animated)
+        imageFacade.removeSubscription(for: self)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        imageFacade.subscribe(self)
+    }
     
     private func setupView() {
         self.view.backgroundColor = .systemBackground
