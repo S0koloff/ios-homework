@@ -9,32 +9,39 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
+    var appCoordinator: AppCoordinator?
     var window: UIWindow?
     
-    let feedViewController = UINavigationController(rootViewController: FeedViewController())
-    
-    let profileViewController = UINavigationController(rootViewController: LogInViewController())
-    
+//    let feedViewController = UINavigationController(rootViewController: FeedViewController())
+//
+//    let profileViewController = UINavigationController(rootViewController: LogInViewController())
+//
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         self.window = UIWindow(windowScene: windowScene)
         
-        let tabBarController = UITabBarController()
+//        let tabBarController = UITabBarController()
+//
+//        tabBarController.tabBar.backgroundColor = .white
+//
+//        tabBarController.viewControllers = [profileViewController, feedViewController]
+//
+//        tabBarController.viewControllers?.enumerated().forEach {
+//            $1.tabBarItem.title = $0 == 0 ? "Profile" : "Feed"
+//            $1.tabBarItem.image = $0 == 0
+//            ? UIImage(systemName: "person.circle")
+//            : UIImage(systemName: "textbox")
+//        }
         
-        tabBarController.tabBar.backgroundColor = .white
+        let appFactory = AppFactory()
+        let appCoordinator = AppCoordinator(factory: appFactory )
+        self.appCoordinator = appCoordinator
         
-        tabBarController.viewControllers = [profileViewController, feedViewController]
-        
-        tabBarController.viewControllers?.enumerated().forEach {
-            $1.tabBarItem.title = $0 == 0 ? "Profile" : "Feed"
-            $1.tabBarItem.image = $0 == 0
-            ? UIImage(systemName: "person.circle")
-            : UIImage(systemName: "textbox")
-        }
-        self.window?.rootViewController = tabBarController
+        self.window?.rootViewController = appCoordinator.start()
         self.window?.makeKeyAndVisible()
+        
         
         let factory = MyLoginFactory()
         let loginInspector = factory.makeLoginInspector()

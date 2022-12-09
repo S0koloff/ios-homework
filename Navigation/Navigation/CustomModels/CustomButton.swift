@@ -9,20 +9,23 @@ import UIKit
 
 final class CustomButton: UIButton {
     
+    typealias Action = () -> Void
+    
     var title: String
     var titleColor: UIColor
     var backgroundButtonColor: UIColor
     var cornerRadius: CGFloat
     var useShadow: Bool
     
-    var tapAction = {}
+    var tapAction: Action
     
-    init(title: String, titleColor: UIColor, backgroundButtonColor: UIColor, cornerRadius: CGFloat, useShadow: Bool)  {
+    init(title: String, titleColor: UIColor, backgroundButtonColor: UIColor, cornerRadius: CGFloat, useShadow: Bool, action: @escaping Action)  {
         self.title = title
         self.titleColor = titleColor
         self.backgroundButtonColor = backgroundButtonColor
         self.cornerRadius = cornerRadius
         self.useShadow = useShadow
+        self.tapAction = action
         super.init(frame: .zero)
         
         backgroundColor = backgroundButtonColor

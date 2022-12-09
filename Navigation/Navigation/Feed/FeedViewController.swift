@@ -9,6 +9,9 @@ import UIKit
 
 class FeedViewController: UIViewController {
     
+    weak var coordinator: FeedCoordinator?
+    var viewModel: FeedViewModel?
+    
     private lazy var checkGuessTextField: UITextField = {
         let checkGuessTextField = UITextField()
         checkGuessTextField.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -20,11 +23,7 @@ class FeedViewController: UIViewController {
         return checkGuessTextField
     }()
     
-    private lazy var checkGuessButton: CustomButton = {
-        let checkGuessButton = CustomButton(title: "Check", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: false)
-        checkGuessButton.tapAction = { self.buttonCheckGuessAction() }
-        return checkGuessButton
-    }()
+    private lazy var checkGuessButton = CustomButton(title: "Check", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: false, action: {self.buttonCheckGuessAction()})
     
     private lazy var label: UILabel = {
         let label = UILabel()
@@ -33,11 +32,7 @@ class FeedViewController: UIViewController {
         return label
     }()
     
-    private lazy var buttonPost: CustomButton = {
-        let buttonPost = CustomButton(title: "Post", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: false)
-        buttonPost.tapAction = {self.buttonPostAction() }
-        return buttonPost
-    }()
+    private lazy var buttonPost = CustomButton(title: "Post", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: false, action: {self.buttonPostAction()})
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +46,8 @@ class FeedViewController: UIViewController {
         self.view.addSubview(self.checkGuessTextField)
         self.view.addSubview(self.checkGuessButton)
         self.view.addSubview(self.label)
+        
+        self.buttonPost.isHidden = true
         
         NSLayoutConstraint.activate([
             self.checkGuessTextField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
@@ -76,6 +73,17 @@ class FeedViewController: UIViewController {
         ])
     }
     
+    func bindViewModel() {
+        viewModel?.buttonCheckPressed(word: checkGuessTextField.text!)
+        if viewModel?.correctWord == false {
+            self.label.backgroundColor = .red
+        } else {
+            self.label.backgroundColor = .green
+            self.buttonPost.isHidden = false
+        }
+        
+    }
+    
     func addTapGestureToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapGesture))
         view.addGestureRecognizer(tapGesture)
@@ -86,13 +94,17 @@ class FeedViewController: UIViewController {
     }
     
     @objc private func buttonCheckGuessAction() {
-        let checker = FeedModel()
         
-        if checker.checkWord(word: checkGuessTextField.text!) == false {
-            self.label.backgroundColor = .red
-        } else { self.label.backgroundColor = .green
-        }
+        bindViewModel()
+        
+//        let checker = FeedModel()
+//
+//        if checker.checkWord(word: checkGuessTextField.text!) == false {
+//            self.label.backgroundColor = .red
+//        } else { self.label.backgroundColor = .green
+//        }
     }
+    
     
     @objc private func buttonPostAction() {
         let postViewController = PostViewController()

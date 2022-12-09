@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController {
     }()
     private lazy var avatar: UIImageView = {
         let avatar = UIImageView(frame: .zero)
-        avatar.image = UIImage(named: "cat")
+        avatar.image = user.image
         avatar.isHidden = true
         avatar.translatesAutoresizingMaskIntoConstraints = false
         return avatar
@@ -49,7 +49,7 @@ class ProfileViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton(frame: .zero)
-        backButton.isHidden = false
+        backButton.isHidden = true
         backButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward"), for: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
@@ -101,10 +101,8 @@ class ProfileViewController: UIViewController {
             
             self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
             self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 320),
-            self.backButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15),
-            self.backButton.bottomAnchor.constraint(equalTo: self.avatar.topAnchor, constant: -15),
             
-            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50),
+            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 55),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
