@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+
         self.window = UIWindow(windowScene: windowScene)
         
 //        let tabBarController = UITabBarController()
@@ -34,14 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            ? UIImage(systemName: "person.circle")
 //            : UIImage(systemName: "textbox")
 //        }
-        
-        let appFactory = AppFactory()
-        let appCoordinator = AppCoordinator(factory: appFactory )
-        self.appCoordinator = appCoordinator
-        
-        self.window?.rootViewController = appCoordinator.start()
-        self.window?.makeKeyAndVisible()
-        
+        appCoordinator = AppCoordinator(window: window!)
+        appCoordinator?.start()
         
         let factory = MyLoginFactory()
         let loginInspector = factory.makeLoginInspector()

@@ -9,6 +9,8 @@ import UIKit
 
 class PostViewController: UIViewController {
     
+    var coordinator: PostFlow?
+    
     var titlePost: String = "Hello world!"
     
     private func setupViews() {
@@ -25,9 +27,10 @@ class PostViewController: UIViewController {
     }
     
     @objc private func infoButtomTapped() {
-        let vc = InfoViewController()
-        vc.modalPresentationStyle = .popover
-        self.present(vc, animated: true)
+        coordinator?.coordinateToInfo()
+//        let vc = InfoViewController()
+//        vc.modalPresentationStyle = .popover
+//        self.present(vc, animated: true)
     }
     
 }

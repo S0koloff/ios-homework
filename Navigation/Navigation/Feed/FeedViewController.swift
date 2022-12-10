@@ -9,7 +9,8 @@ import UIKit
 
 class FeedViewController: UIViewController {
     
-    weak var coordinator: FeedCoordinator?
+    var coordinator: FeedFlow?
+    
     var viewModel: FeedViewModel?
     
     private lazy var checkGuessTextField: UITextField = {
@@ -32,7 +33,7 @@ class FeedViewController: UIViewController {
         return label
     }()
     
-    private lazy var buttonPost = CustomButton(title: "Post", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: false, action: {self.buttonPostAction()})
+    private lazy var buttonPost = CustomButton(title: "Post", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: false, action: { self.buttonPostAction()})
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,8 +108,10 @@ class FeedViewController: UIViewController {
     
     
     @objc private func buttonPostAction() {
-        let postViewController = PostViewController()
-        self.navigationController?.pushViewController(postViewController, animated: true)
+        coordinator?.coordinateToPost()
+        
+//        let postViewController = PostViewController()
+//        self.navigationController?.pushViewController(postViewController, animated: true)
     }
     
 }
