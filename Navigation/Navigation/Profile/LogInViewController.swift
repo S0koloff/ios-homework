@@ -12,8 +12,12 @@ class LogInViewController: UIViewController {
     var loginDelegate: LoginViewControllerDelegate?
     
     var factory = MyLoginFactory()
-    
-    var coordinator: LoginCoordinator?
+
+#if DEBUG
+        var userService = TestUserService()
+#else
+        var userService = CurrentUserService()
+#endif
     
     let logoImage = UIImage(named: "vklogo")
     
@@ -166,17 +170,19 @@ class LogInViewController: UIViewController {
         
 
     @objc private func buttonAction() {
+    
+        let user = userService.user
             
         if factory.makeLoginInspector().check(log: loginTextField.text!, pass: passwordTextField.text!) == true {
 //        if userService.checkService(login: loginTextField.text!) != nil {
-//            let profileViewController = ProfileViewController(user: user)
-//            self.navigationController?.pushViewController(profileViewController, animated: true)
-            coordinator?.coordinateToTabBar()
+            let profileViewController = ProfileViewController(user: user)
+            self.navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             let alert = UIAlertController(title: "Incorrect login", message: "Please, enter correct login", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Close", style: .cancel))
             self.present(alert, animated: true)
         }
+        
     }
 
 }

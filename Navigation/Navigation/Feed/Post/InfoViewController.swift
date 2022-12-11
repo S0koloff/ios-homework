@@ -9,10 +9,8 @@ import UIKit
 
 class InfoViewController: UIViewController {
     
-    weak var coordinator: InfoCoordinator?
-    
     private lazy var closeButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 105, y: 700, width: 200, height: 50))
+        let button = UIButton(frame: CGRect(x: 105, y: 750, width: 200, height: 50))
         button.backgroundColor = UIColor.blue
         button.setTitle("Close Info", for: UIControl.State.normal)
         button.layer.cornerRadius = 5

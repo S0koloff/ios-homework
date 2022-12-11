@@ -7,11 +7,11 @@
 
 import UIKit
 
-//class FeedModel {
-//    
-//    let secretWord = "1"
-//    
-//    func checkWord (word: String) -> Bool {
-//        word == secretWord ? true : false
-//    }
-//}
+class FeedModel {
+    
+    let secretWord = "1"
+    
+    func checkWord (word: String) -> Bool {
+        word == secretWord ? true : false
+    }
+}

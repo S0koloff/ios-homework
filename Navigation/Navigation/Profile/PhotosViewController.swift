@@ -35,12 +35,41 @@ class PhotosViewController: UIViewController {
     }()
     
     private func setupArray() {
-
+        
         Photos.shared.examples.forEach { photo in
             self.arrayOfImagesForObserver.append(photo)
         }
-        imageFacade.addImagesWithTimer(time: 1, repeat: 21, userImages: arrayOfImagesForObserver)
+        
+        var imageProcessor = ImageProcessor()
+        
+        let startUpdatePhotos = DispatchTime.now()
+        
+        imageProcessor.processImagesOnThread(sourceImages: self.arrayOfImagesForObserver, filter: .noir, qos: .default) { [weak self] image in DispatchQueue.main.async {
+            self?.arrayOfImagesForObserver = image.map({ image in
+                UIImage(cgImage: image!) })
+            }
+        }
+        
+        let endUpdatePhotos = DispatchTime.now()
+        
+        let nanoTime = endUpdatePhotos.uptimeNanoseconds - startUpdatePhotos.uptimeNanoseconds
+        self.collectionView.reloadData()
+        
+        let timeInterval = Double(nanoTime) / 1_000_000_000
+        
+        print("Интервал загрузки \(timeInterval) секунд")
     }
+    let end = DispatchTime.now()
+    
+// gos = .default (3.9834e-05 секунд)
+// gos = .userInitiated (4.5417e-05 секунд)
+// gos = .userInteractive (4.2875e-05 секунд)
+// gos = .utility (4.2583e-05 секунд)
+
+    
+    
+//        imageFacade.addImagesWithTimer(time: 1, repeat: 21, userImages: arrayOfImagesForObserver)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +110,7 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrayOfImages.count
+        return arrayOfImagesForObserver.count
     }
     
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -91,7 +120,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     
     cell.backgroundColor = .gray
     cell.clipsToBounds = true
-    cell.configCellCollection(photo: arrayOfImages[indexPath.item])
+    cell.configCellCollection(photo: arrayOfImagesForObserver[indexPath.item])
     
     return cell
 }
