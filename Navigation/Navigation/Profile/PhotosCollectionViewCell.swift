@@ -38,10 +38,10 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         self.collectionImage.image = photo
     }
     
-    func setupCell(for imageName:String, or indexPath: IndexPath, arrayOfImages: [UIImage]) {
-        let arrayOfFinishedImages: [UIImage] = PhotoCollectionFilter().createArrayOfImages(arrayOf: arrayOfImages)
-            collectionImage.image = arrayOfFinishedImages[indexPath.row]
-        }
+//    func setupCell(for imageName:String, or indexPath: IndexPath, arrayOfImages: [UIImage]) {
+//        let arrayOfFinishedImages: [UIImage] = PhotoCollectionFilter().createArrayOfImages(arrayOf: arrayOfImages)
+//            collectionImage.image = arrayOfFinishedImages[indexPath.row]
+//        }
     
     private func setupView() {
         self.contentView.addSubview(self.collectionImage)

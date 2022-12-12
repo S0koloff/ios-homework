@@ -11,7 +11,7 @@ import iOSIntPackage
 class PhotosViewController: UIViewController {
     
     private lazy var imageFacade = ImagePublisherFacade()
-    private lazy var arrayOfImagesForObserver = [UIImage]()
+//    private lazy var arrayOfImagesForObserver = [UIImage]()
     lazy var arrayOfImages = [UIImage]()
     
     private enum Constants {
@@ -37,36 +37,35 @@ class PhotosViewController: UIViewController {
     private func setupArray() {
         
         Photos.shared.examples.forEach { photo in
-            self.arrayOfImagesForObserver.append(photo)
+            self.arrayOfImages.append(photo)
         }
         
-        var imageProcessor = ImageProcessor()
+        let imageProcessor = ImageProcessor()
         
         let startUpdatePhotos = DispatchTime.now()
         
-        imageProcessor.processImagesOnThread(sourceImages: self.arrayOfImagesForObserver, filter: .noir, qos: .default) { [weak self] image in DispatchQueue.main.async {
-            self?.arrayOfImagesForObserver = image.map({ image in
+        imageProcessor.processImagesOnThread(sourceImages: arrayOfImages, filter: .colorInvert, qos: .utility) { [weak self] image in DispatchQueue.main.async {
+            self?.arrayOfImages = image.map({ image in
                 UIImage(cgImage: image!) })
+            
+            self?.collectionView.reloadData()
+            
             }
+            
+            let endUpdatePhotos = DispatchTime.now()
+            
+            let nanoTime = endUpdatePhotos.uptimeNanoseconds - startUpdatePhotos.uptimeNanoseconds
+            
+            let timeInterval = Double(nanoTime) / 1_000_000_000
+            
+            print("Интервал загрузки \(timeInterval) секунд")
+            
         }
-        
-        let endUpdatePhotos = DispatchTime.now()
-        
-        let nanoTime = endUpdatePhotos.uptimeNanoseconds - startUpdatePhotos.uptimeNanoseconds
-        self.collectionView.reloadData()
-        
-        let timeInterval = Double(nanoTime) / 1_000_000_000
-        
-        print("Интервал загрузки \(timeInterval) секунд")
     }
-    let end = DispatchTime.now()
     
-// gos = .default (3.9834e-05 секунд)
-// gos = .userInitiated (4.5417e-05 секунд)
-// gos = .userInteractive (4.2875e-05 секунд)
-// gos = .utility (4.2583e-05 секунд)
-
-    
+//filter: .colorInvert, qos: .userInitiated Интервал загрузки 1.087174542 секунд
+//filter: .noir, qos: .userInteractive Интервал загрузки 1.07598075 секунд
+//filter: .colorInvert, qos: .utility Интервал загрузки 1.127721792 секунд
     
 //        imageFacade.addImagesWithTimer(time: 1, repeat: 21, userImages: arrayOfImagesForObserver)
 //    }
@@ -87,11 +86,11 @@ class PhotosViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        imageFacade.removeSubscription(for: self)
+//        imageFacade.removeSubscription(for: self)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        imageFacade.subscribe(self)
+//        imageFacade.subscribe(self)
     }
     
     private func setupView() {
@@ -110,7 +109,7 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrayOfImagesForObserver.count
+        return arrayOfImages.count
     }
     
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -120,7 +119,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     
     cell.backgroundColor = .gray
     cell.clipsToBounds = true
-    cell.configCellCollection(photo: arrayOfImagesForObserver[indexPath.item])
+    cell.configCellCollection(photo: arrayOfImages[indexPath.item])
     
     return cell
 }
