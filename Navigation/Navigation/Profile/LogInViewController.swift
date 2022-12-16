@@ -12,6 +12,10 @@ class LogInViewController: UIViewController {
     var loginDelegate: LoginViewControllerDelegate?
     
     var factory = MyLoginFactory()
+    
+    var bruteForce = GeneratePassAndBruteForce()
+    
+    let concurrentQueue = DispatchQueue(label: "App.cuncurrent", qos: .userInteractive, attributes: [.concurrent])
 
 #if DEBUG
         var userService = TestUserService()
@@ -86,6 +90,14 @@ class LogInViewController: UIViewController {
         return button
     }()
     
+    private lazy var generateButton = CustomButton(title: "Generate Password", titleColor: .black, backgroundButtonColor: .systemBlue, cornerRadius: 10, useShadow: false, action: { self.generateButtonAction() })
+    
+    private lazy var activityInticator: UIActivityIndicatorView = {
+        let activityInticator = UIActivityIndicatorView(style: .large)
+        activityInticator.translatesAutoresizingMaskIntoConstraints = false
+        return activityInticator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -98,6 +110,8 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.textFieldsStackView)
         self.scrollView.addSubview(self.logoImageView)
         self.scrollView.addSubview(self.editButton)
+        self.scrollView.addSubview(self.generateButton)
+        self.scrollView.addSubview(self.activityInticator)
         self.textFieldsStackView.addArrangedSubview(self.loginTextField)
         self.textFieldsStackView.addArrangedSubview(self.passwordTextField)
         
@@ -112,12 +126,24 @@ class LogInViewController: UIViewController {
             self.textFieldsStackView.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 120),
             self.textFieldsStackView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.116144),
             
+            self.activityInticator.bottomAnchor.constraint(equalTo: self.textFieldsStackView.topAnchor, constant: -16),
+            self.activityInticator.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -50),
+            self.activityInticator.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 50),
+            
+
+            
+            
+            self.generateButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
+            self.generateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
+            self.generateButton.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -16),
+            self.generateButton.bottomAnchor.constraint(equalTo: self.generateButton.topAnchor, constant: 36),
+            
             self.logoImageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 120),
             self.logoImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.logoImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.116144),
             self.logoImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.241546),
             
-            self.editButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
+            self.editButton.topAnchor.constraint(equalTo: self.generateButton.bottomAnchor, constant: 16),
             self.editButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
             self.editButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
             self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072)
@@ -183,6 +209,24 @@ class LogInViewController: UIViewController {
             self.present(alert, animated: true)
         }
         
+    }
+    
+    @objc private func generateButtonAction() {
+        
+        activityInticator.startAnimating()
+        
+        concurrentQueue.async { [self] in
+            
+            let generatedPassword = bruteForce.randomPass()
+            bruteForce.bruteForce(passwordToUnlock: generatedPassword)
+            
+            
+            DispatchQueue.main.async { [self] in
+                passwordTextField.text = generatedPassword
+                passwordTextField.isSecureTextEntry = false
+                activityInticator.stopAnimating()
+            }
+        }
     }
 
 }
