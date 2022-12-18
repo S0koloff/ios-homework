@@ -11,6 +11,9 @@
 		152356072912B6FC00ED4982 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152356062912B6FC00ED4982 /* AvatarView.swift */; };
 		152C455B2902FC93001D46E6 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152C455A2902FC93001D46E6 /* PhotosCollectionViewCell.swift */; };
 		15356A2C29215E5500E41B38 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A21ADD29214BC3009F518E /* StorageService.framework */; };
+		15418ECA294F4A0B00A0992D /* SwiftEntryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15418EC9294F4A0B00A0992D /* SwiftEntryKit */; };
+		15418ECC294F4D9D00A0992D /* CustomPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15418ECB294F4D9D00A0992D /* CustomPopUpView.swift */; };
+		15418ED0294F810200A0992D /* SetupAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15418ECF294F810200A0992D /* SetupAttributes.swift */; };
 		15437F81294BA87C00551CD5 /* BruteForce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15437F80294BA87C00551CD5 /* BruteForce.swift */; };
 		156C672D28B662BE0049D8FE /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156C672C28B662BE0049D8FE /* PostViewController.swift */; };
 		156C673128B6986D0049D8FE /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156C673028B6986D0049D8FE /* InfoViewController.swift */; };
@@ -86,6 +89,8 @@
 		1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		152356062912B6FC00ED4982 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		152C455A2902FC93001D46E6 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		15418ECB294F4D9D00A0992D /* CustomPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpView.swift; sourceTree = "<group>"; };
+		15418ECF294F810200A0992D /* SetupAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAttributes.swift; sourceTree = "<group>"; };
 		15437F80294BA87C00551CD5 /* BruteForce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForce.swift; sourceTree = "<group>"; };
 		156C672C28B662BE0049D8FE /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		156C673028B6986D0049D8FE /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
@@ -149,12 +154,22 @@
 			files = (
 				15356A2C29215E5500E41B38 /* StorageService.framework in Frameworks */,
 				15F0A28A29366E610056D20F /* iOSIntPackage in Frameworks */,
+				15418ECA294F4A0B00A0992D /* SwiftEntryKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15418ED1294F816A00A0992D /* AlertSetup */ = {
+			isa = PBXGroup;
+			children = (
+				15418ECF294F810200A0992D /* SetupAttributes.swift */,
+				15418ECB294F4D9D00A0992D /* CustomPopUpView.swift */,
+			);
+			path = AlertSetup;
+			sourceTree = "<group>";
+		};
 		1577080B2928455E0072D985 /* UserSetup */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +285,7 @@
 		15CBC33F28BA487000EB348D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				15418ED1294F816A00A0992D /* AlertSetup */,
 				15437F80294BA87C00551CD5 /* BruteForce.swift */,
 				15AF9EC928CA1D8A00E46AA3 /* LogInViewController.swift */,
 				1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */,
@@ -390,6 +406,7 @@
 			name = Navigation;
 			packageProductDependencies = (
 				15F0A28929366E610056D20F /* iOSIntPackage */,
+				15418EC9294F4A0B00A0992D /* SwiftEntryKit */,
 			);
 			productName = Navigation;
 			productReference = 15A679DF28B52944008C6CC4 /* Navigation.app */;
@@ -428,6 +445,7 @@
 			mainGroup = 15A679D628B52944008C6CC4;
 			packageReferences = (
 				15F0A28829366E610056D20F /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
+				15418EC8294F4A0B00A0992D /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 			);
 			productRefGroup = 15A679E028B52944008C6CC4 /* Products */;
 			projectDirPath = "";
@@ -506,11 +524,13 @@
 				1586C1BC29226B5200923156 /* PhotosCollection.swift in Sources */,
 				15F0A28F293B8B7D0056D20F /* CustomButton.swift in Sources */,
 				1594ABEC2931754F00EDC0A2 /* LoginFactory.swift in Sources */,
+				15418ED0294F810200A0992D /* SetupAttributes.swift in Sources */,
 				1594ABE6292FCB1800EDC0A2 /* Checker.swift in Sources */,
 				15A67A1728B533B4008C6CC4 /* FeedViewController.swift in Sources */,
 				1586C1C42922885400923156 /* PostHeader.swift in Sources */,
 				1594ABEE29322B6A00EDC0A2 /* MyLoginFactory.swift in Sources */,
 				1577080F292A5F430072D985 /* TestUserService.swift in Sources */,
+				15418ECC294F4D9D00A0992D /* CustomPopUpView.swift in Sources */,
 				1577080A292843730072D985 /* UserService.swift in Sources */,
 				1586C1C02922839800923156 /* PostCollection.swift in Sources */,
 				152C455B2902FC93001D46E6 /* PhotosCollectionViewCell.swift in Sources */,
@@ -858,6 +878,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		15418EC8294F4A0B00A0992D /* XCRemoteSwiftPackageReference "SwiftEntryKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huri000/SwiftEntryKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		15F0A28829366E610056D20F /* XCRemoteSwiftPackageReference "iOSIntPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TrueMax/iOSIntPackage.git";
@@ -869,6 +897,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		15418EC9294F4A0B00A0992D /* SwiftEntryKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15418EC8294F4A0B00A0992D /* XCRemoteSwiftPackageReference "SwiftEntryKit" */;
+			productName = SwiftEntryKit;
+		};
 		15F0A28929366E610056D20F /* iOSIntPackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 15F0A28829366E610056D20F /* XCRemoteSwiftPackageReference "iOSIntPackage" */;

@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import SwiftEntryKit
 
 class ProfileViewController: UIViewController {
     
     var user: User
+    
+    var timer: Timer?
     
     init(user: User) {
         self.user = user
@@ -39,6 +42,9 @@ class ProfileViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    // Animation zoom avatar
+    
     private lazy var avatar: UIImageView = {
         let avatar = UIImageView(frame: .zero)
         avatar.image = user.image
@@ -75,6 +81,8 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupProfileView ()
         self.tabBarController?.tabBar.isHidden = false
+        
+        self.timerPremiumAllert()
         
         #if DEBUG
         view.backgroundColor = .blue
@@ -130,11 +138,24 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func timerPremiumAllert() {
+        
+       timer = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(premiumAllert), userInfo: nil, repeats: true)
+    }
+    
+    deinit {
+        timer?.invalidate()
+    }
+
+    @objc private func premiumAllert() {
+        SwiftEntryKit.display(entry: CustomPopUpView(image: user.image, name: "Приветствуем, \(user.name)! Для вас есть специальное предложение на Premium подписку с крутой скидкой"), using: setupAttributes())
+    }
+    
     @objc func backButtonAction() {
         self.avatar.isHidden = true
         self.backButton.isHidden = true
     }
-    
+
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {

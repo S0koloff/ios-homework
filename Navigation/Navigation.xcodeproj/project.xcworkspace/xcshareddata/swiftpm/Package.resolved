@@ -8,6 +8,15 @@
         "branch" : "imagepublisher",
         "revision" : "e1cc0e1b76d7cb8f770d903d85ae9ed91ae026bd"
       }
+    },
+    {
+      "identity" : "swiftentrykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/huri000/SwiftEntryKit",
+      "state" : {
+        "revision" : "5ad36cccf0c4b9fea32f4e9b17a8e38f07563ef0",
+        "version" : "2.0.0"
+      }
     }
   ],
   "version" : 2

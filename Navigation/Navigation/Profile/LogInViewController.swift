@@ -126,12 +126,8 @@ class LogInViewController: UIViewController {
             self.textFieldsStackView.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 120),
             self.textFieldsStackView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.116144),
             
-            self.activityInticator.bottomAnchor.constraint(equalTo: self.textFieldsStackView.topAnchor, constant: -16),
-            self.activityInticator.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -50),
-            self.activityInticator.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 50),
-            
-
-            
+            self.activityInticator.bottomAnchor.constraint(equalTo: self.generateButton.topAnchor, constant: -20),
+            self.activityInticator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             
             self.generateButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
             self.generateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
@@ -194,7 +190,6 @@ class LogInViewController: UIViewController {
     
     }
         
-
     @objc private func buttonAction() {
     
         let user = userService.user
@@ -219,7 +214,6 @@ class LogInViewController: UIViewController {
             
             let generatedPassword = bruteForce.randomPass()
             bruteForce.bruteForce(passwordToUnlock: generatedPassword)
-            
             
             DispatchQueue.main.async { [self] in
                 passwordTextField.text = generatedPassword
