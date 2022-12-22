@@ -8,9 +8,17 @@
 import UIKit
 
 struct LoginInspector: LoginViewControllerDelegate {
-    
-    func check(log: String, pass: String) -> Bool {
-        log == Checker.shared.login && pass == Checker.shared.password ? true : false
+ 
+    func check(log: String, pass: String) -> Result<Bool, Errors> {
+        if log == Checker.shared.login && pass == Checker.shared.password{
+            return .success(true)
+        }else{
+            return .failure(Errors.incorrectDate)
+        }
     }
+    
+//    func check(log: String, pass: String) -> Bool {
+//        log == Checker.shared.login && pass == Checker.shared.password ? true : false
+//    }
 
 }

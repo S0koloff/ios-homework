@@ -17,6 +17,13 @@ class LogInViewController: UIViewController {
     
     let concurrentQueue = DispatchQueue(label: "App.cuncurrent", qos: .userInteractive, attributes: [.concurrent])
 
+
+    var timer: Timer?
+    
+    var timeOfBrute = 0
+    
+    
+
 #if DEBUG
         var userService = TestUserService()
 #else
@@ -98,6 +105,14 @@ class LogInViewController: UIViewController {
         return activityInticator
     }()
     
+    private lazy var timeToBrute: UILabel = {
+        let timeToBrute = UILabel()
+        timeToBrute.font = UIFont.systemFont(ofSize: 13)
+        timeToBrute.tintColor = .systemGray6
+        timeToBrute.translatesAutoresizingMaskIntoConstraints = false
+        return timeToBrute
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -112,6 +127,7 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.editButton)
         self.scrollView.addSubview(self.generateButton)
         self.scrollView.addSubview(self.activityInticator)
+        self.scrollView.addSubview(self.timeToBrute)
         self.textFieldsStackView.addArrangedSubview(self.loginTextField)
         self.textFieldsStackView.addArrangedSubview(self.passwordTextField)
         
@@ -125,6 +141,9 @@ class LogInViewController: UIViewController {
             self.textFieldsStackView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
             self.textFieldsStackView.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 120),
             self.textFieldsStackView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.116144),
+            
+            self.timeToBrute.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20),
+            self.timeToBrute.bottomAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: -15),
             
             self.activityInticator.bottomAnchor.constraint(equalTo: self.generateButton.topAnchor, constant: -20),
             self.activityInticator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -181,11 +200,13 @@ class LogInViewController: UIViewController {
     private func setupGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(kbSHide))
         self.view.addGestureRecognizer(tapGesture)
+        
     }
     
     @objc private func kbSHide() {
         
         self.view.endEditing(true)
+        timeToBrute.isHidden = true
         self.scrollView.setContentOffset(.zero, animated: true)
     
     }
@@ -193,8 +214,8 @@ class LogInViewController: UIViewController {
     @objc private func buttonAction() {
     
         let user = userService.user
-            
-        if factory.makeLoginInspector().check(log: loginTextField.text!, pass: passwordTextField.text!) == true {
+        
+        if factory.makeLoginInspector().check(log: loginTextField.text!, pass: passwordTextField.text!) == .success(true) {
 //        if userService.checkService(login: loginTextField.text!) != nil {
             let profileViewController = ProfileViewController(user: user)
             self.navigationController?.pushViewController(profileViewController, animated: true)
@@ -206,8 +227,16 @@ class LogInViewController: UIViewController {
         
     }
     
+    private func createTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1.0,
+                                     target: self,
+                                     selector: #selector(timeofBruteUpdate),
+                                     userInfo: nil,
+                                     repeats: true)
+      }
+    
     @objc private func generateButtonAction() {
-        
+        createTimer()
         activityInticator.startAnimating()
         
         concurrentQueue.async { [self] in
@@ -219,9 +248,29 @@ class LogInViewController: UIViewController {
                 passwordTextField.text = generatedPassword
                 passwordTextField.isSecureTextEntry = false
                 activityInticator.stopAnimating()
+                cancelTimer()
+                timeToBrute.text = "\(timeOfBrute)s to brute password"
+                timeToBrute.isHidden = false
             }
         }
+        
+        timerofBruteReload()
     }
 
+    
+    @objc private func timeofBruteUpdate() {
+        timeOfBrute += 1
+    }
+    
+    @objc private func timerofBruteReload() {
+        if timeOfBrute != 0 {
+            timeOfBrute = 0
+        }
+    }
+    
+    private func cancelTimer() {
+      timer?.invalidate()
+    }
+    
 }
 

@@ -138,9 +138,9 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func timerPremiumAllert() {
+    private func timerPremiumAllert() {
         
-       timer = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(premiumAllert), userInfo: nil, repeats: true)
+       timer = Timer.scheduledTimer(timeInterval: 40.0, target: self, selector: #selector(premiumAllert), userInfo: nil, repeats: false)
     }
     
     deinit {
@@ -155,8 +155,9 @@ class ProfileViewController: UIViewController {
         self.avatar.isHidden = true
         self.backButton.isHidden = true
     }
-
 }
+
+
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     

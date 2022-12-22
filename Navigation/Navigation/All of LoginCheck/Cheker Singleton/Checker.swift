@@ -15,10 +15,6 @@ final class Checker {
     let password = "1"
     
     private init() {}
-    
-    func check(log: String, pass: String) -> Bool {
-        log == login && pass == password ? true : false
-    }
 }
 
 

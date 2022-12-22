@@ -11,7 +11,7 @@ import iOSIntPackage
 class PhotosViewController: UIViewController {
     
     private lazy var imageFacade = ImagePublisherFacade()
-//    private lazy var arrayOfImagesForObserver = [UIImage]()
+    //    private lazy var arrayOfImagesForObserver = [UIImage]()
     lazy var arrayOfImages = [UIImage]()
     
     private enum Constants {
@@ -34,17 +34,44 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    private func setupArray() {
-        
+    private func arrayFilling() throws -> [UIImage] {
         Photos.shared.examples.forEach { photo in
             self.arrayOfImages.append(photo)
+        }
+       
+      if Photos.shared.examples.count == 0 {
+           throw Errors.wrongConnection
+       } else if arrayOfImages.count == 0 {
+           throw Errors.incorrectDate
+        } else {
+            return arrayOfImages
+        }
+    }
+    
+    private func setupArray() {
+        
+        do {
+          arrayOfImages = try arrayFilling()
+        } catch Errors.incorrectDate {
+            print("Error: incrorrectDate")
+            let alert = UIAlertController(title: "Photos not added yet", message: "Please, add photos", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Add photos", style: .default))
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated: true)
+        } catch Errors.wrongConnection {
+            print("Error: wrongConnection")
+            let alert = UIAlertController(title: "No connection to server", message: "Please, reload the page", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated: true)
+        } catch {
+            print("Unknow error")
         }
         
         let imageProcessor = ImageProcessor()
         
         let startUpdatePhotos = DispatchTime.now()
         
-        imageProcessor.processImagesOnThread(sourceImages: arrayOfImages, filter: .colorInvert, qos: .utility) { [weak self] image in DispatchQueue.main.async {
+        imageProcessor.processImagesOnThread(sourceImages: arrayOfImages, filter: .chrome, qos: .utility) { [weak self] image in DispatchQueue.main.async {
             self?.arrayOfImages = image.map({ image in
                 UIImage(cgImage: image!) })
             
@@ -62,6 +89,7 @@ class PhotosViewController: UIViewController {
             
         }
     }
+
     
 //filter: .colorInvert, qos: .userInitiated Интервал загрузки 1.087174542 секунд
 //filter: .noir, qos: .userInteractive Интервал загрузки 1.07598075 секунд
