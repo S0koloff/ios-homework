@@ -35,8 +35,10 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
+        tableView.estimatedRowHeight = 5
         tableView.register(ProfileHeaderViewTable.self, forHeaderFooterViewReuseIdentifier: "TableHeader")
+        tableView.register(MusicTableViewCell.self, forCellReuseIdentifier: "MusicViewCell")
+        tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: "VideoViewCell")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +61,6 @@ class ProfileViewController: UIViewController {
         backButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward"), for: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
-        
         return backButton
     }()
     
@@ -164,45 +165,98 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
+        } else {
+            if section == 1 {
+                return 1
+            } else {
+                if section == 2 {
+                    return 1
+                }
+            }
         }
         return self.posts.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == .zero {
+        if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosViewCell", for: indexPath) as! PhotosTableViewCell
-            cell.setup(with: PostHeader())
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MusicViewCell", for: indexPath) as! MusicTableViewCell
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
+            
             return cell
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! PostTableViewCell
-            let post = posts[indexPath.row]
-            cell.selectionStyle = UITableViewCell.SelectionStyle.none
-            cell.setup(with: post)
-            return cell
+            if indexPath.section == 1 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "VideoViewCell", for: indexPath) as! VideoTableViewCell
+                cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                
+                return cell
+                
+            } else {
+                
+                if indexPath.section == 2 {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosViewCell", for: indexPath) as! PhotosTableViewCell
+                    cell.setup(with: PostHeader())
+                    cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                    
+                    return cell
+                    
+                } else {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! PostTableViewCell
+                    let post = posts[indexPath.row]
+                    cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                    cell.setup(with: post)
+                    return cell
+                }
+            }
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.section == .zero {
-            return 150
+        if indexPath.section == 0 {
+            return 50
         } else {
-            return 600
+            if indexPath.section == 1 {
+                return 50
+            } else {
+                if indexPath.section == 2 {
+                    return 150
+                } else {
+                    return 600
+                }
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if indexPath.section == 0 {
-            let destination = PhotosViewController()
-            navigationController?.pushViewController(destination, animated: true)
+            let destination = AudioViewController()
+            destination.modalPresentationStyle = .formSheet
+            self.present(destination, animated: true)
+            
+        } else {
+            
+            if indexPath.section == 1 {
+                let destination = VideoViewController()
+                navigationController?.pushViewController(destination, animated: true)
+                
+            } else {
+                
+                if indexPath.section == 2 {
+                    let destination = PhotosViewController()
+                    navigationController?.pushViewController(destination, animated: true)
+                }
+            }
         }
     }
     

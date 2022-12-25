@@ -9,11 +9,11 @@ import UIKit
 
 struct LoginInspector: LoginViewControllerDelegate {
  
-    func check(log: String, pass: String) -> Result<Bool, Errors> {
+    func check(log: String, pass: String) -> Result<Bool, DataBaseError> {
         if log == Checker.shared.login && pass == Checker.shared.password{
             return .success(true)
         }else{
-            return .failure(Errors.incorrectDate)
+            return .failure(DataBaseError.incorrectData)
         }
     }
     

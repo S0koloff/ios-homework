@@ -11,8 +11,8 @@ final class Checker {
     
     static let shared = Checker()
     
-    let login = "1"
-    let password = "1"
+    let login = ""
+    let password = ""
     
     private init() {}
 }

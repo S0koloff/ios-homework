@@ -40,9 +40,9 @@ class PhotosViewController: UIViewController {
         }
        
       if Photos.shared.examples.count == 0 {
-           throw Errors.wrongConnection
+          throw NetworkError.NetwrokError200
        } else if arrayOfImages.count == 0 {
-           throw Errors.incorrectDate
+           throw DataBaseError.incorrectReceivedData
         } else {
             return arrayOfImages
         }
@@ -52,13 +52,13 @@ class PhotosViewController: UIViewController {
         
         do {
           arrayOfImages = try arrayFilling()
-        } catch Errors.incorrectDate {
-            print("Error: incrorrectDate")
+        } catch DataBaseError.incorrectData {
+            print("Error: incrorrectData")
             let alert = UIAlertController(title: "Photos not added yet", message: "Please, add photos", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Add photos", style: .default))
             alert.addAction(UIAlertAction(title: "Close", style: .cancel))
             self.present(alert, animated: true)
-        } catch Errors.wrongConnection {
+        } catch NetworkError.NetwrokError200 {
             print("Error: wrongConnection")
             let alert = UIAlertController(title: "No connection to server", message: "Please, reload the page", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Close", style: .cancel))

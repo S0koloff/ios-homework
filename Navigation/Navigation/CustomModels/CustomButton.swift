@@ -28,6 +28,7 @@ final class CustomButton: UIButton {
         self.tapAction = action
         super.init(frame: .zero)
         
+        setTitleColor(titleColor, for: .normal)
         backgroundColor = backgroundButtonColor
         layer.cornerRadius = cornerRadius
 

@@ -241,7 +241,8 @@ class LogInViewController: UIViewController {
         
         concurrentQueue.async { [self] in
             
-            let generatedPassword = bruteForce.randomPass()
+        let generatedPassword = bruteForce.randomPass()
+        
             bruteForce.bruteForce(passwordToUnlock: generatedPassword)
             
             DispatchQueue.main.async { [self] in

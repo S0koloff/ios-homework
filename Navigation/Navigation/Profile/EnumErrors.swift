@@ -7,7 +7,13 @@
 
 import UIKit
 
-enum Errors: Error {
-    case incorrectDate
-    case wrongConnection    
+enum NetworkError: Error {
+    case NetwrokError200
+    case NetworkError404
+}
+
+enum DataBaseError: Error {
+    case incorrectSendDate
+    case incorrectData
+    case incorrectReceivedData
 }
