@@ -6,31 +6,50 @@
 //
 
 import UIKit
+import SwiftEntryKit
 
 class ProfileViewController: UIViewController {
+    
+    var user: User
+    
+    var timer: Timer?
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var profileHeaderView: ProfileHeaderViewTable = {
         let profileHeaderView = ProfileHeaderViewTable(frame: .zero)
         return profileHeaderView
     }()
-    
-    private let profile = Profile(name: "Sad Cat", label: "Waiting for something...")
+        
+    private var profile = Profile(name: "Sad Cat", label: "Waiting for something...")
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44
+        tableView.estimatedRowHeight = 5
         tableView.register(ProfileHeaderViewTable.self, forHeaderFooterViewReuseIdentifier: "TableHeader")
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        tableView.register(MusicTableViewCell.self, forCellReuseIdentifier: "MusicViewCell")
+        tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: "VideoViewCell")
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    // Animation zoom avatar
+    
     private lazy var avatar: UIImageView = {
         let avatar = UIImageView(frame: .zero)
-        avatar.image = UIImage(named: "cat")
+        avatar.image = user.image
         avatar.isHidden = true
         avatar.translatesAutoresizingMaskIntoConstraints = false
         return avatar
@@ -38,11 +57,10 @@ class ProfileViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton(frame: .zero)
-        backButton.isHidden = false
+        backButton.isHidden = true
         backButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward"), for: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
-        
         return backButton
     }()
     
@@ -52,11 +70,10 @@ class ProfileViewController: UIViewController {
     private var avatarTopConstant: NSLayoutConstraint?
 
     
-    let viewModel = postSetup
+    let posts = postSetup
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         self.navigationItem.title = "Profile"
         self.view.insertSubview(tableView, at: 0)
         self.view.addSubview(self.avatar)
@@ -64,6 +81,17 @@ class ProfileViewController: UIViewController {
         self.profileHeaderView.setup(with: self.profile)
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupProfileView ()
+        self.tabBarController?.tabBar.isHidden = false
+        
+        self.timerPremiumAllert()
+        
+        #if DEBUG
+        view.backgroundColor = .blue
+        
+        #else
+        view.backgroundColor = .white
+        
+        #endif
     }
     
     private func setupProfileView () {
@@ -82,10 +110,8 @@ class ProfileViewController: UIViewController {
             
             self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
             self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 320),
-            self.backButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15),
-            self.backButton.bottomAnchor.constraint(equalTo: self.avatar.topAnchor, constant: -15),
             
-            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50),
+            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 55),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
@@ -113,57 +139,124 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    private func timerPremiumAllert() {
+        
+       timer = Timer.scheduledTimer(timeInterval: 40.0, target: self, selector: #selector(premiumAllert), userInfo: nil, repeats: false)
+    }
+    
+    deinit {
+        timer?.invalidate()
+    }
+
+    @objc private func premiumAllert() {
+        SwiftEntryKit.display(entry: CustomPopUpView(image: user.image, name: "Приветствуем, \(user.name)! Для вас есть специальное предложение на Premium подписку с крутой скидкой"), using: setupAttributes())
+    }
+    
     @objc func backButtonAction() {
         self.avatar.isHidden = true
         self.backButton.isHidden = true
     }
-    
 }
+
+
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
+        } else {
+            if section == 1 {
+                return 1
+            } else {
+                if section == 2 {
+                    return 1
+                }
+            }
         }
-        return self.viewModel.count
+        return self.posts.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == .zero {
+        if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosViewCell", for: indexPath) as! PhotosTableViewCell
-            cell.setup(with: PhotosTableViewCell.PhotosViewModel())
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MusicViewCell", for: indexPath) as! MusicTableViewCell
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
+            
             return cell
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! CustomTableViewCell
-            let post = viewModel[indexPath.row]
-            cell.selectionStyle = UITableViewCell.SelectionStyle.none
-            cell.setup(with: post)
-            return cell
+            if indexPath.section == 1 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "VideoViewCell", for: indexPath) as! VideoTableViewCell
+                cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                
+                return cell
+                
+            } else {
+                
+                if indexPath.section == 2 {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosViewCell", for: indexPath) as! PhotosTableViewCell
+                    cell.setup(with: PostHeader())
+                    cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                    
+                    return cell
+                    
+                } else {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! PostTableViewCell
+                    let post = posts[indexPath.row]
+                    cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                    cell.setup(with: post)
+                    return cell
+                }
+            }
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.section == .zero {
-            return 150
+        if indexPath.section == 0 {
+            return 50
         } else {
-            return 600
+            if indexPath.section == 1 {
+                return 50
+            } else {
+                if indexPath.section == 2 {
+                    return 150
+                } else {
+                    return 600
+                }
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if indexPath.section == 0 {
-            let destination = PhotosViewController()
-            navigationController?.pushViewController(destination, animated: true)
+            let destination = AudioViewController()
+            destination.modalPresentationStyle = .formSheet
+            self.present(destination, animated: true)
+            
+        } else {
+            
+            if indexPath.section == 1 {
+                let destination = VideoViewController()
+                navigationController?.pushViewController(destination, animated: true)
+                
+            } else {
+                
+                if indexPath.section == 2 {
+                    let destination = PhotosViewController()
+                    navigationController?.pushViewController(destination, animated: true)
+                }
+            }
         }
     }
     
@@ -171,7 +264,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 0 {
             let header =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! ProfileHeaderViewTable
             header.profileVC = self
+            
+            profile.name = user.name
+            profile.image = user.image
+            profile.label = user.label
+
             header.setup(with: profile)
+
             return header
         } else {
             return nil

@@ -9,16 +9,6 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     
-    struct PhotosViewModel {
-        let title: String = "Photos"
-        let photo1: UIImage? = UIImage(named: "f1")
-        let photo2: UIImage? = UIImage(named: "f2")
-        let photo3: UIImage? = UIImage(named: "f3")
-        let photo4: UIImage? = UIImage(named: "f4")
-        
-        
-    }
-    
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = .black
@@ -40,7 +30,6 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -49,7 +38,6 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -58,7 +46,6 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -67,7 +54,6 @@ class PhotosTableViewCell: UITableViewCell {
         photosView.backgroundColor = .black
         photosView.layer.cornerRadius = 6
         photosView.clipsToBounds = true
-        //        imageView.contentMode = .scaleAspectFit
         photosView.translatesAutoresizingMaskIntoConstraints = false
         return photosView
     }()
@@ -80,13 +66,13 @@ class PhotosTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with viewModelPhoto: PhotosViewModel) {
-        self.titleLabel.text = viewModelPhoto.title
-        self.photo1View.image = viewModelPhoto.photo1
-        self.photo2View.image = viewModelPhoto.photo2
-        self.photo3View.image = viewModelPhoto.photo3
-        self.photo4View.image = viewModelPhoto.photo4
-        
+    func setup(with postHeader: PostHeader) {
+        self.titleLabel.text = postHeader.title
+        self.photo1View.image = postHeader.photo1
+        self.photo2View.image = postHeader.photo2
+        self.photo3View.image = postHeader.photo3
+        self.photo4View.image = postHeader.photo4
+
     }
     
     private func setupView() {

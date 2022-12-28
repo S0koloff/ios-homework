@@ -8,7 +8,7 @@
 import UIKit
 
 struct Profile {
-    let name: String
-    let label: String
-    let image = UIImage(named: "cat")
+    var name: String
+    var label: String
+    var image = UIImage(named: "cat")
 }

@@ -25,16 +25,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         tabBarController.tabBar.backgroundColor = .white
         
-        tabBarController.viewControllers = [feedViewController, profileViewController]
+        tabBarController.viewControllers = [profileViewController, feedViewController]
         
         tabBarController.viewControllers?.enumerated().forEach {
-            $1.tabBarItem.title = $0 == 0 ? "Feed" : "Profile"
+            $1.tabBarItem.title = $0 == 0 ? "Profile" : "Feed"
             $1.tabBarItem.image = $0 == 0
-            ? UIImage(systemName: "textbox")
-            : UIImage(systemName: "person.circle")
+            ? UIImage(systemName: "person.circle")
+            : UIImage(systemName: "textbox")
         }
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
+        
+        let factory = MyLoginFactory()
+        let loginInspector = factory.makeLoginInspector()
+        let loginVC = LogInViewController()
+        loginVC.loginDelegate = loginInspector
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

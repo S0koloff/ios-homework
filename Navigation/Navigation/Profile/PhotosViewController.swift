@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PhotosViewController: UIViewController {
     
+    private lazy var imageFacade = ImagePublisherFacade()
+    //    private lazy var arrayOfImagesForObserver = [UIImage]()
+    lazy var arrayOfImages = [UIImage]()
     
     private enum Constants {
         static let numberOfItemsInLine: CGFloat = 3
@@ -30,14 +34,76 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
+    private func arrayFilling() throws -> [UIImage] {
+        Photos.shared.examples.forEach { photo in
+            self.arrayOfImages.append(photo)
+        }
+       
+      if Photos.shared.examples.count == 0 {
+          throw NetworkError.NetwrokError200
+       } else if arrayOfImages.count == 0 {
+           throw DataBaseError.incorrectReceivedData
+        } else {
+            return arrayOfImages
+        }
+    }
     
-    let dataSetup = dataPhoto
+    private func setupArray() {
+        
+        do {
+          arrayOfImages = try arrayFilling()
+        } catch DataBaseError.incorrectData {
+            print("Error: incrorrectData")
+            let alert = UIAlertController(title: "Photos not added yet", message: "Please, add photos", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Add photos", style: .default))
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated: true)
+        } catch NetworkError.NetwrokError200 {
+            print("Error: wrongConnection")
+            let alert = UIAlertController(title: "No connection to server", message: "Please, reload the page", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated: true)
+        } catch {
+            print("Unknow error")
+        }
+        
+        let imageProcessor = ImageProcessor()
+        
+        let startUpdatePhotos = DispatchTime.now()
+        
+        imageProcessor.processImagesOnThread(sourceImages: arrayOfImages, filter: .chrome, qos: .utility) { [weak self] image in DispatchQueue.main.async {
+            self?.arrayOfImages = image.map({ image in
+                UIImage(cgImage: image!) })
+            
+            self?.collectionView.reloadData()
+            
+            }
+            
+            let endUpdatePhotos = DispatchTime.now()
+            
+            let nanoTime = endUpdatePhotos.uptimeNanoseconds - startUpdatePhotos.uptimeNanoseconds
+            
+            let timeInterval = Double(nanoTime) / 1_000_000_000
+            
+            print("Интервал загрузки \(timeInterval) секунд")
+            
+        }
+    }
+
+    
+//filter: .colorInvert, qos: .userInitiated Интервал загрузки 1.087174542 секунд
+//filter: .noir, qos: .userInteractive Интервал загрузки 1.07598075 секунд
+//filter: .colorInvert, qos: .utility Интервал загрузки 1.127721792 секунд
+    
+//        imageFacade.addImagesWithTimer(time: 1, repeat: 21, userImages: arrayOfImagesForObserver)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Photo Gallery"
         self.navigationController?.navigationBar.backgroundColor = .white
         self.setupView()
+        self.setupArray()
     }
     
     
@@ -46,6 +112,14 @@ class PhotosViewController: UIViewController {
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        imageFacade.removeSubscription(for: self)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        imageFacade.subscribe(self)
+    }
     
     private func setupView() {
         self.view.backgroundColor = .systemBackground
@@ -63,23 +137,20 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSetup.count
+        return arrayOfImages.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! PhotosCollectionViewCell
-        cell.backgroundColor = .gray
-        cell.clipsToBounds = true
-        
-        let ph = dataSetup[indexPath.row]
-        
-        
-        cell.setup(with: ph)
-        
-        return cell
-    }
+func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+    
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! PhotosCollectionViewCell
+    
+    cell.backgroundColor = .gray
+    cell.clipsToBounds = true
+    cell.configCellCollection(photo: arrayOfImages[indexPath.item])
+    
+    return cell
+}
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -92,6 +163,16 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         return CGSize(width: itemWidth, height: itemWidth)
     }
 }
+
+extension PhotosViewController: ImageLibrarySubscriber {
+
+    func receive(images: [UIImage]) {
+        arrayOfImages = images
+        collectionView.reloadData()
+    }
+}
+    
+    
 
 
 
