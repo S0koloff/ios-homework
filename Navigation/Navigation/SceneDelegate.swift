@@ -40,6 +40,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let loginInspector = factory.makeLoginInspector()
         let loginVC = LogInViewController()
         loginVC.loginDelegate = loginInspector
+        
+        let randomeValueforAPI = AppConfiguration.allCases.randomElement()!
+        
+        NetworkManager.request(for: randomeValueforAPI)
+        
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -16,6 +16,8 @@
 		150B84F6295B2DBD00838A9A /* Motorama - Letter Home.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F1295B2DBD00838A9A /* Motorama - Letter Home.mp3 */; };
 		150B84F7295B2DBD00838A9A /* Nils Frahm - La.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F2295B2DBD00838A9A /* Nils Frahm - La.mp3 */; };
 		150B84F8295B2DBD00838A9A /* Nils Frahm - Sol.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F3295B2DBD00838A9A /* Nils Frahm - Sol.mp3 */; };
+		150B84FB295C989700838A9A /* NetworkManager .swift in Sources */ = {isa = PBXBuildFile; fileRef = 150B84FA295C989700838A9A /* NetworkManager .swift */; };
+		150B84FD295CA66C00838A9A /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150B84FC295CA66C00838A9A /* AppConfiguration.swift */; };
 		1516987C28BB8BB2000DADA1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */; };
 		152356072912B6FC00ED4982 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152356062912B6FC00ED4982 /* AvatarView.swift */; };
 		152C455B2902FC93001D46E6 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152C455A2902FC93001D46E6 /* PhotosCollectionViewCell.swift */; };
@@ -107,6 +109,8 @@
 		150B84F1295B2DBD00838A9A /* Motorama - Letter Home.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Motorama - Letter Home.mp3"; sourceTree = "<group>"; };
 		150B84F2295B2DBD00838A9A /* Nils Frahm - La.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Nils Frahm - La.mp3"; sourceTree = "<group>"; };
 		150B84F3295B2DBD00838A9A /* Nils Frahm - Sol.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Nils Frahm - Sol.mp3"; sourceTree = "<group>"; };
+		150B84FA295C989700838A9A /* NetworkManager .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager .swift"; sourceTree = "<group>"; };
+		150B84FC295CA66C00838A9A /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		152356062912B6FC00ED4982 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		152C455A2902FC93001D46E6 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -199,6 +203,15 @@
 			path = ProfileTableViewCell;
 			sourceTree = "<group>";
 		};
+		150B84F9295C984400838A9A /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				150B84FA295C989700838A9A /* NetworkManager .swift */,
+				150B84FC295CA66C00838A9A /* AppConfiguration.swift */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
 		15418ED1294F816A00A0992D /* AlertSetup */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +235,7 @@
 		1586C1BD29226B6C00923156 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				15B4231029571C4D008724C4 /* Audio */,
 				15B4231D29573689008724C4 /* Music.swift */,
 				1586C1BB29226B5200923156 /* PhotosCollection.swift */,
 				15F0A28B29386E320056D20F /* PhotosCollectionFilter.swift */,
@@ -309,12 +323,10 @@
 			children = (
 				15A679E228B52944008C6CC4 /* AppDelegate.swift */,
 				15A679E428B52944008C6CC4 /* SceneDelegate.swift */,
-				15B4231029571C4D008724C4 /* Audio */,
+				150B84F9295C984400838A9A /* NetworkManager */,
 				15F0A294293D17AA0056D20F /* CustomModels */,
-				15F0A292293D175A0056D20F /* Feed */,
-				1586C1BD29226B6C00923156 /* Library */,
-				15F0A28D293B83D80056D20F /* All of LoginCheck */,
 				15CBC33F28BA487000EB348D /* Profile */,
+				15F0A292293D175A0056D20F /* Feed */,
 				15A679EB28B52946008C6CC4 /* Assets.xcassets */,
 				15A679ED28B52946008C6CC4 /* LaunchScreen.storyboard */,
 				15A679F028B52946008C6CC4 /* Info.plist */,
@@ -337,6 +349,8 @@
 		15CBC33F28BA487000EB348D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				1586C1BD29226B6C00923156 /* Library */,
+				15F0A28D293B83D80056D20F /* All of LoginCheck */,
 				15418ED1294F816A00A0992D /* AlertSetup */,
 				15437F80294BA87C00551CD5 /* BruteForce.swift */,
 				15B4230A2953AE27008724C4 /* EnumErrors.swift */,
@@ -582,12 +596,14 @@
 				15940C622900158C00682791 /* PhotosTableViewCell.swift in Sources */,
 				159E8DD92901A804008A6A11 /* PhotosViewController.swift in Sources */,
 				15B4231E29573689008724C4 /* Music.swift in Sources */,
+				150B84FD295CA66C00838A9A /* AppConfiguration.swift in Sources */,
 				1508C42A2957CFBD0009C707 /* VideoTableViewCell.swift in Sources */,
 				1577080D2928459B0072D985 /* CurrentUserService.swift in Sources */,
 				15B4230B2953AE27008724C4 /* EnumErrors.swift in Sources */,
 				1594ABE8292FCCD300EDC0A2 /* LoginViewControllerDelegate.swift in Sources */,
 				1508C42F2957D2CB0009C707 /* VideoViewController.swift in Sources */,
 				15A679E328B52944008C6CC4 /* AppDelegate.swift in Sources */,
+				150B84FB295C989700838A9A /* NetworkManager .swift in Sources */,
 				1586C1BC29226B5200923156 /* PhotosCollection.swift in Sources */,
 				15F0A28F293B8B7D0056D20F /* CustomButton.swift in Sources */,
 				1594ABEC2931754F00EDC0A2 /* LoginFactory.swift in Sources */,
