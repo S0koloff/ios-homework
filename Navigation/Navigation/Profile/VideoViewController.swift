@@ -34,7 +34,6 @@ class VideoViewController: UIViewController {
         self.view.addSubview(self.tableView)
 
         setupView()
-        // Do any additional setup after loading the view.
     }
     private func setupView() {
         

@@ -20,19 +20,46 @@ final class AudioViewController: UIViewController {
         let musicNameLabel = UILabel()
         musicNameLabel.textColor = .systemBlue
         musicNameLabel.textAlignment = .center
+        musicNameLabel.font = .systemFont(ofSize: 23)
         musicNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return musicNameLabel
     }()
     
-    private lazy var playButton = CustomButton(title: "Play", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 6, useShadow: false, action: { self.playButtonTap()})
+    private lazy var playButton: UIButton = {
+        let playButton = UIButton()
+        playButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
+        playButton.contentMode = .scaleAspectFit
+        playButton.addTarget(self, action: #selector(self.playButtonTap), for: .touchUpInside)
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        return playButton
+    }()
     
-    private lazy var stopButton = CustomButton(title: "Stop", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 6, useShadow: false, action: { self.stopButtonTap()})
+    private lazy var nextAudioButton: UIButton = {
+        let nextAudioButton = UIButton()
+        nextAudioButton.setBackgroundImage(UIImage(systemName: "forward.fill"), for: .normal)
+        nextAudioButton.contentMode = .scaleAspectFit
+        nextAudioButton.addTarget(self, action: #selector(self.nextButtonTap), for: .touchUpInside)
+        nextAudioButton.translatesAutoresizingMaskIntoConstraints = false
+        return nextAudioButton
+    }()
     
-    private lazy var nextAudioButton = CustomButton(title: "Next", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 6, useShadow: false, action: { self.nextButtonTap()})
+    private lazy var backAudioButton: UIButton = {
+        let backAudioButton = UIButton()
+        backAudioButton.setBackgroundImage(UIImage(systemName: "backward.fill"), for: .normal)
+        backAudioButton.contentMode = .scaleAspectFit
+        backAudioButton.addTarget(self, action: #selector(self.backButtonTap), for: .touchUpInside)
+        backAudioButton.translatesAutoresizingMaskIntoConstraints = false
+        return backAudioButton
+    }()
     
-    private lazy var backAudioButton = CustomButton(title: "Back", titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 6, useShadow: false, action: { self.backButtonTap()})
-    
-    
+    private lazy var stopButton: UIButton = {
+        let stopButton = UIButton()
+        stopButton.setBackgroundImage(UIImage(systemName: "stop.fill"), for: .normal)
+        stopButton.contentMode = .scaleAspectFit
+        stopButton.addTarget(self, action: #selector(self.stopButtonTap), for: .touchUpInside)
+        stopButton.translatesAutoresizingMaskIntoConstraints = false
+        return stopButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +71,7 @@ final class AudioViewController: UIViewController {
         songs.append(Song(name: "Motorama - Letter Home"))
         songs.append(Song(name: "Nils Frahm - La"))
         songs.append(Song(name: "Nils Frahm - Sol"))
-        
+
         configuratePlayer()
     }
     
@@ -60,28 +87,28 @@ final class AudioViewController: UIViewController {
             
             self.musicNameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20),
             self.musicNameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20),
-            self.musicNameLabel.bottomAnchor.constraint(equalTo: self.playButton.topAnchor, constant: -50),
+            self.musicNameLabel.bottomAnchor.constraint(equalTo: self.playButton.topAnchor, constant: -70),
             self.musicNameLabel.topAnchor.constraint(equalTo: self.musicNameLabel.bottomAnchor, constant: -30),
             
-            self.nextAudioButton.leftAnchor.constraint(equalTo: self.playButton.rightAnchor, constant: 15),
-            self.nextAudioButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -40),
-            self.nextAudioButton.bottomAnchor.constraint(equalTo: self.stopButton.bottomAnchor, constant: -15),
-            self.nextAudioButton.topAnchor.constraint(equalTo: self.playButton.topAnchor, constant: 15),
+            self.nextAudioButton.leftAnchor.constraint(equalTo: self.playButton.rightAnchor, constant: 65),
+            self.nextAudioButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -60),
+            self.nextAudioButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -210),
+            self.nextAudioButton.topAnchor.constraint(equalTo: self.nextAudioButton.bottomAnchor, constant: -45),
             
-            self.backAudioButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 40),
-            self.backAudioButton.rightAnchor.constraint(equalTo: self.playButton.leftAnchor, constant: -15),
-            self.backAudioButton.bottomAnchor.constraint(equalTo: self.stopButton.bottomAnchor, constant: -15),
-            self.backAudioButton.topAnchor.constraint(equalTo: self.playButton.topAnchor, constant: 15),
+            self.backAudioButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 60),
+            self.backAudioButton.rightAnchor.constraint(equalTo: self.playButton.leftAnchor, constant: -65),
+            self.backAudioButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -210),
+            self.backAudioButton.topAnchor.constraint(equalTo: self.backAudioButton.bottomAnchor, constant: -45),
 
-            self.playButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 150),
-            self.playButton.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -150),
-            self.playButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -200),
-            self.playButton.topAnchor.constraint(equalTo: self.playButton.bottomAnchor,constant: -30),
+            self.playButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 170),
+            self.playButton.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -170),
+            self.playButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -203),
+            self.playButton.topAnchor.constraint(equalTo: self.playButton.bottomAnchor,constant: -60),
             
-            self.stopButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 150),
-            self.stopButton.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -150),
-            self.stopButton.bottomAnchor.constraint(equalTo: self.stopButton.topAnchor,constant: 30),
-            self.stopButton.topAnchor.constraint(equalTo: self.playButton.bottomAnchor,constant: 10),
+            self.stopButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 170),
+            self.stopButton.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -170),
+            self.stopButton.bottomAnchor.constraint(equalTo: self.stopButton.topAnchor,constant: 50),
+            self.stopButton.topAnchor.constraint(equalTo: self.playButton.bottomAnchor,constant: 30),
         
         ])
     }
@@ -117,11 +144,11 @@ final class AudioViewController: UIViewController {
     @objc func playButtonTap() {
         if player.isPlaying == true {
             player.stop()
-            playButton.setTitle("Play", for: .normal)
+            playButton.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
         }
         else {
             player.play()
-            playButton.setTitle("Pause", for: .normal)
+            playButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
         }
     }
     
@@ -129,7 +156,7 @@ final class AudioViewController: UIViewController {
         if player.currentTime != 0 {
             player.stop()
             player.currentTime = 0
-            playButton.setTitle("Play", for: .normal)
+            playButton.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
         }
     }
     
@@ -139,6 +166,7 @@ final class AudioViewController: UIViewController {
             player.stop()
         }
         configuratePlayer()
+        playButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
     }
     
     @objc func backButtonTap() {
@@ -147,5 +175,6 @@ final class AudioViewController: UIViewController {
             player.stop()
         }
         configuratePlayer()
+        playButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
     }
 }

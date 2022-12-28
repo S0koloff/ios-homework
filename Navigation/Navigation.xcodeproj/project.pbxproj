@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1508C421295763170009C707 /* KDrew - Bullseye.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1508C41C295763170009C707 /* KDrew - Bullseye.mp3 */; };
-		1508C422295763170009C707 /* Motorama - Letter Home.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1508C41D295763170009C707 /* Motorama - Letter Home.mp3 */; };
-		1508C423295763170009C707 /* Gem Club - Twins.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1508C41E295763170009C707 /* Gem Club - Twins.mp3 */; };
-		1508C424295763170009C707 /* Nils Frahm - La.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1508C41F295763170009C707 /* Nils Frahm - La.mp3 */; };
-		1508C425295763170009C707 /* Nils Frahm - Sol.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1508C420295763170009C707 /* Nils Frahm - Sol.mp3 */; };
 		1508C428295774A40009C707 /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 1508C427295774A40009C707 /* YouTubeiOSPlayerHelper */; };
 		1508C42A2957CFBD0009C707 /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1508C4292957CFBD0009C707 /* VideoTableViewCell.swift */; };
 		1508C42F2957D2CB0009C707 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1508C42E2957D2CB0009C707 /* VideoViewController.swift */; };
 		1508C4312957D4A80009C707 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1508C4302957D4A80009C707 /* YoutubeTableViewCell.swift */; };
+		150B84F4295B2DBD00838A9A /* KDrew - Bullseye.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84EF295B2DBD00838A9A /* KDrew - Bullseye.mp3 */; };
+		150B84F5295B2DBD00838A9A /* Gem Club - Twins.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F0295B2DBD00838A9A /* Gem Club - Twins.mp3 */; };
+		150B84F6295B2DBD00838A9A /* Motorama - Letter Home.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F1295B2DBD00838A9A /* Motorama - Letter Home.mp3 */; };
+		150B84F7295B2DBD00838A9A /* Nils Frahm - La.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F2295B2DBD00838A9A /* Nils Frahm - La.mp3 */; };
+		150B84F8295B2DBD00838A9A /* Nils Frahm - Sol.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 150B84F3295B2DBD00838A9A /* Nils Frahm - Sol.mp3 */; };
 		1516987C28BB8BB2000DADA1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */; };
 		152356072912B6FC00ED4982 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152356062912B6FC00ED4982 /* AvatarView.swift */; };
 		152C455B2902FC93001D46E6 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152C455A2902FC93001D46E6 /* PhotosCollectionViewCell.swift */; };
@@ -99,14 +99,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1508C41C295763170009C707 /* KDrew - Bullseye.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "KDrew - Bullseye.mp3"; path = "../../../../../../Downloads/KDrew - Bullseye.mp3"; sourceTree = "<group>"; };
-		1508C41D295763170009C707 /* Motorama - Letter Home.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Motorama - Letter Home.mp3"; path = "../../../../../../Downloads/Motorama - Letter Home.mp3"; sourceTree = "<group>"; };
-		1508C41E295763170009C707 /* Gem Club - Twins.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Gem Club - Twins.mp3"; path = "../../../../../../Downloads/Gem Club - Twins.mp3"; sourceTree = "<group>"; };
-		1508C41F295763170009C707 /* Nils Frahm - La.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Nils Frahm - La.mp3"; path = "../../../../../../Downloads/Nils Frahm - La.mp3"; sourceTree = "<group>"; };
-		1508C420295763170009C707 /* Nils Frahm - Sol.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Nils Frahm - Sol.mp3"; path = "../../../../../../Downloads/Nils Frahm - Sol.mp3"; sourceTree = "<group>"; };
 		1508C4292957CFBD0009C707 /* VideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
 		1508C42E2957D2CB0009C707 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		1508C4302957D4A80009C707 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
+		150B84EF295B2DBD00838A9A /* KDrew - Bullseye.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "KDrew - Bullseye.mp3"; sourceTree = "<group>"; };
+		150B84F0295B2DBD00838A9A /* Gem Club - Twins.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Gem Club - Twins.mp3"; sourceTree = "<group>"; };
+		150B84F1295B2DBD00838A9A /* Motorama - Letter Home.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Motorama - Letter Home.mp3"; sourceTree = "<group>"; };
+		150B84F2295B2DBD00838A9A /* Nils Frahm - La.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Nils Frahm - La.mp3"; sourceTree = "<group>"; };
+		150B84F3295B2DBD00838A9A /* Nils Frahm - Sol.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Nils Frahm - Sol.mp3"; sourceTree = "<group>"; };
 		1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		152356062912B6FC00ED4982 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		152C455A2902FC93001D46E6 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -325,11 +325,11 @@
 		15B4231029571C4D008724C4 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				1508C41E295763170009C707 /* Gem Club - Twins.mp3 */,
-				1508C41C295763170009C707 /* KDrew - Bullseye.mp3 */,
-				1508C41D295763170009C707 /* Motorama - Letter Home.mp3 */,
-				1508C41F295763170009C707 /* Nils Frahm - La.mp3 */,
-				1508C420295763170009C707 /* Nils Frahm - Sol.mp3 */,
+				150B84F0295B2DBD00838A9A /* Gem Club - Twins.mp3 */,
+				150B84EF295B2DBD00838A9A /* KDrew - Bullseye.mp3 */,
+				150B84F1295B2DBD00838A9A /* Motorama - Letter Home.mp3 */,
+				150B84F2295B2DBD00838A9A /* Nils Frahm - La.mp3 */,
+				150B84F3295B2DBD00838A9A /* Nils Frahm - Sol.mp3 */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -533,13 +533,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1508C421295763170009C707 /* KDrew - Bullseye.mp3 in Resources */,
-				1508C425295763170009C707 /* Nils Frahm - Sol.mp3 in Resources */,
-				1508C423295763170009C707 /* Gem Club - Twins.mp3 in Resources */,
+				150B84F6295B2DBD00838A9A /* Motorama - Letter Home.mp3 in Resources */,
+				150B84F8295B2DBD00838A9A /* Nils Frahm - Sol.mp3 in Resources */,
+				150B84F4295B2DBD00838A9A /* KDrew - Bullseye.mp3 in Resources */,
 				15A679EF28B52946008C6CC4 /* LaunchScreen.storyboard in Resources */,
-				1508C424295763170009C707 /* Nils Frahm - La.mp3 in Resources */,
-				1508C422295763170009C707 /* Motorama - Letter Home.mp3 in Resources */,
+				150B84F7295B2DBD00838A9A /* Nils Frahm - La.mp3 in Resources */,
 				15A679EC28B52946008C6CC4 /* Assets.xcassets in Resources */,
+				150B84F5295B2DBD00838A9A /* Gem Club - Twins.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
