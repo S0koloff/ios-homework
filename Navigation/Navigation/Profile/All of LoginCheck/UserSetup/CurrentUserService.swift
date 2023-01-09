@@ -7,11 +7,11 @@
 
 import UIKit
 
-class CurrentUserService: UserService {
+//class CurrentUserService: UserService {
     
-    let user = User(login: "alex", name: "Alex", image: UIImage(named: "p6")!, label: "Im very tired")
-
-    func checkService(login: String) -> User? {
-        login == user.login ? user : nil
-    }
-}
+//    let user = User(email: "alex", name: "Alex", image: UIImage(named: "p6")!, label: "Im very tired")
+//
+//    func checkService(email: String) -> User? {
+//        email == user.email ? user : nil
+//    }
+//}

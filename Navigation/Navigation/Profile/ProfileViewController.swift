@@ -141,7 +141,7 @@ class ProfileViewController: UIViewController {
     
     private func timerPremiumAllert() {
         
-       timer = Timer.scheduledTimer(timeInterval: 40.0, target: self, selector: #selector(premiumAllert), userInfo: nil, repeats: false)
+       timer = Timer.scheduledTimer(timeInterval: 999.0, target: self, selector: #selector(premiumAllert), userInfo: nil, repeats: false)
     }
     
     deinit {

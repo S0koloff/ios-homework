@@ -9,7 +9,7 @@ import UIKit
 
 protocol UserService {
     
-    func checkService(login: String) -> User?
+    func checkService(email: String) -> User?
     
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LoginViewControllerDelegate {
+protocol LoginViewControllerDelegate  {
     
-    func check(log: String, pass: String) -> Result<Bool, DataBaseError>
+//    func check(log: String, pass: String) -> Result<Bool, DataBaseError>
 }

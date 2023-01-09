@@ -28,10 +28,6 @@ struct Answer: Decodable {
     var resoult: [Planet]
 }
 
-var infoVC: InfoViewController?
-
-var array = infoVC?.arrayOfPeoples
-
 func planetDateConfig (completion: ((_ planet: Planet?, _ errorText: String?) -> Void)?) {
     
     let session = URLSession(configuration: .default)
@@ -73,11 +69,43 @@ func planetDateConfig (completion: ((_ planet: Planet?, _ errorText: String?) ->
     
 }
 
-//func peopleDateConfig(completion: ((_ name: String?, _ textError: String?) -> Void)?) {
-//
-//    let session = URLSession(configuration: .default)
-//    
-//    let array = infoVC?.arrayOfPeoples
-//
-//    let url = URL(string: (array.map)?)
-//}
+func peopleDateConfig(for config: String, completion: ((_ peoplesOnPlanet: PeoplesOnPlanet?, _ textError: String?) -> Void)?) {
+
+    let session = URLSession(configuration: .default)
+
+    let url = URL(string: config )
+    
+    let task = session.dataTask(with: url!) { data, response, error in
+        
+        if let error {
+            print(error)
+            return
+        }
+        
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        if statusCode != 200 {
+            print("Error of statusCode", statusCode as Any)
+            completion?(nil, "Error of statusCode: \(String(describing: statusCode))")
+            
+            return
+        }
+        
+        guard let data else {
+            print("Error of data")
+            completion?(nil, "Error of data")
+            
+            return
+        }
+        
+        do {
+            let peoplesOnPlanet  = try JSONDecoder().decode(PeoplesOnPlanet.self, from: data)
+            completion?(peoplesOnPlanet, nil)
+        } catch {
+            print(error)
+            completion?(nil, error.localizedDescription)
+        }
+    }
+    
+    task.resume()
+    
+}

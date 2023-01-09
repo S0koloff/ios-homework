@@ -28,8 +28,8 @@ struct NetworkManager {
                 return
             }
             
-            if let allHeaderFields = (responce as! HTTPURLResponse).allHeaderFields as? [String: Any] {
-                print(allHeaderFields)
+            if (responce as! HTTPURLResponse).allHeaderFields is [String: Any] {
+                print("allHeaderFields work")
             }
             
             guard let data else {
