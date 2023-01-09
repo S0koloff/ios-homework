@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
+import SwiftEntryKit
+
 
 class LogInViewController: UIViewController {
     
@@ -24,11 +28,11 @@ class LogInViewController: UIViewController {
     
     
 
-#if DEBUG
-        var userService = TestUserService()
-#else
-        var userService = CurrentUserService()
-#endif
+//#if DEBUG
+//        var userService = TestUserService()
+//#else
+//        var userService = CurrentUserService()
+//#endif
     
     let logoImage = UIImage(named: "vklogo")
     
@@ -178,7 +182,6 @@ class LogInViewController: UIViewController {
         super.viewDidAppear(animated)
         self.loginTextField.becomeFirstResponder()
     }
-    
 
     @objc private func kbShow(_ notification: Notification) {
         
@@ -210,22 +213,86 @@ class LogInViewController: UIViewController {
         self.scrollView.setContentOffset(.zero, animated: true)
     
     }
-        
-    @objc private func buttonAction() {
     
-        let user = userService.user
+    func setupRegistrationPopUpView() -> EKFormMessageView {
         
-        if factory.makeLoginInspector().check(log: loginTextField.text!, pass: passwordTextField.text!) == .success(true) {
-//        if userService.checkService(login: loginTextField.text!) != nil {
-            let profileViewController = ProfileViewController(user: user)
-            self.navigationController?.pushViewController(profileViewController, animated: true)
-        } else {
-            let alert = UIAlertController(title: "Incorrect login", message: "Please, enter correct login", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
-            self.present(alert, animated: true)
+        var title = EKProperty.LabelContent(text: "Sign Up", style: .init(font: UIFont.systemFont(ofSize: 20), color: .black))
+        
+        let email = EKProperty.LabelContent(text: "Email...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
+        let pass = EKProperty.LabelContent(text: "The password must be 6 characters long or more...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
+
+        
+        let emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black))
+        let passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black))
+
+        var buttonLabel = EKProperty.LabelContent(text: "Sign Up", style: .init(font: UIFont.systemFont(ofSize: 17), color: .white))
+        
+        var button = EKProperty.ButtonContent(label: buttonLabel, backgroundColor: .init(red: 0, green: 125, blue: 255), highlightedBackgroundColor: .clear) {
+            
+            let checkerService = CheckerService()
+            checkerService.signUp(for: emailTextField.textContent, and: passTextField.textContent) { result in
+                switch result {
+                case .success(let user):
+                    let profileViewController = ProfileViewController(user: user)
+                    self.navigationController?.pushViewController(profileViewController, animated: true)
+                    SwiftEntryKit.dismiss()
+                case .failure(let error):
+//                    SwiftEntryKit.display(entry: <#T##UIView#>, using: <#T##EKAttributes#>)
+                    print("Error of registration", error)
+                }
+            }
         }
         
+        let message = EKFormMessageView(with: title, textFieldsContent: [emailTextField, passTextField], buttonContent: button)
+        
+        return message
     }
+    
+    private func registrationAllert() {
+        SwiftEntryKit.display(entry: setupRegistrationPopUpView(), using: setupAttributesForRegistration())
+    }
+        
+    @objc private func buttonAction() {
+        
+        let checkerService = CheckerService()
+
+        checkerService.checkCredentials(for: loginTextField.text!, and: passwordTextField.text!) { result in
+            switch result {
+            case .success(let user):
+                let profileViewController = ProfileViewController(user: user)
+                self.navigationController?.pushViewController(profileViewController, animated: true)
+            case .failure(let error):
+                let alert = UIAlertController(title: "User not found!", message: "Please, register a new account or enter correct date", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+
+                let signUp = UIAlertAction(title: "Sign Up", style: .default) { _ in
+                    
+                    self.registrationAllert()
+                }
+                
+                alert.addAction(signUp)
+                self.present(alert, animated: true)
+                print("Error of date",error)
+            }
+        }
+
+    }
+        
+        
+//        if factory.makeLoginInspector().check(log: loginTextField.text!, pass: passwordTextField.text!) == .success(true) {
+//        if userService.checkService(login: loginTextField.text!) != nil {
+//            let profileViewController = ProfileViewController(user: user)
+//            self.navigationController?.pushViewController(profileViewController, animated: true)
+//        } else {
+//            let alert = UIAlertController(title: "Incorrect login", message: "Please, enter correct login", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+//            let signUp = UIAlertAction(title: "Sign Up", style: .default) { _ in
+//            }
+//            alert.addAction(signUp)
+//            self.present(alert, animated: true)
+//        }
+//
+//    }
     
     private func createTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1.0,
