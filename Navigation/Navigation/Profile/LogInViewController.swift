@@ -25,8 +25,6 @@ class LogInViewController: UIViewController {
     var timer: Timer?
     
     var timeOfBrute = 0
-    
-    
 
 //#if DEBUG
 //        var userService = TestUserService()
@@ -117,6 +115,25 @@ class LogInViewController: UIViewController {
         return timeToBrute
     }()
     
+    private lazy var regLabel: UILabel = {
+        let regLabel = UILabel()
+        regLabel.font = UIFont.systemFont(ofSize: 13)
+        regLabel.translatesAutoresizingMaskIntoConstraints = false
+        regLabel.text = "If you don't have an account, you can"
+        return regLabel
+    }()
+    
+    private lazy var regButton: UIButton = {
+        let regButton = UIButton()
+        regButton.setTitle("register", for: .normal)
+        regButton.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        regButton.setTitleColor(.systemBlue, for: .normal)
+        regButton.addTarget(self, action: #selector(self.regButtonAction), for: .touchUpInside)
+        regButton.translatesAutoresizingMaskIntoConstraints = false
+        return regButton
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -132,6 +149,8 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.generateButton)
         self.scrollView.addSubview(self.activityInticator)
         self.scrollView.addSubview(self.timeToBrute)
+        self.scrollView.addSubview(self.regLabel)
+        self.scrollView.addSubview(self.regButton)
         self.textFieldsStackView.addArrangedSubview(self.loginTextField)
         self.textFieldsStackView.addArrangedSubview(self.passwordTextField)
         
@@ -152,7 +171,7 @@ class LogInViewController: UIViewController {
             self.activityInticator.bottomAnchor.constraint(equalTo: self.generateButton.topAnchor, constant: -20),
             self.activityInticator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             
-            self.generateButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
+            self.generateButton.topAnchor.constraint(equalTo: self.regLabel.bottomAnchor, constant: 16),
             self.generateButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
             self.generateButton.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -16),
             self.generateButton.bottomAnchor.constraint(equalTo: self.generateButton.topAnchor, constant: 36),
@@ -162,10 +181,19 @@ class LogInViewController: UIViewController {
             self.logoImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.116144),
             self.logoImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.241546),
             
-            self.editButton.topAnchor.constraint(equalTo: self.generateButton.bottomAnchor, constant: 16),
+            self.editButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
             self.editButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
             self.editButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
-            self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072)
+            self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
+            
+            self.regLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 16),
+
+            self.regLabel.bottomAnchor.constraint(equalTo: self.regLabel.topAnchor, constant: 16),
+            self.regLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -24),
+            
+            self.regButton.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 16),
+            self.regButton.leftAnchor.constraint(equalTo: self.regLabel.rightAnchor,constant: 5),
+            self.regButton.bottomAnchor.constraint(equalTo: self.regButton.topAnchor, constant: 16),
             
             ])
     }
@@ -181,6 +209,7 @@ class LogInViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.loginTextField.becomeFirstResponder()
+        self.passwordTextField.text = ""
     }
 
     @objc private func kbShow(_ notification: Notification) {
@@ -216,29 +245,42 @@ class LogInViewController: UIViewController {
     
     func setupRegistrationPopUpView() -> EKFormMessageView {
         
-        var title = EKProperty.LabelContent(text: "Sign Up", style: .init(font: UIFont.systemFont(ofSize: 20), color: .black))
+        let title = EKProperty.LabelContent(text: "Registration", style: .init(font: UIFont.systemFont(ofSize: 20), color: .black))
         
         let email = EKProperty.LabelContent(text: "Email...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
-        let pass = EKProperty.LabelContent(text: "The password must be 6 characters long or more...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
-
+        let pass = EKProperty.LabelContent(text:"Password...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
         
-        let emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black))
-        let passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black))
-
-        var buttonLabel = EKProperty.LabelContent(text: "Sign Up", style: .init(font: UIFont.systemFont(ofSize: 17), color: .white))
+        var emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black), leadingImage: UIImage(systemName: "person"))
         
-        var button = EKProperty.ButtonContent(label: buttonLabel, backgroundColor: .init(red: 0, green: 125, blue: 255), highlightedBackgroundColor: .clear) {
+        emailTextField.textContent = self.loginTextField.text ?? ""
+        
+        var passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black), leadingImage: UIImage(systemName: "key"))
+        
+        passTextField.textContent = self.passwordTextField.text ?? ""
+        passTextField.isSecure = true
+
+        let buttonLabel = EKProperty.LabelContent(text: "Sign Up", style: .init(font: UIFont.systemFont(ofSize: 17), color: .white))
+                
+        let button = EKProperty.ButtonContent(label: buttonLabel, backgroundColor: .init(red: 71, green: 134, blue: 204), highlightedBackgroundColor: .clear) {
             
-            let checkerService = CheckerService()
-            checkerService.signUp(for: emailTextField.textContent, and: passTextField.textContent) { result in
-                switch result {
-                case .success(let user):
-                    let profileViewController = ProfileViewController(user: user)
-                    self.navigationController?.pushViewController(profileViewController, animated: true)
-                    SwiftEntryKit.dismiss()
-                case .failure(let error):
-//                    SwiftEntryKit.display(entry: <#T##UIView#>, using: <#T##EKAttributes#>)
-                    print("Error of registration", error)
+            if emailTextField.textContent.isValidEmail == false {
+                print("Email error")
+                } else {
+                    if passTextField.textContent.isValidPass == false {
+                        print("Pass error")
+                    } else {
+                
+                let checkerService = CheckerService()
+                    checkerService.signUp(for: emailTextField.textContent, and: passTextField.textContent) { result in
+                        switch result {
+                        case .success(let user):
+                            let profileViewController = ProfileViewController(user: user)
+                            self.navigationController?.pushViewController(profileViewController, animated: true)
+                            SwiftEntryKit.dismiss()
+                        case .failure(let error):
+                            print("Error of registration", error)
+                        }
+                    }
                 }
             }
         }
@@ -262,7 +304,7 @@ class LogInViewController: UIViewController {
                 let profileViewController = ProfileViewController(user: user)
                 self.navigationController?.pushViewController(profileViewController, animated: true)
             case .failure(let error):
-                let alert = UIAlertController(title: "User not found!", message: "Please, register a new account or enter correct date", preferredStyle: .alert)
+                let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct date", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Close", style: .cancel))
 
                 let signUp = UIAlertAction(title: "Sign Up", style: .default) { _ in
@@ -293,6 +335,10 @@ class LogInViewController: UIViewController {
 //        }
 //
 //    }
+    
+    @objc private func regButtonAction() {
+        registrationAllert()
+    }
     
     private func createTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -340,5 +386,15 @@ class LogInViewController: UIViewController {
       timer?.invalidate()
     }
     
+}
+
+extension String {
+    var isValidEmail: Bool {
+        NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}").evaluate(with: self)
+    }
+    
+    var isValidPass: Bool {
+        NSPredicate(format: "SELF MATCHES %@", "^[A-Za-z\\d]{6,}$").evaluate(with: self)
+    }
 }
 

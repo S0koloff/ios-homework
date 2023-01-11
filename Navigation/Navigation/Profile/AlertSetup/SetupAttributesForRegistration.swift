@@ -11,7 +11,6 @@ import SwiftEntryKit
 func setupAttributesForRegistration() -> EKAttributes {
     
     var attributes = EKAttributes.centerFloat
-    attributes.position = .top
     attributes.displayDuration = .infinity
     attributes.entryBackground =  .color(color: .white)
     attributes.screenBackground = .color(color: .init(light: UIColor(white: 100.0/255.0, alpha: 0.9), dark: UIColor(white: 50.0/255.0, alpha: 0.9)))
@@ -22,6 +21,11 @@ func setupAttributesForRegistration() -> EKAttributes {
             radius: 8
         )
     )
+    
+    let offset = EKAttributes.PositionConstraints.KeyboardRelation.Offset(bottom: 10, screenEdgeResistance: 20)
+    let keyboardRelation = EKAttributes.PositionConstraints.KeyboardRelation.bind(offset: offset)
+    attributes.positionConstraints.keyboardRelation = keyboardRelation
+    
     attributes.screenInteraction = .dismiss
     attributes.entryInteraction = .absorbTouches
     
