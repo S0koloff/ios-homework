@@ -14,6 +14,8 @@
 		154C182729720DA600119E17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154C182629720DA600119E17 /* Assets.xcassets */; };
 		154C182A29720DA600119E17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 154C182829720DA600119E17 /* LaunchScreen.storyboard */; };
 		154C18322972173B00119E17 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C18312972173B00119E17 /* TableViewController.swift */; };
+		154C183B2975690000119E17 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 154C183A2975690000119E17 /* KeychainAccess */; };
+		154C183F2975AC1B00119E17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C183E2975AC1B00119E17 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,7 @@
 		154C182929720DA600119E17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		154C182B29720DA600119E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		154C18312972173B00119E17 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		154C183E2975AC1B00119E17 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				154C183B2975690000119E17 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +66,7 @@
 				154C181F29720DA500119E17 /* SceneDelegate.swift */,
 				154C182129720DA500119E17 /* ViewController.swift */,
 				154C18312972173B00119E17 /* TableViewController.swift */,
+				154C183E2975AC1B00119E17 /* SettingsViewController.swift */,
 				154C182329720DA500119E17 /* Main.storyboard */,
 				154C182629720DA600119E17 /* Assets.xcassets */,
 				154C182829720DA600119E17 /* LaunchScreen.storyboard */,
@@ -86,6 +91,9 @@
 			dependencies = (
 			);
 			name = FileManager;
+			packageProductDependencies = (
+				154C183A2975690000119E17 /* KeychainAccess */,
+			);
 			productName = FileManager;
 			productReference = 154C181A29720DA500119E17 /* FileManager.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +122,9 @@
 				Base,
 			);
 			mainGroup = 154C181129720DA500119E17;
+			packageReferences = (
+				154C18392975690000119E17 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+			);
 			productRefGroup = 154C181B29720DA500119E17 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -144,6 +155,7 @@
 				154C182229720DA500119E17 /* ViewController.swift in Sources */,
 				154C181E29720DA500119E17 /* AppDelegate.swift in Sources */,
 				154C182029720DA500119E17 /* SceneDelegate.swift in Sources */,
+				154C183F2975AC1B00119E17 /* SettingsViewController.swift in Sources */,
 				154C18322972173B00119E17 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,6 +374,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		154C18392975690000119E17 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		154C183A2975690000119E17 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154C18392975690000119E17 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 154C181229720DA500119E17 /* Project object */;
 }
