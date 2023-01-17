@@ -24,7 +24,6 @@ class ViewController: UIViewController {
         print(keychain["password"] ?? "Not found keychain")
         
         setupButton()
-        // Do any additional setup after loading the view.
     }
     
     func setupButton() {

@@ -43,9 +43,11 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         checkList()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: NSNotification.Name(rawValue: "settingsUpdate"), object: nil)
 
     }
-
+    
     @IBAction func AddNewImage(_ sender: Any) {
         
             let imagePicker = UIImagePickerController()
@@ -53,6 +55,10 @@ class TableViewController: UITableViewController {
             imagePicker.delegate = self
             present(imagePicker, animated: true)
            
+    }
+    
+    @objc func refreshTable() {
+        tableView.reloadData()
     }
     // MARK: - Table view data source
 
@@ -62,6 +68,8 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        
         
         let sortContent = sortContent()
         

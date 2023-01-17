@@ -41,7 +41,8 @@ class SettingsViewController: UIViewController {
             print("Sort disabled")
         }
         
-        tableVcDelegate?.tableView.reloadData()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "settingsUpdate"), object: nil)
+        
     }
     
     @IBAction func changePassAction(_ sender: Any) {
