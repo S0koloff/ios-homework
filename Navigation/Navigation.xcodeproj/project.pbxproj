@@ -26,6 +26,9 @@
 		15418ECC294F4D9D00A0992D /* CustomPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15418ECB294F4D9D00A0992D /* CustomPopUpView.swift */; };
 		15418ED0294F810200A0992D /* SetupAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15418ECF294F810200A0992D /* SetupAttributes.swift */; };
 		15437F81294BA87C00551CD5 /* BruteForce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15437F80294BA87C00551CD5 /* BruteForce.swift */; };
+		154C18422978902F00119E17 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 154C18412978902F00119E17 /* RealmSwift */; };
+		154C18452978A96700119E17 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C18442978A96700119E17 /* Model.swift */; };
+		154C18472978ACEF00119E17 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C18462978ACEF00119E17 /* Service.swift */; };
 		156C672D28B662BE0049D8FE /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156C672C28B662BE0049D8FE /* PostViewController.swift */; };
 		156C673128B6986D0049D8FE /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156C673028B6986D0049D8FE /* InfoViewController.swift */; };
 		1576AA79290A829E00892203 /* ProfileHeaderViewTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576AA78290A829E00892203 /* ProfileHeaderViewTable.swift */; };
@@ -150,6 +153,8 @@
 		15418ECB294F4D9D00A0992D /* CustomPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpView.swift; sourceTree = "<group>"; };
 		15418ECF294F810200A0992D /* SetupAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAttributes.swift; sourceTree = "<group>"; };
 		15437F80294BA87C00551CD5 /* BruteForce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForce.swift; sourceTree = "<group>"; };
+		154C18442978A96700119E17 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		154C18462978ACEF00119E17 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		156C672C28B662BE0049D8FE /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		156C673028B6986D0049D8FE /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		1576AA78290A829E00892203 /* ProfileHeaderViewTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewTable.swift; sourceTree = "<group>"; };
@@ -228,6 +233,7 @@
 				15FB00F2296B2AF5009A2661 /* FirebaseInstallations in Frameworks */,
 				15FB00E6296B2AF5009A2661 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				15FB00F0296B2AF5009A2661 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
+				154C18422978902F00119E17 /* RealmSwift in Frameworks */,
 				15F0A28A29366E610056D20F /* iOSIntPackage in Frameworks */,
 				15FB00F4296B2AF5009A2661 /* FirebaseMLModelDownloader in Frameworks */,
 				15FB00F6296B2AF5009A2661 /* FirebaseMessaging in Frameworks */,
@@ -286,6 +292,15 @@
 				15B9E97C296B880100EEDAC6 /* SetupAttributesForRegistration.swift */,
 			);
 			path = AlertSetup;
+			sourceTree = "<group>";
+		};
+		154C18432978A8BB00119E17 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				154C18462978ACEF00119E17 /* Service.swift */,
+				154C18442978A96700119E17 /* Model.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		1577080B2928455E0072D985 /* UserSetup */ = {
@@ -428,8 +443,8 @@
 				1586C1BD29226B6C00923156 /* Library */,
 				15F0A28D293B83D80056D20F /* All of LoginCheck */,
 				15418ED1294F816A00A0992D /* AlertSetup */,
-				15437F80294BA87C00551CD5 /* BruteForce.swift */,
 				1579FA37296B20670049A43A /* CheckerService */,
+				154C18432978A8BB00119E17 /* Realm */,
 				15B4230A2953AE27008724C4 /* EnumErrors.swift */,
 				15AF9EC928CA1D8A00E46AA3 /* LogInViewController.swift */,
 				1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */,
@@ -459,6 +474,7 @@
 		15F0A28D293B83D80056D20F /* All of LoginCheck */ = {
 			isa = PBXGroup;
 			children = (
+				15437F80294BA87C00551CD5 /* BruteForce.swift */,
 				1594ABE4292FCAC400EDC0A2 /* Cheker Singleton */,
 				1594ABF02932F03A00EDC0A2 /* LoginDelegate */,
 				1594ABEF2932F01E00EDC0A2 /* Factory */,
@@ -591,6 +607,7 @@
 				15FB00FB296B2AF5009A2661 /* FirebaseRemoteConfigSwift */,
 				15FB00FD296B2AF5009A2661 /* FirebaseStorage */,
 				15FB00FF296B2AF5009A2661 /* FirebaseStorageCombine-Community */,
+				154C18412978902F00119E17 /* RealmSwift */,
 			);
 			productName = Navigation;
 			productReference = 15A679DF28B52944008C6CC4 /* Navigation.app */;
@@ -632,6 +649,7 @@
 				15418EC8294F4A0B00A0992D /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 				1508C426295774A40009C707 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 				15FB00CA296B2AF5009A2661 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				154C18402978902E00119E17 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 15A679E028B52944008C6CC4 /* Products */;
 			projectDirPath = "";
@@ -712,6 +730,7 @@
 				15E8E46D28B805F100408B4A /* PostBarController.swift in Sources */,
 				1576AA79290A829E00892203 /* ProfileHeaderViewTable.swift in Sources */,
 				15940C622900158C00682791 /* PhotosTableViewCell.swift in Sources */,
+				154C18452978A96700119E17 /* Model.swift in Sources */,
 				159E8DD92901A804008A6A11 /* PhotosViewController.swift in Sources */,
 				15B4231E29573689008724C4 /* Music.swift in Sources */,
 				15CFB5E62964510600D605D2 /* PlanetDateConfig.swift in Sources */,
@@ -724,6 +743,7 @@
 				15A679E328B52944008C6CC4 /* AppDelegate.swift in Sources */,
 				150B84FB295C989700838A9A /* NetworkManager .swift in Sources */,
 				15B9E97D296B880100EEDAC6 /* SetupAttributesForRegistration.swift in Sources */,
+				154C18472978ACEF00119E17 /* Service.swift in Sources */,
 				1586C1BC29226B5200923156 /* PhotosCollection.swift in Sources */,
 				15F0A28F293B8B7D0056D20F /* CustomButton.swift in Sources */,
 				1594ABEC2931754F00EDC0A2 /* LoginFactory.swift in Sources */,
@@ -1100,6 +1120,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		154C18402978902E00119E17 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		15F0A28829366E610056D20F /* XCRemoteSwiftPackageReference "iOSIntPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TrueMax/iOSIntPackage.git";
@@ -1128,6 +1156,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 15418EC8294F4A0B00A0992D /* XCRemoteSwiftPackageReference "SwiftEntryKit" */;
 			productName = SwiftEntryKit;
+		};
+		154C18412978902F00119E17 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154C18402978902E00119E17 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		15F0A28929366E610056D20F /* iOSIntPackage */ = {
 			isa = XCSwiftPackageProductDependency;

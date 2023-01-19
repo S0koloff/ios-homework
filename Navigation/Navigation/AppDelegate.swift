@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseAuth
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        
+        let config = Realm.Configuration(schemaVersion: 2)
+        Realm.Configuration.defaultConfiguration = config
 
         return true
     }

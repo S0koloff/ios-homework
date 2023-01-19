@@ -9,6 +9,7 @@ import UIKit
 import FirebaseCore
 import FirebaseAuth
 import SwiftEntryKit
+import RealmSwift
 
 
 class LogInViewController: UIViewController {
@@ -20,6 +21,12 @@ class LogInViewController: UIViewController {
     var bruteForce = GeneratePassAndBruteForce()
     
     let concurrentQueue = DispatchQueue(label: "App.cuncurrent", qos: .userInteractive, attributes: [.concurrent])
+    
+    var realm = try! Realm()
+    
+    var service = Service()
+    
+    var profileDate: ProfileDate?
 
 
     var timer: Timer?
@@ -139,6 +146,12 @@ class LogInViewController: UIViewController {
         view.backgroundColor = .white
         self.tabBarController?.tabBar.isHidden = true
         
+        checkAuthorization()
+        
+        realm.objects(ProfileDate.self)
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL)
+        
         setupGesture()
         
         self.view.addSubview(self.scrollView)
@@ -210,6 +223,26 @@ class LogInViewController: UIViewController {
         super.viewDidAppear(animated)
         self.loginTextField.becomeFirstResponder()
         self.passwordTextField.text = ""
+        
+    }
+    
+    func checkAuthorization() {
+        
+        let profileAuth = realm.objects(ProfileDate.self)
+        
+        print("login:", profileAuth.first?.login as Any)
+        print("password", profileAuth.first?.password as Any)
+
+        if profileAuth.contains(where: { $0.authorization == true}) {
+            
+            self.loginTextField.text = profileAuth.first?.login
+            self.passwordTextField.text = profileAuth.first?.password
+            
+            buttonAction()
+            
+        } else {
+            print("Error check")
+        }
     }
 
     @objc private func kbShow(_ notification: Notification) {
@@ -265,12 +298,14 @@ class LogInViewController: UIViewController {
             
             if emailTextField.textContent.isValidEmail == false {
                 print("Email error")
+            } else {
+                if passTextField.textContent.isValidPass == false {
+                    print("Pass error")
                 } else {
-                    if passTextField.textContent.isValidPass == false {
-                        print("Pass error")
-                    } else {
-                
-                let checkerService = CheckerService()
+                    
+                    self.service.createProfile(login: emailTextField.textContent, password: passTextField.textContent, authorization: true)
+                    
+                    let checkerService = CheckerService()
                     checkerService.signUp(for: emailTextField.textContent, and: passTextField.textContent) { result in
                         switch result {
                         case .success(let user):
