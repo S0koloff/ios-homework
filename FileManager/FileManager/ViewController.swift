@@ -14,9 +14,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var passTextField: UITextField!
     
-    var checkFirstPass = ""
+    private var checkFirstPass = ""
     
-    let keychain = Keychain(service: "FileManager.password.token")
+    private let keychain = Keychain(service: "FileManager.password.token")
     
     override func viewDidLoad() {
         super.viewDidLoad()

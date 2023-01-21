@@ -71,6 +71,10 @@
 		15CFB5E62964510600D605D2 /* PlanetDateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CFB5E52964510600D605D2 /* PlanetDateConfig.swift */; };
 		15CFB5E8296859F700D605D2 /* NamesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CFB5E7296859F700D605D2 /* NamesTableViewCell.swift */; };
 		15CFB5EA296B07D400D605D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15CFB5E9296B07D400D605D2 /* GoogleService-Info.plist */; };
+		15D987BE297B20E100C81847 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D987BD297B20E100C81847 /* TableViewController.swift */; };
+		15D987C1297B2C6600C81847 /* FavoriteNewsData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 15D987BF297B2C6600C81847 /* FavoriteNewsData.xcdatamodeld */; };
+		15D987C4297B32DB00C81847 /* FavoriteNewsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D987C3297B32DB00C81847 /* FavoriteNewsDataManager.swift */; };
+		15D987C6297B46D000C81847 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D987C5297B46D000C81847 /* TableViewCell.swift */; };
 		15E8E46D28B805F100408B4A /* PostBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8E46C28B805F100408B4A /* PostBarController.swift */; };
 		15F0A28A29366E610056D20F /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 15F0A28929366E610056D20F /* iOSIntPackage */; };
 		15F0A28C29386E320056D20F /* PhotosCollectionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0A28B29386E320056D20F /* PhotosCollectionFilter.swift */; };
@@ -199,6 +203,10 @@
 		15CFB5E52964510600D605D2 /* PlanetDateConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetDateConfig.swift; sourceTree = "<group>"; };
 		15CFB5E7296859F700D605D2 /* NamesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesTableViewCell.swift; sourceTree = "<group>"; };
 		15CFB5E9296B07D400D605D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		15D987BD297B20E100C81847 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		15D987C0297B2C6600C81847 /* FavoriteNewsData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavoriteNewsData.xcdatamodel; sourceTree = "<group>"; };
+		15D987C3297B32DB00C81847 /* FavoriteNewsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNewsDataManager.swift; sourceTree = "<group>"; };
+		15D987C5297B46D000C81847 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		15E8E46C28B805F100408B4A /* PostBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBarController.swift; sourceTree = "<group>"; };
 		15F0A28B29386E320056D20F /* PhotosCollectionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionFilter.swift; sourceTree = "<group>"; };
 		15F0A28E293B8B7D0056D20F /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -417,6 +425,7 @@
 				15F0A294293D17AA0056D20F /* CustomModels */,
 				15CBC33F28BA487000EB348D /* Profile */,
 				15F0A292293D175A0056D20F /* Feed */,
+				15D987C2297B2C7300C81847 /* FavoriteNews */,
 				15A679EB28B52946008C6CC4 /* Assets.xcassets */,
 				15A679ED28B52946008C6CC4 /* LaunchScreen.storyboard */,
 				15CFB5E9296B07D400D605D2 /* GoogleService-Info.plist */,
@@ -469,6 +478,17 @@
 				15CFB5E52964510600D605D2 /* PlanetDateConfig.swift */,
 			);
 			path = Info;
+			sourceTree = "<group>";
+		};
+		15D987C2297B2C7300C81847 /* FavoriteNews */ = {
+			isa = PBXGroup;
+			children = (
+				15D987BD297B20E100C81847 /* TableViewController.swift */,
+				15D987C5297B46D000C81847 /* TableViewCell.swift */,
+				15D987C3297B32DB00C81847 /* FavoriteNewsDataManager.swift */,
+				15D987BF297B2C6600C81847 /* FavoriteNewsData.xcdatamodeld */,
+			);
+			path = FavoriteNews;
 			sourceTree = "<group>";
 		};
 		15F0A28D293B83D80056D20F /* All of LoginCheck */ = {
@@ -720,6 +740,7 @@
 				156C672D28B662BE0049D8FE /* PostViewController.swift in Sources */,
 				15CBC34528BAACA500EB348D /* Profile.swift in Sources */,
 				15437F81294BA87C00551CD5 /* BruteForce.swift in Sources */,
+				15D987C4297B32DB00C81847 /* FavoriteNewsDataManager.swift in Sources */,
 				1598CF9728DDE86D002A35F0 /* PostTableViewCell.swift in Sources */,
 				15B4230D29567A5B008724C4 /* AudioViewController.swift in Sources */,
 				1508C4312957D4A80009C707 /* YoutubeTableViewCell.swift in Sources */,
@@ -735,6 +756,7 @@
 				15B4231E29573689008724C4 /* Music.swift in Sources */,
 				15CFB5E62964510600D605D2 /* PlanetDateConfig.swift in Sources */,
 				150B84FD295CA66C00838A9A /* AppConfiguration.swift in Sources */,
+				15D987BE297B20E100C81847 /* TableViewController.swift in Sources */,
 				1508C42A2957CFBD0009C707 /* VideoTableViewCell.swift in Sources */,
 				1577080D2928459B0072D985 /* CurrentUserService.swift in Sources */,
 				15B4230B2953AE27008724C4 /* EnumErrors.swift in Sources */,
@@ -753,12 +775,14 @@
 				15A67A1728B533B4008C6CC4 /* FeedViewController.swift in Sources */,
 				1586C1C42922885400923156 /* PostHeader.swift in Sources */,
 				1594ABEE29322B6A00EDC0A2 /* MyLoginFactory.swift in Sources */,
+				15D987C6297B46D000C81847 /* TableViewCell.swift in Sources */,
 				1577080F292A5F430072D985 /* TestUserService.swift in Sources */,
 				15418ECC294F4D9D00A0992D /* CustomPopUpView.swift in Sources */,
 				1577080A292843730072D985 /* UserService.swift in Sources */,
 				15CFB5E8296859F700D605D2 /* NamesTableViewCell.swift in Sources */,
 				1586C1C02922839800923156 /* PostCollection.swift in Sources */,
 				15B4230F29568A22008724C4 /* MusicTableViewCell.swift in Sources */,
+				15D987C1297B2C6600C81847 /* FavoriteNewsData.xcdatamodeld in Sources */,
 				152C455B2902FC93001D46E6 /* PhotosCollectionViewCell.swift in Sources */,
 				15F0A28C29386E320056D20F /* PhotosCollectionFilter.swift in Sources */,
 				1586C1C62922888A00923156 /* PostHeaderCollection.swift in Sources */,
@@ -1303,6 +1327,19 @@
 			productName = "FirebaseStorageCombine-Community";
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		15D987BF297B2C6600C81847 /* FavoriteNewsData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				15D987C0297B2C6600C81847 /* FavoriteNewsData.xcdatamodel */,
+			);
+			currentVersion = 15D987C0297B2C6600C81847 /* FavoriteNewsData.xcdatamodel */;
+			path = FavoriteNewsData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 15A679D728B52944008C6CC4 /* Project object */;
 }

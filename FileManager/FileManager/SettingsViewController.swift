@@ -8,27 +8,27 @@
 import UIKit
 import KeychainAccess
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
     
-    var tableVcDelegate: TableViewController?
+    private var tableVcDelegate: TableViewController?
     
-    let keychain = Keychain(service: "FileManager.password.token")
+    private let keychain = Keychain(service: "FileManager.password.token")
     
-    @IBOutlet weak var changePasssButton: UIButton!
+    @IBOutlet private weak var changePasssButton: UIButton!
     
-    @IBOutlet weak var sortSwitch: UISwitch!
+    @IBOutlet private weak var sortSwitch: UISwitch!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if UserDefaults.standard.bool(forKey: "sortValues") {
-                   sortSwitch.setOn(true, animated: false)
-               } else {
-                   sortSwitch.setOn(false, animated: false)
-               }
-               
-               sortSwitch.addTarget(self, action: #selector(sortSwitchAction), for: .valueChanged)
+            sortSwitch.setOn(true, animated: false)
+        } else {
+            sortSwitch.setOn(false, animated: false)
+        }
+        
+        sortSwitch.addTarget(self, action: #selector(sortSwitchAction), for: .valueChanged)
     }
     
     @IBAction func sortSwitchAction(_ sender: Any) {

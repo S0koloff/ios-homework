@@ -10,6 +10,9 @@ import StorageService
 
 public class PostTableViewCell: UITableViewCell {
     
+    let newsCoreData = FavoriteNewsDataManager.shared
+    var indexPatch: IndexPath!
+    
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
@@ -50,6 +53,7 @@ public class PostTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         self.setupView()
     }
     
@@ -65,18 +69,32 @@ public class PostTableViewCell: UITableViewCell {
         self.viewsLabel.text = post.views
         
     }
+
+        @objc func doubleTapFunc() {
+            
+            newsCoreData.createNews(title: titleLabel.text!, image: "imageNotFound", text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!)
+                newsCoreData.reloadNews()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
+
+    }
     
     func changeText(_ text: String) {
         self.titleLabel.text = text
     }
     
     private func setupView() {
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc))
+                doubleTap.numberOfTapsRequired = 2
+                self.addGestureRecognizer(doubleTap)
+        
+        
         self.contentView.addSubview(self.myImageView)
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.subTextLabel)
         self.contentView.addSubview(self.likeLabel)
         self.contentView.addSubview(self.viewsLabel)
-        
+    
         
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),

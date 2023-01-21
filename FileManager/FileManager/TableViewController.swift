@@ -9,7 +9,7 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    var tableVcDelegate: SettingsViewController?
+    private var tableVcDelegate: SettingsViewController?
     
     var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
@@ -18,7 +18,7 @@ class TableViewController: UITableViewController {
         print("Cодержимое дериктории:", content)
     }
     
-    var content: [String] {
+    private var content: [String] {
         
         do {
             return try FileManager.default.contentsOfDirectory(atPath: path)
