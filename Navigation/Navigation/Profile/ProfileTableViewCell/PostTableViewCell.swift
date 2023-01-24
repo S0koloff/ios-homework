@@ -13,6 +13,9 @@ public class PostTableViewCell: UITableViewCell {
     let newsCoreData = FavoriteNewsDataManager.shared
     var indexPatch: IndexPath!
     
+    var id = ""
+    var imageName = ""
+    
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
@@ -49,6 +52,16 @@ public class PostTableViewCell: UITableViewCell {
         return viewsLabel
     }()
     
+    private lazy var addedFavorite: UILabel = {
+        let addedFavorite = UILabel()
+        addedFavorite.text = "Added to favorite ✓"
+        addedFavorite.textColor = .systemGray2
+        addedFavorite.font = UIFont.systemFont(ofSize: 13)
+        addedFavorite.isHidden = true
+        addedFavorite.translatesAutoresizingMaskIntoConstraints = false
+        return addedFavorite
+    }()
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -61,8 +74,10 @@ public class PostTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-   public func setup(with post: Post) {
-        self.myImageView.image = post.image
+    public func setup(with post: Post) {
+        self.id = post.id
+        self.myImageView.image = UIImage(named: post.image)
+        self.imageName = post.image
         self.titleLabel.text = post.title
         self.subTextLabel.text = post.text
         self.likeLabel.text = post.likes
@@ -72,10 +87,20 @@ public class PostTableViewCell: UITableViewCell {
 
         @objc func doubleTapFunc() {
             
-            newsCoreData.createNews(title: titleLabel.text!, image: "imageNotFound", text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!)
+            print("ID of this news: \(String(describing: id))")
+            
+            if let _ = newsCoreData.news.firstIndex(where: { $0.id == self.id })  {
+                
+                print("News already on favorite")
+                
+            }else {
+                
+                newsCoreData.createNews(id: id, title: titleLabel.text!, image: imageName, text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!)
                 newsCoreData.reloadNews()
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
-
+                
+                self.addedFavorite.isHidden = false
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
+            }
     }
     
     func changeText(_ text: String) {
@@ -94,11 +119,16 @@ public class PostTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.subTextLabel)
         self.contentView.addSubview(self.likeLabel)
         self.contentView.addSubview(self.viewsLabel)
+        self.contentView.addSubview(self.addedFavorite)
     
         
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),
             self.titleLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15),
+            
+            self.addedFavorite.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 19),
+            self.addedFavorite.leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor, constant: 20),
+            self.addedFavorite.rightAnchor.constraint(equalTo: self.contentView.rightAnchor,constant: -15),
             
             self.myImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 52),
             self.myImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),

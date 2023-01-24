@@ -331,27 +331,33 @@ class LogInViewController: UIViewController {
         
     @objc private func buttonAction() {
         
-        let checkerService = CheckerService()
-
-        checkerService.checkCredentials(for: loginTextField.text!, and: passwordTextField.text!) { result in
-            switch result {
-            case .success(let user):
-                let profileViewController = ProfileViewController(user: user)
-                self.navigationController?.pushViewController(profileViewController, animated: true)
-            case .failure(let error):
-                let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct date", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Close", style: .cancel))
-
-                let signUp = UIAlertAction(title: "Sign Up", style: .default) { _ in
-                    
-                    self.registrationAllert()
-                }
-                
-                alert.addAction(signUp)
-                self.present(alert, animated: true)
-                print("Error of date",error)
-            }
-        }
+        //skip login
+        let user = User(email: "", password: "", name: "Alex", image: UIImage(named: "p6")!, label: "Im very tired")
+        let profileViewController = ProfileViewController(user: user)
+        self.navigationController?.pushViewController(profileViewController, animated: true)
+        //
+        
+//        let checkerService = CheckerService()
+//
+//        checkerService.checkCredentials(for: loginTextField.text!, and: passwordTextField.text!) { result in
+//            switch result {
+//            case .success(let user):
+//                let profileViewController = ProfileViewController(user: user)
+//                self.navigationController?.pushViewController(profileViewController, animated: true)
+//            case .failure(let error):
+//                let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct date", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+//
+//                let signUp = UIAlertAction(title: "Sign Up", style: .default) { _ in
+//
+//                    self.registrationAllert()
+//                }
+//
+//                alert.addAction(signUp)
+//                self.present(alert, animated: true)
+//                print("Error of date",error)
+//            }
+//        }
 
     }
         

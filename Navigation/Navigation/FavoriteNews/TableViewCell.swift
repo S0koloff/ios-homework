@@ -55,7 +55,7 @@ class TableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setup(with news: News) {
+    func setup(with news: News) {
         self.myImageView.image = UIImage(named: (news.image ?? "imageNotFound"))
          self.titleLabel.text = news.title
          self.subTextLabel.text = news.text

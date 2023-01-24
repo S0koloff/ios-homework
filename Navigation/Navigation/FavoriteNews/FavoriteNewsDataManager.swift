@@ -52,10 +52,11 @@ class FavoriteNewsDataManager {
         self.news = news
     }
     
-    func createNews(title: String, image: String, text: String, likes: String, views: String) {
+    func createNews(id: String, title: String, image: String, text: String, likes: String, views: String) {
         
         let news = News(context: persistentContainer.viewContext)
         
+        news.id = id
         news.title = title
         news.image = image
         news.text = text
