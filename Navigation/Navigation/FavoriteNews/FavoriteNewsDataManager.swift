@@ -52,23 +52,41 @@ class FavoriteNewsDataManager {
         self.news = news
     }
     
-    func createNews(id: String, title: String, image: String, text: String, likes: String, views: String) {
+    func createNews(id: String, title: String, image: String, text: String, likes: String, views: String, completion: @escaping () -> Void) {
         
-        let news = News(context: persistentContainer.viewContext)
+//        let news = News(context: persistentContainer.viewContext)
         
-        news.id = id
-        news.title = title
-        news.image = image
-        news.text = text
-        news.likes = likes
-        news.views = views
-        
-        saveContext()
-        reloadNews()
+        persistentContainer.performBackgroundTask { contextBackground in
+            let news =  News(context: contextBackground)
+            news.id = id
+            news.title = title
+            news.image = image
+            news.text = text
+            news.likes = likes
+            news.views = views
+            
+            do {
+                try contextBackground.save()
+            } catch {
+                print(error)
+            }
+            
+            self.reloadNews()
+            completion()
+        }
+//        saveContext()
     }
     
     func deleteNews(news: News) {
         persistentContainer.viewContext.delete(news)
         reloadNews()
+    }
+    
+    func getNews(searchText: String!=nil) -> [News] {
+        let fetchRequest = News.fetchRequest()
+        if let searchText, searchText != "" {
+            fetchRequest.predicate = NSPredicate(format: "title contains[c] %@", searchText)
+        }
+        return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
     }
 }

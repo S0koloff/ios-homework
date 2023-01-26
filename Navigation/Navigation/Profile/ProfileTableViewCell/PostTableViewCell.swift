@@ -89,17 +89,21 @@ public class PostTableViewCell: UITableViewCell {
             
             print("ID of this news: \(String(describing: id))")
             
-            if let _ = newsCoreData.news.firstIndex(where: { $0.id == self.id })  {
+            if let _ = newsCoreData.news.firstIndex(where: { $0.id == self.id || $0.title == self.titleLabel.text })  {
                 
+                self.addedFavorite.text = "Already on favorite"
+                self.addedFavorite.isHidden = false
                 print("News already on favorite")
                 
-            }else {
+            } else {
                 
-                newsCoreData.createNews(id: id, title: titleLabel.text!, image: imageName, text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!)
-                newsCoreData.reloadNews()
-                
-                self.addedFavorite.isHidden = false
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
+                newsCoreData.createNews(id: id, title: titleLabel.text!, image: imageName, text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!) {
+                    DispatchQueue.main.async {
+                        self.newsCoreData.reloadNews()
+                        self.addedFavorite.isHidden = false
+                    }
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
+                }
             }
     }
     
@@ -110,10 +114,9 @@ public class PostTableViewCell: UITableViewCell {
     private func setupView() {
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc))
-                doubleTap.numberOfTapsRequired = 2
-                self.addGestureRecognizer(doubleTap)
-        
-        
+        doubleTap.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTap)
+                        
         self.contentView.addSubview(self.myImageView)
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.subTextLabel)
@@ -121,7 +124,6 @@ public class PostTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.viewsLabel)
         self.contentView.addSubview(self.addedFavorite)
     
-        
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),
             self.titleLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15),
@@ -135,16 +137,13 @@ public class PostTableViewCell: UITableViewCell {
             self.myImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
             self.myImageView.bottomAnchor.constraint(equalTo: self.subTextLabel.topAnchor, constant: -16),
             
-            
             self.subTextLabel.topAnchor.constraint(equalTo: self.myImageView.bottomAnchor, constant: 16),
             self.subTextLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15),
             self.subTextLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -15),
             self.subTextLabel.bottomAnchor.constraint(equalTo: self.likeLabel.topAnchor, constant: -16),
             
-            
             self.likeLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             self.likeLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 10),
-            
             
             self.viewsLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             self.viewsLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -10)

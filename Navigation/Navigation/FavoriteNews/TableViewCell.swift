@@ -13,6 +13,7 @@ class TableViewCell: UITableViewCell {
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -67,7 +68,7 @@ class TableViewCell: UITableViewCell {
      func changeText(_ text: String) {
          self.titleLabel.text = text
      }
-     
+    
      private func setupView() {
          self.contentView.addSubview(self.myImageView)
          self.contentView.addSubview(self.titleLabel)
