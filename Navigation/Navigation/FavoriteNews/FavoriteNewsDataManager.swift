@@ -16,8 +16,8 @@ class FavoriteNewsDataManager {
         reloadNews()
     }
     
-   lazy var persistentContainer: NSPersistentContainer = {
-            
+    lazy var persistentContainer: NSPersistentContainer = {
+        
         let container = NSPersistentContainer(name: "FavoriteNewsData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             print("storeDescription = \(storeDescription)")
@@ -25,6 +25,7 @@ class FavoriteNewsDataManager {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     } ()
     
@@ -52,10 +53,8 @@ class FavoriteNewsDataManager {
         self.news = news
     }
     
-    func createNews(id: String, title: String, image: String, text: String, likes: String, views: String, completion: @escaping () -> Void) {
-        
-//        let news = News(context: persistentContainer.viewContext)
-        
+    func createNews(id: String, title: String, image: String, text: String, likes: String, views: String) {
+                
         persistentContainer.performBackgroundTask { contextBackground in
             let news =  News(context: contextBackground)
             news.id = id
@@ -72,7 +71,7 @@ class FavoriteNewsDataManager {
             }
             
             self.reloadNews()
-            completion()
+//            completion()
         }
 //        saveContext()
     }
@@ -82,7 +81,8 @@ class FavoriteNewsDataManager {
         reloadNews()
     }
     
-    func getNews(searchText: String!=nil) -> [News] {
+    
+    func getNews(searchText: String!=nil, context: NSManagedObjectContext!=nil) -> [News] {
         let fetchRequest = News.fetchRequest()
         if let searchText, searchText != "" {
             fetchRequest.predicate = NSPredicate(format: "title contains[c] %@", searchText)

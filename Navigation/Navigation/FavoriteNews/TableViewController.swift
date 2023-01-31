@@ -8,11 +8,36 @@
 import UIKit
 import CoreData
 
-class FavoriteNewsViewController: UIViewController {
+class FavoriteNewsViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     var newsCoreData = FavoriteNewsDataManager.shared
     
+    var index: IndexPath?
+    
     var news: [News] = []
+    
+    var fetchResultController: NSFetchedResultsController = {
+        let fecthRequest = News.fetchRequest()
+        fecthRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: false)]
+        let frc = NSFetchedResultsController(fetchRequest: fecthRequest, managedObjectContext: FavoriteNewsDataManager.shared.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        return frc
+    }()
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//        self.tableView.reloadData()
+        switch type {
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .move:
+            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .automatic)
+        default:
+            self.tableView.reloadData()
+        }
+    }
 
         private lazy var tableView: UITableView = {
             let tableView = UITableView(frame: .zero, style: .grouped)
@@ -33,7 +58,9 @@ class FavoriteNewsViewController: UIViewController {
             NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
             setupView()
             setupNavigationBar()
-            news = newsCoreData.getNews()
+            
+            fetchResultController.delegate = self
+            try? fetchResultController.performFetch()
         }
     
     func setupNavigationBar() {
@@ -56,28 +83,37 @@ class FavoriteNewsViewController: UIViewController {
     
     @objc func refreshTable() {
         DispatchQueue.main.async {
-            self.news = self.newsCoreData.getNews()
             self.tableView.reloadData()
         }
     }
     
     @objc func searchButtonAlert() {
         let alert = UIAlertController(title: "Search Author", message: "", preferredStyle: .alert)
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alertAction) in }
         alert.addAction(cancel)
         alert.addTextField { field in
             field.placeholder = "Author..."
         }
-    
-        let save = UIAlertAction(title: "Search", style: .default) { (alertAction) in
-            guard let field = alert.textFields else {
-                return
-            }
-            
-            let autor = field[0]
-            print(autor.text)
-            self.news = FavoriteNewsDataManager.shared.getNews(searchText: autor.text)
-            self.tableView.reloadData()
+        
+        let save = UIAlertAction(title: "Search", style: .default) { action in
+            var predicate: NSPredicate?
+            let textField = alert.textFields?[0]
+            if let searchText = textField?.text, searchText.count > 0 {
+                predicate = NSPredicate(format: "title contains[cd] %@", searchText)
+                         } else {
+                             predicate = nil
+                         }
+                     
+         
+            self.fetchResultController.fetchRequest.predicate = predicate
+                     do {
+                         try self.fetchResultController.performFetch()
+                         self.tableView.reloadData()
+                     } catch let err {
+                         print(err)
+                     }
+
         }
         
         alert.addAction(save)
@@ -86,17 +122,23 @@ class FavoriteNewsViewController: UIViewController {
     }
     
     @objc func clearButtonAction() {
-        
-        self.news = FavoriteNewsDataManager.shared.getNews(searchText: "")
-        self.tableView.reloadData()
+        self.fetchResultController.fetchRequest.predicate = nil
+        do {
+            try? fetchResultController.performFetch()
+            self.tableView.reloadData()
+        }
     }
 
-    }
+}
 
 extension FavoriteNewsViewController: UITableViewDataSource, UITableViewDelegate {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+            return fetchResultController.sections?.count ?? 0
+        }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news.count
+        return fetchResultController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,7 +146,8 @@ extension FavoriteNewsViewController: UITableViewDataSource, UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
-        cell.setup(with: news[indexPath.row])
+        cell.setup(with: fetchResultController.object(at: indexPath))
+//        cell.setup(with: news[indexPath.row])
         
         return cell
     }
@@ -117,13 +160,14 @@ extension FavoriteNewsViewController: UITableViewDataSource, UITableViewDelegate
         
         if editingStyle == .delete {
             DispatchQueue.main.async {
-                let post = FavoriteNewsDataManager.shared.news[indexPath.row]
-                FavoriteNewsDataManager.shared.deleteNews(news: post)
-                FavoriteNewsDataManager.shared.reloadNews()
+                let post = self.fetchResultController.object(at: indexPath)
+                FavoriteNewsDataManager.shared.persistentContainer.viewContext.delete(post)
+//                FavoriteNewsDataManager.shared.deleteNews(news: post)
                 FavoriteNewsDataManager.shared.saveContext()
-                self.news = self.newsCoreData.getNews(searchText: "")
-                print(self.news)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                FavoriteNewsDataManager.shared.reloadNews()
+//                self.news = self.newsCoreData.getNews(searchText: "")
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.reloadData()
             }
         } 
     }

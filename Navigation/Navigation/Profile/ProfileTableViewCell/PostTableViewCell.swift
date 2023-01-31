@@ -97,13 +97,15 @@ public class PostTableViewCell: UITableViewCell {
                 
             } else {
                 
-                newsCoreData.createNews(id: id, title: titleLabel.text!, image: imageName, text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!) {
-                    DispatchQueue.main.async {
-                        self.newsCoreData.reloadNews()
-                        self.addedFavorite.isHidden = false
-                    }
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
-                }
+                newsCoreData.createNews(id: id, title: titleLabel.text!, image: imageName, text: titleLabel.text!, likes: likeLabel.text!, views: viewsLabel.text!)
+//                    DispatchQueue.main.async {
+//                        self.newsCoreData.reloadNews()
+//                        self.addedFavorite.isHidden = false
+//                    }
+//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
+//                }
+                self.addedFavorite.isHidden = false
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
             }
     }
     
