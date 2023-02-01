@@ -7,7 +7,6 @@
 
 import UIKit
 import SwiftEntryKit
-import CoreData
 
 class ProfileViewController: UIViewController {
     
@@ -159,6 +158,8 @@ class ProfileViewController: UIViewController {
     }
 }
 
+
+
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -210,7 +211,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                     let post = posts[indexPath.row]
                     cell.selectionStyle = UITableViewCell.SelectionStyle.none
                     cell.setup(with: post)
-                    
                     return cell
                 }
             }

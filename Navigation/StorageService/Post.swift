@@ -8,14 +8,13 @@
 import UIKit
 
 public struct Post {
-    public let id = UUID().uuidString
     public let title: String
-    public let image: String
+    public let image: UIImage?
     public let text: String
     public let likes: String?
     public let views: String?
     
-    public init(title: String, image: String, text: String, likes: String?, views: String?) {
+    public init(title: String, image: UIImage?, text: String, likes: String?, views :String?) {
         self.title = title
         self.image = image
         self.text = text
