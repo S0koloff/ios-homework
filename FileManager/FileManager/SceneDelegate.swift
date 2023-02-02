@@ -1,57 +1,25 @@
 //
 //  SceneDelegate.swift
-//  Navigation
+//  FileManager
 //
-//  Created by Sokolov on 23.08.2022.
+//  Created by Sokolov on 14.01.2023.
 //
 
 import UIKit
-import Firebase
-import FirebaseCore
-import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
+
     var window: UIWindow?
-        
-    let feedViewController = UINavigationController(rootViewController: FeedViewController())
-    
-    let profileViewController = UINavigationController(rootViewController: LogInViewController())
-    
+
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        self.window = UIWindow(windowScene: windowScene)
-        
-        let tabBarController = UITabBarController()
-        
-        tabBarController.tabBar.backgroundColor = .white
-        
-        tabBarController.viewControllers = [profileViewController, feedViewController]
-        
-        tabBarController.viewControllers?.enumerated().forEach {
-            $1.tabBarItem.title = $0 == 0 ? "Profile" : "Feed"
-            $1.tabBarItem.image = $0 == 0
-            ? UIImage(systemName: "person.circle")
-            : UIImage(systemName: "textbox")
-        }
-        self.window?.rootViewController = tabBarController
-        self.window?.makeKeyAndVisible()
-        
-        let factory = MyLoginFactory()
-        let loginInspector = factory.makeLoginInspector()
-        let loginVC = LogInViewController()
-        loginVC.loginDelegate = loginInspector
-        
-        let randomeValueforAPI = AppConfiguration.allCases.randomElement()!
-        
-        NetworkManager.request(for: randomeValueforAPI)
-        
+        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
+        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        guard let _ = (scene as? UIWindowScene) else { return }
     }
-    
+
     func sceneDidDisconnect(_ scene: UIScene) {
-        try? Auth.auth().signOut()
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
@@ -79,4 +47,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+
 }
+

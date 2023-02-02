@@ -6,6 +6,11 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseCore
+import FirebaseAuth
+import RealmSwift
+import KeychainAccess
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,7 +18,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        FirebaseApp.configure()
+        
+        let keychain = Keychain(service: "ForRealm.token")
+        
+        if keychain[data: "secret"] == nil {
+            
+            var key = Data(count: 64)
+            key.withUnsafeMutableBytes({ (pointer: UnsafeMutableRawBufferPointer) in
+                _ = SecRandomCopyBytes(kSecRandomDefault, 64, pointer.baseAddress!) })
+            
+            keychain[data:"secret"] = key
+                        
+        } else {
+            
+            let secretData = keychain[data: "secret"]
+                        
+            var config = Realm.Configuration(encryptionKey: secretData )
+            
+            config.schemaVersion = 3
+            Realm.Configuration.defaultConfiguration = config
+            
+            do {
+                
+                _ = try Realm(configuration: config)
+                
+            } catch let error as NSError {
+                
+                fatalError("Error opening realm: \(error)")
+            }
+        }
+                
+        
+//        let config = Realm.Configuration(schemaVersion: 2)
+//        Realm.Configuration.defaultConfiguration = config
+
         return true
     }
 
