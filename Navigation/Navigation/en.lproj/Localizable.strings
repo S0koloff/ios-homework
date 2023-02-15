@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Sokolov on 15.02.2023.
+  
+*/
+
+"tab_bar_profile" = "Profile";
+"tab_bar_feed" = "Feed";
+"tab_bar_favorite" = "Favorite";
+
+"login_placeholder" = "Email of phone";
+"password_placeholder" = "Password";
+"login_button" = "Log In";
+"reg_label" = "If you don't have an account, you can";
+"reg_button" = "register";
+
+"profile_navig_title" = "Profile";
+"prem_alert" = ", there is a special offer for Premium subscription for you";
+"profile_status_button" = "Show status";
+"profile_music_title" = "Music";
+"profile_video_title" = "Video";
+"profile_photo_title" = "Photos";
+
+"photo_gallerey" = "Photo Gallerey";
+"" = "";
+"" = "";
+"" = "";
