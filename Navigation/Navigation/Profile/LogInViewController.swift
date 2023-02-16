@@ -32,6 +32,50 @@ class LogInViewController: UIViewController {
     var timer: Timer?
     
     var timeOfBrute = 0
+    
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.10, green: 0.10, blue: 0.10, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var text: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var textfieldBackground: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
+                } else {
+                    return UIColor.systemGray6
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
 
 //#if DEBUG
 //        var userService = TestUserService()
@@ -71,11 +115,11 @@ class LogInViewController: UIViewController {
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = .black
+        textField.textColor = LogInViewController.text
         textField.autocapitalizationType = .none
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = LogInViewController.textfieldBackground
         textField.borderStyle = .roundedRect
-        textField.placeholder = NSLocalizedString("login_placeholder", comment: "")
+        textField.placeholder = "login_placeholder".localized
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         return textField
@@ -84,12 +128,12 @@ class LogInViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = .black
-        textField.backgroundColor = .systemGray6
+        textField.textColor = LogInViewController.text
+        textField.backgroundColor = LogInViewController.textfieldBackground
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
-        textField.placeholder = NSLocalizedString("password_placeholder", comment: "")
+        textField.placeholder = "password_placeholder".localized
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         return textField
@@ -143,14 +187,14 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = LogInViewController.background
         self.tabBarController?.tabBar.isHidden = true
         
         checkAuthorization()
         
-        realm.objects(ProfileDate.self)
-        
-        print(Realm.Configuration.defaultConfiguration.fileURL)
+//        realm.objects(ProfileDate.self)
+//
+//        print(Realm.Configuration.defaultConfiguration.fileURL)
         
         setupGesture()
         
@@ -281,16 +325,16 @@ class LogInViewController: UIViewController {
     
     func setupRegistrationPopUpView() -> EKFormMessageView {
         
-        let title = EKProperty.LabelContent(text: "Registration", style: .init(font: UIFont.systemFont(ofSize: 20), color: .black))
+        let title = EKProperty.LabelContent(text: "Registration", style: .init(font: UIFont.systemFont(ofSize: 20), color: .init(light: .black, dark: .white)))
         
         let email = EKProperty.LabelContent(text: "Email...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
         let pass = EKProperty.LabelContent(text:"Password...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
         
-        var emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black), leadingImage: UIImage(systemName: "person"))
+        var emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .init(light: .black, dark: .white)), leadingImage: UIImage(systemName: "person"))
         
         emailTextField.textContent = self.loginTextField.text ?? ""
         
-        var passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black), leadingImage: UIImage(systemName: "key"))
+        var passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .init(light: .black, dark: .white)), leadingImage: UIImage(systemName: "key"))
         
         passTextField.textContent = self.passwordTextField.text ?? ""
         passTextField.isSecure = true
@@ -439,6 +483,12 @@ extension String {
     
     var isValidPass: Bool {
         NSPredicate(format: "SELF MATCHES %@", "^[A-Za-z\\d]{6,}$").evaluate(with: self)
+    }
+}
+
+extension String {
+    var localized: String {
+        NSLocalizedString(self, comment: "")
     }
 }
 

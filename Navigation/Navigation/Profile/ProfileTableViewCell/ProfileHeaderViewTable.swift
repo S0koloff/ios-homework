@@ -9,6 +9,35 @@ import UIKit
 
 class ProfileHeaderViewTable: UITableViewHeaderFooterView {
     
+    static var status: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.gray
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var textfieldBackground: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
     private lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -31,7 +60,7 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.numberOfLines = 0
-        label.textColor = .gray
+        label.textColor = ProfileHeaderViewTable.status
         return label
     }()
     
@@ -40,13 +69,14 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         statusTextField.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         statusTextField.layer.cornerRadius = 4
         statusTextField.layer.borderWidth = 1
+        statusTextField.backgroundColor = ProfileHeaderViewTable.textfieldBackground
         statusTextField.layer.borderColor = UIColor.gray.cgColor
         statusTextField.placeholder = " Waiting for something..."
         statusTextField.translatesAutoresizingMaskIntoConstraints = false
             return statusTextField
         }()
     
-    private lazy var editButton = CustomButton(title: NSLocalizedString("profile_status_button", comment: ""), titleColor: .white, backgroundButtonColor: .systemBlue, cornerRadius: 4, useShadow: true, action: {self.buttonAction()})
+    private lazy var editButton = CustomButton(title: NSLocalizedString("profile_status_button", comment: ""), titleColor: .white, backgroundButtonColor: UIColor(red: 0.29, green: 0.53, blue: 0.80, alpha: 1.00), cornerRadius: 4, useShadow: true, action: {self.buttonAction()})
     
     weak var profileVC: ProfileViewController?
     private var initialAvatarFrame = CGRect(x: 16, y: 16, width: 220, height: 220)
@@ -68,6 +98,7 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         self.addSubview(self.statusLabel)
         self.addSubview(self.statusTextField)
         self.addSubview(self.editButton)
+        
     }
     
     private func setupConstraints() {
@@ -92,10 +123,10 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
             self.statusTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
             self.statusTextField.bottomAnchor.constraint(equalTo: statusTextField.topAnchor, constant: 30),
             
-            self.editButton.topAnchor.constraint(equalTo: self.avatarImage.bottomAnchor,constant: 16),
-            self.editButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            self.editButton.topAnchor.constraint(equalTo: self.statusTextField.bottomAnchor, constant: 6),
+            self.editButton.leftAnchor.constraint(equalTo: self.avatarImage.rightAnchor, constant: 16),
             self.editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            self.editButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25),
             
         ])
         
@@ -118,6 +149,7 @@ class ProfileHeaderViewTable: UITableViewHeaderFooterView {
         super.layoutSubviews()
         avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
         avatarImage.clipsToBounds = true
+        
     }
     
     func setupTapAvatar() {

@@ -8,10 +8,39 @@
 import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
+        
+    static var title: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
     
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = .black
+        titleLabel.textColor = PhotosTableViewCell.title
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
@@ -76,6 +105,9 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     private func setupView() {
+        
+        self.contentView.backgroundColor = PhotosTableViewCell.background
+        
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.photo1View)
         self.contentView.addSubview(self.photo2View)

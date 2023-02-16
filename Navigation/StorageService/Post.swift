@@ -7,6 +7,10 @@
 
 import UIKit
 
+var randomNunber = Int.random(in: 1...500)
+let localizedNumbers = NSLocalizedString("any_likes", comment: "")
+let formatted = String(format: localizedNumbers, randomNunber)
+
 public struct Post {
     public let id = UUID().uuidString
     public let title: String

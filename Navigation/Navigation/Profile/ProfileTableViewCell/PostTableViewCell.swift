@@ -10,6 +10,49 @@ import StorageService
 
 public class PostTableViewCell: UITableViewCell {
     
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var title: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var text: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.43, green: 0.43, blue: 0.43, alpha: 1.00)
+                } else {
+                    return UIColor.systemGray
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
     let newsCoreData = FavoriteNewsDataManager.shared
     var indexPatch: IndexPath!
     
@@ -25,7 +68,7 @@ public class PostTableViewCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = .black
+        titleLabel.textColor = PostTableViewCell.title
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
@@ -35,7 +78,7 @@ public class PostTableViewCell: UITableViewCell {
         let subTextLabel = UILabel()
         subTextLabel.translatesAutoresizingMaskIntoConstraints = false
         subTextLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        subTextLabel.textColor = .systemGray
+        subTextLabel.textColor = PostTableViewCell.text
         subTextLabel.numberOfLines = 0
         return subTextLabel
     }()
@@ -114,6 +157,8 @@ public class PostTableViewCell: UITableViewCell {
     }
     
     private func setupView() {
+        
+        self.contentView.backgroundColor = PostTableViewCell.background
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc))
         doubleTap.numberOfTapsRequired = 2
