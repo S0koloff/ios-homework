@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import RealmSwift
 @testable import Navigation
 
 final class NavigationTests: XCTestCase {
