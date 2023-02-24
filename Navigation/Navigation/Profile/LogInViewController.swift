@@ -16,19 +16,20 @@ class LogInViewController: UIViewController {
     
     var loginDelegate: LoginViewControllerDelegate?
     
-    var factory = MyLoginFactory()
+    let factory = MyLoginFactory()
     
-    var bruteForce = GeneratePassAndBruteForce()
+    let bruteForce = GeneratePassAndBruteForce()
     
     let concurrentQueue = DispatchQueue(label: "App.cuncurrent", qos: .userInteractive, attributes: [.concurrent])
     
-    var realm = try! Realm()
+    let realm = try! Realm()
     
-    var service = Service()
+    let service = Service()
     
     var profileDate: ProfileDate?
-
-
+    
+    let autorizationService = LocalAuthorizationService()
+    
     var timer: Timer?
     
     var timeOfBrute = 0
@@ -150,6 +151,18 @@ class LogInViewController: UIViewController {
         return button
     }()
     
+    private lazy var faceButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(self.buttonFaceAction), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "faceid"), for: UIControl.State.normal)
+        button.tintColor = .white
+        button.setBackgroundImage(UIImage (named: "bluepixel"), for: UIControl.State.normal)
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        return button
+    }()
+    
     private lazy var generateButton = CustomButton(title: "Generate Password", titleColor: .black, backgroundButtonColor: .systemBlue, cornerRadius: 10, useShadow: false, action: { self.generateButtonAction() })
     
     private lazy var activityInticator: UIActivityIndicatorView = {
@@ -190,11 +203,11 @@ class LogInViewController: UIViewController {
         view.backgroundColor = LogInViewController.background
         self.tabBarController?.tabBar.isHidden = true
         
-        checkAuthorization()
+//        checkAuthorization()
         
-//        realm.objects(ProfileDate.self)
+        realm.objects(ProfileDate.self)
 //
-//        print(Realm.Configuration.defaultConfiguration.fileURL)
+        print(Realm.Configuration.defaultConfiguration.fileURL)
         
         setupGesture()
         
@@ -208,6 +221,7 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.timeToBrute)
         self.scrollView.addSubview(self.regLabel)
         self.scrollView.addSubview(self.regButton)
+        self.scrollView.addSubview(self.faceButton)
         self.textFieldsStackView.addArrangedSubview(self.loginTextField)
         self.textFieldsStackView.addArrangedSubview(self.passwordTextField)
         
@@ -242,8 +256,16 @@ class LogInViewController: UIViewController {
             
             self.editButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
             self.editButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
-            self.editButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
-            self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
+            self.editButton.rightAnchor.constraint(equalTo: self.faceButton.leftAnchor, constant: -5),
+            self.editButton.bottomAnchor.constraint(equalTo: self.editButton.topAnchor, constant: 50),
+//            self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
+            
+            self.faceButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
+            self.faceButton.leftAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 135),
+//            self.faceButton.leftAnchor.constraint(equalTo: self.editButton.leftAnchor, constant: 5),
+            self.faceButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
+            self.faceButton.bottomAnchor.constraint(equalTo: self.editButton.topAnchor, constant: 50),
+//            self.faceButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
             
             self.regLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 16),
 
@@ -423,6 +445,25 @@ class LogInViewController: UIViewController {
 //        }
 //
 //    }
+    
+    @objc private func buttonFaceAction() {
+        
+        let check = autorizationService.checkAvailability()
+
+        if check == false {
+            let alert = UIAlertController(title: "error_faceIdTitle".localized, message: "error_faceID".localized, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            self.present(alert, animated: true)
+        } else {
+            autorizationService.authorizeIfPossible { authorizationFinished in
+                if authorizationFinished == true {
+                    DispatchQueue.main.async {
+                        self.checkAuthorization()
+                    }
+                }
+            }
+        }
+    }
     
     @objc private func regButtonAction() {
         registrationAllert()

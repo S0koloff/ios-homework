@@ -16,6 +16,20 @@ class FavoriteNewsViewController: UIViewController, NSFetchedResultsControllerDe
     
     var news: [News] = []
     
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.10, green: 0.10, blue: 0.10, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
     var fetchResultController: NSFetchedResultsController = {
         let fecthRequest = News.fetchRequest()
         fecthRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: false)]
@@ -45,6 +59,7 @@ class FavoriteNewsViewController: UIViewController, NSFetchedResultsControllerDe
             tableView.rowHeight = UITableView.automaticDimension
             tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
             tableView.estimatedRowHeight = 55
+            tableView.backgroundColor = FavoriteNewsViewController.background
             tableView.translatesAutoresizingMaskIntoConstraints = false
             return tableView
         }()
@@ -52,7 +67,7 @@ class FavoriteNewsViewController: UIViewController, NSFetchedResultsControllerDe
 
         override func viewDidLoad() {
             super.viewDidLoad()
-            self.view.backgroundColor = .white
+            self.view.backgroundColor = FavoriteNewsViewController.background
             self.view.addSubview(self.tableView)
             NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: NSNotification.Name(rawValue: "newsUpdate"), object: nil)
             setupView()
@@ -63,7 +78,7 @@ class FavoriteNewsViewController: UIViewController, NSFetchedResultsControllerDe
         }
     
     func setupNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = FavoriteNewsViewController.background
         navigationItem.title = "Favorite News"
         let searchButton = createButtom(imageName: "magnifyingglass.circle", selector: #selector(searchButtonAlert))
         let clearButton = createButtom(imageName: "arrowshape.turn.up.left.2.circle", selector: #selector(clearButtonAction))

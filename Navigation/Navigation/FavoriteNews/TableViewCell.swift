@@ -9,6 +9,20 @@ import UIKit
 import CoreData
 
 class TableViewCell: UITableViewCell {
+    
+    static var titleColor: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                }
+            }
+        } else {
+            return UIColor.black
+        }
+    }()
 
     private lazy var myImageView: UIImageView = {
         let imageView = UIImageView()
@@ -20,7 +34,7 @@ class TableViewCell: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = .black
+        titleLabel.textColor = TableViewCell.titleColor
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel

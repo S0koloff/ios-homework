@@ -57,6 +57,7 @@
 		153138F429A8D13C00C5EB37 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 153138F329A8D13C00C5EB37 /* FirebaseStorage */; };
 		153138F629A8D13C00C5EB37 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 153138F529A8D13C00C5EB37 /* FirebaseStorageCombine-Community */; };
 		153138F729A8D13C00C5EB37 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A21ADD29214BC3009F518E /* StorageService.framework */; };
+		153138FA29A90B0300C5EB37 /* LocalAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153138F929A90B0300C5EB37 /* LocalAuthorizationService.swift */; };
 		15356A2C29215E5500E41B38 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A21ADD29214BC3009F518E /* StorageService.framework */; };
 		153E8509299D3F3200D47CA7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 153E850B299D3F3200D47CA7 /* Localizable.strings */; };
 		153E8517299D5E1400D47CA7 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 153E8519299D5E1400D47CA7 /* Localizable.stringsdict */; };
@@ -203,6 +204,7 @@
 		1531389929A77DAC00C5EB37 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		153138A429A8BA5700C5EB37 /* FeedViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelTests.swift; sourceTree = "<group>"; };
 		153138A629A8BA6B00C5EB37 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
+		153138F929A90B0300C5EB37 /* LocalAuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorizationService.swift; sourceTree = "<group>"; };
 		153E850A299D3F3200D47CA7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		153E850C299D3F4E00D47CA7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		153E850D299D3F4E00D47CA7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -396,6 +398,14 @@
 			path = NavigationTests;
 			sourceTree = "<group>";
 		};
+		153138F829A9076600C5EB37 /* AutorizationService */ = {
+			isa = PBXGroup;
+			children = (
+				153138F929A90B0300C5EB37 /* LocalAuthorizationService.swift */,
+			);
+			path = AutorizationService;
+			sourceTree = "<group>";
+		};
 		15418ED1294F816A00A0992D /* AlertSetup */ = {
 			isa = PBXGroup;
 			children = (
@@ -562,6 +572,7 @@
 				15418ED1294F816A00A0992D /* AlertSetup */,
 				1579FA37296B20670049A43A /* CheckerService */,
 				154C18432978A8BB00119E17 /* Realm */,
+				153138F829A9076600C5EB37 /* AutorizationService */,
 				15B4230A2953AE27008724C4 /* EnumErrors.swift */,
 				15AF9EC928CA1D8A00E46AA3 /* LogInViewController.swift */,
 				1516987B28BB8BB2000DADA1 /* ProfileViewController.swift */,
@@ -943,6 +954,7 @@
 				150B84FD295CA66C00838A9A /* AppConfiguration.swift in Sources */,
 				15D987BE297B20E100C81847 /* TableViewController.swift in Sources */,
 				1508C42A2957CFBD0009C707 /* VideoTableViewCell.swift in Sources */,
+				153138FA29A90B0300C5EB37 /* LocalAuthorizationService.swift in Sources */,
 				1577080D2928459B0072D985 /* CurrentUserService.swift in Sources */,
 				15B4230B2953AE27008724C4 /* EnumErrors.swift in Sources */,
 				1594ABE8292FCCD300EDC0A2 /* LoginViewControllerDelegate.swift in Sources */,
@@ -1292,6 +1304,7 @@
 				DEVELOPMENT_TEAM = K6ZU9JRTA2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Используйте Face Id  для быстрого входа";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1320,6 +1333,7 @@
 				DEVELOPMENT_TEAM = K6ZU9JRTA2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Используйте Face Id  для быстрого входа";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
