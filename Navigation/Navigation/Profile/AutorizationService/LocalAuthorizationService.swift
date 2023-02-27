@@ -11,10 +11,40 @@ import LocalAuthentication
 
 final class LocalAuthorizationService {
     
+    private let context = LAContext()
+    private var error: NSError?
+
+    
+    enum BiometricType: String {
+           case none
+           case touchID
+           case faceID
+       }
+    
+    var biometricType: BiometricType {
+            guard self.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+                return .none
+            }
+
+            if #available(iOS 11.0, *) {
+                switch context.biometryType {
+                case .none:
+                    return .none
+                case .touchID:
+                    return .touchID
+                case .faceID:
+                    return .faceID
+                @unknown default:
+                    return .none
+                }
+            } else {
+                return self.context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) ? .touchID : .none
+            }
+        }
+    
+    
+    
     func checkAvailability() -> Bool {
-        
-        let context = LAContext()
-        var error: NSError?
         
         context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
         
@@ -43,3 +73,4 @@ final class LocalAuthorizationService {
         }
     }
 }
+

@@ -211,6 +211,8 @@ class LogInViewController: UIViewController {
         
         setupGesture()
         
+        checkAuth()
+        
         self.view.addSubview(self.scrollView)
         
         self.scrollView.addSubview(self.textFieldsStackView)
@@ -293,6 +295,18 @@ class LogInViewController: UIViewController {
         self.loginTextField.becomeFirstResponder()
         self.passwordTextField.text = ""
         
+    }
+    
+    func checkAuth() {
+        let authType = autorizationService.biometricType
+        switch authType {
+        case .none:
+            print("Device not support Biometric")
+        case .touchID:
+            self.faceButton.setImage(UIImage(systemName: "touchid"), for: .normal)
+        case .faceID:
+            self.faceButton.setImage(UIImage(systemName: "faceid"), for: .normal)
+        }
     }
     
     func checkAuthorization() {
@@ -448,20 +462,29 @@ class LogInViewController: UIViewController {
     
     @objc private func buttonFaceAction() {
         
+        let profileAuth = realm.objects(ProfileDate.self)
         let check = autorizationService.checkAvailability()
-
-        if check == false {
-            let alert = UIAlertController(title: "error_faceIdTitle".localized, message: "error_faceID".localized, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default))
-            self.present(alert, animated: true)
-        } else {
-            autorizationService.authorizeIfPossible { authorizationFinished in
-                if authorizationFinished == true {
-                    DispatchQueue.main.async {
-                        self.checkAuthorization()
+        
+        if self.loginTextField.text == profileAuth.first?.login {
+            
+            if check == false {
+                let alert = UIAlertController(title: "error_faceIdTitle".localized, message: "error_faceID".localized, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                self.present(alert, animated: true)
+            } else {
+                autorizationService.authorizeIfPossible { authorizationFinished in
+                    if authorizationFinished == true {
+                        DispatchQueue.main.async {
+                            self.checkAuthorization()
+                        }
                     }
                 }
             }
+            
+        } else {
+            let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct date", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated:  true)
         }
     }
     
@@ -525,11 +548,10 @@ extension String {
     var isValidPass: Bool {
         NSPredicate(format: "SELF MATCHES %@", "^[A-Za-z\\d]{6,}$").evaluate(with: self)
     }
-}
-
-extension String {
+    
     var localized: String {
         NSLocalizedString(self, comment: "")
     }
+    
 }
 

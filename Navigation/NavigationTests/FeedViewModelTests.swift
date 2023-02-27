@@ -19,5 +19,9 @@ final class FeedViewModelTests: XCTestCase {
     func testFeedModel2() throws {
         XCTAssertTrue(feedModel.checkWord(word: "1"))
     }
+    
+    func testFeedModel3() throws {
+        XCTAssertFalse(feedModel.checkWord(word: "2"))
+    }
 
 }
