@@ -10,6 +10,7 @@ import FirebaseCore
 import FirebaseAuth
 import SwiftEntryKit
 import RealmSwift
+import UserNotifications
 
 
 class LogInViewController: UIViewController {
@@ -464,9 +465,9 @@ class LogInViewController: UIViewController {
         
         let profileAuth = realm.objects(ProfileDate.self)
         let check = autorizationService.checkAvailability()
-        
+
         if self.loginTextField.text == profileAuth.first?.login {
-            
+
             if check == false {
                 let alert = UIAlertController(title: "error_faceIdTitle".localized, message: "error_faceID".localized, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default))
@@ -480,9 +481,9 @@ class LogInViewController: UIViewController {
                     }
                 }
             }
-            
+
         } else {
-            let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct date", preferredStyle: .alert)
+            let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct Email", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Close", style: .cancel))
             self.present(alert, animated:  true)
         }
