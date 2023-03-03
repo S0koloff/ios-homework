@@ -10,6 +10,21 @@ import iOSIntPackage
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
     var photos = [UIImage]()
     
     let imageFacade = ImagePublisherFacade()
@@ -45,6 +60,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     private func setupView() {
         self.contentView.addSubview(self.collectionImage)
+        self.contentView.backgroundColor = PhotosCollectionViewCell.background
         
         NSLayoutConstraint.activate([
             self.collectionImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),

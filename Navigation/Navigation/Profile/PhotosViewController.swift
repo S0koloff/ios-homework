@@ -10,6 +10,21 @@ import iOSIntPackage
 
 class PhotosViewController: UIViewController {
     
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
     private lazy var imageFacade = ImagePublisherFacade()
     //    private lazy var arrayOfImagesForObserver = [UIImage]()
     lazy var arrayOfImages = [UIImage]()
@@ -100,8 +115,9 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Photo Gallery"
-        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationItem.title = NSLocalizedString("photo_gallerey", comment: "")
+        self.navigationController?.navigationBar.backgroundColor = PhotosViewController.background
+        self.view.backgroundColor = PhotosViewController.background
         self.setupView()
         self.setupArray()
     }

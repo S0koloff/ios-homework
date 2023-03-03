@@ -8,7 +8,7 @@
 import UIKit
 
 struct PostHeader {
-        let title: String = "Photos"
+        let title: String = NSLocalizedString("profile_photo_title", comment: "")
         let photo1: UIImage? = UIImage(named: "f1")
         let photo2: UIImage? = UIImage(named: "f2")
         let photo3: UIImage? = UIImage(named: "f3")

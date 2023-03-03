@@ -10,7 +10,7 @@ import Firebase
 import FirebaseCore
 import FirebaseAuth
 import RealmSwift
-import KeychainAccess
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,39 +21,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        let keychain = Keychain(service: "ForRealm.token")
+        let config = Realm.Configuration(schemaVersion: 2)
+        Realm.Configuration.defaultConfiguration = config
         
-        if keychain[data: "secret"] == nil {
-            
-            var key = Data(count: 64)
-            key.withUnsafeMutableBytes({ (pointer: UnsafeMutableRawBufferPointer) in
-                _ = SecRandomCopyBytes(kSecRandomDefault, 64, pointer.baseAddress!) })
-            
-            keychain[data:"secret"] = key
-                        
-        } else {
-            
-            let secretData = keychain[data: "secret"]
-                        
-            var config = Realm.Configuration(encryptionKey: secretData )
-            
-            config.schemaVersion = 3
-            Realm.Configuration.defaultConfiguration = config
-            
-            do {
-                
-                _ = try Realm(configuration: config)
-                
-            } catch let error as NSError {
-                
-                fatalError("Error opening realm: \(error)")
+        let notificationService = LocalNotificationService()
+        
+        notificationService.registeForLatesUpdatesIfPossible { registeNotification in
+            if registeNotification != false {
+                DispatchQueue.main.async {
+                    notificationService.notification()
+                }
+            } else {
+                print ("not have permissions")
             }
         }
-                
         
-//        let config = Realm.Configuration(schemaVersion: 2)
-//        Realm.Configuration.defaultConfiguration = config
-
         return true
     }
 
@@ -70,8 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
-
 
 }
 

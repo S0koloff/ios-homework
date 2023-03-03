@@ -60,7 +60,7 @@ class FeedViewController: UIViewController {
             self.label.rightAnchor.constraint(equalTo: self.view.rightAnchor,constant: -25),
             self.label.bottomAnchor.constraint(equalTo: self.checkGuessButton.bottomAnchor,constant: 55),
 
-            self.buttonPost.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 700),
+            self.buttonPost.topAnchor.constraint(equalTo: self.buttonPost.bottomAnchor, constant: -50),
             self.buttonPost.leftAnchor.constraint(equalTo: self.view.leftAnchor,constant: 16),
             self.buttonPost.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
             self.buttonPost.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -100)

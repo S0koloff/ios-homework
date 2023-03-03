@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Sokolov on 15.02.2023.
+  
+*/
+
+"tab_bar_profile" = "Профиль";
+"tab_bar_feed" = "Лента";
+"tab_bar_favorite" = "Избранное";
+
+"login_placeholder" = "Почта или телефон";
+"password_placeholder" = "Пароль";
+"login_button" = "Войти";
+"reg_label" = "Если у вас нет аккаунта, вы можете";
+"reg_button" = "зарегестрироваться";
+"error_faceIdTitle" = "Нет доступа";
+"error_faceID" = "Пожалуйста проверьте доступ к биометрии";
+
+"profile_navig_title" = "Профиль";
+"prem_alert" = ", для вас есть специальное предложение на Premium подписку с крутой скидкой";
+"profile_status_button" = "Обновить статус";
+"profile_music_title" = "Музыка";
+"profile_video_title" = "Видео";
+"profile_photo_title" = "Фотографии";
+
+"photo_gallerey" = "Галлерея фото";

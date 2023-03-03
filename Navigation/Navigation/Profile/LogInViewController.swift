@@ -10,28 +10,74 @@ import FirebaseCore
 import FirebaseAuth
 import SwiftEntryKit
 import RealmSwift
+import UserNotifications
 
 
 class LogInViewController: UIViewController {
     
     var loginDelegate: LoginViewControllerDelegate?
     
-    var factory = MyLoginFactory()
+    let factory = MyLoginFactory()
     
-    var bruteForce = GeneratePassAndBruteForce()
+    let bruteForce = GeneratePassAndBruteForce()
     
     let concurrentQueue = DispatchQueue(label: "App.cuncurrent", qos: .userInteractive, attributes: [.concurrent])
     
-    var realm = try! Realm()
+    let realm = try! Realm()
     
-    var service = Service()
+    let service = Service()
     
     var profileDate: ProfileDate?
-
-
+    
+    let autorizationService = LocalAuthorizationService()
+    
     var timer: Timer?
     
     var timeOfBrute = 0
+    
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.10, green: 0.10, blue: 0.10, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var text: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var textfieldBackground: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
+                } else {
+                    return UIColor.systemGray6
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
 
 //#if DEBUG
 //        var userService = TestUserService()
@@ -71,11 +117,11 @@ class LogInViewController: UIViewController {
     private lazy var loginTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = .black
+        textField.textColor = LogInViewController.text
         textField.autocapitalizationType = .none
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = LogInViewController.textfieldBackground
         textField.borderStyle = .roundedRect
-        textField.placeholder = "Email of phone"
+        textField.placeholder = "login_placeholder".localized
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         return textField
@@ -84,12 +130,12 @@ class LogInViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 16, weight: .regular)
-        textField.textColor = .black
-        textField.backgroundColor = .systemGray6
+        textField.textColor = LogInViewController.text
+        textField.backgroundColor = LogInViewController.textfieldBackground
         textField.autocapitalizationType = .none
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
-        textField.placeholder = "Password"
+        textField.placeholder = "password_placeholder".localized
         textField.translatesAutoresizingMaskIntoConstraints = false
 
         return textField
@@ -99,7 +145,19 @@ class LogInViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(self.buttonAction), for: .touchUpInside)
-        button.setTitle("Log In", for: UIControl.State.normal)
+        button.setTitle((NSLocalizedString("login_button", comment: "")), for: UIControl.State.normal)
+        button.setBackgroundImage(UIImage (named: "bluepixel"), for: UIControl.State.normal)
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private lazy var faceButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(self.buttonFaceAction), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "faceid"), for: UIControl.State.normal)
+        button.tintColor = .white
         button.setBackgroundImage(UIImage (named: "bluepixel"), for: UIControl.State.normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
@@ -126,13 +184,13 @@ class LogInViewController: UIViewController {
         let regLabel = UILabel()
         regLabel.font = UIFont.systemFont(ofSize: 13)
         regLabel.translatesAutoresizingMaskIntoConstraints = false
-        regLabel.text = "If you don't have an account, you can"
+        regLabel.text = NSLocalizedString("reg_label", comment: "")
         return regLabel
     }()
     
     private lazy var regButton: UIButton = {
         let regButton = UIButton()
-        regButton.setTitle("register", for: .normal)
+        regButton.setTitle((NSLocalizedString("reg_button", comment: "")), for: .normal)
         regButton.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         regButton.setTitleColor(.systemBlue, for: .normal)
         regButton.addTarget(self, action: #selector(self.regButtonAction), for: .touchUpInside)
@@ -143,16 +201,18 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = LogInViewController.background
         self.tabBarController?.tabBar.isHidden = true
         
-        checkAuthorization()
+//        checkAuthorization()
         
         realm.objects(ProfileDate.self)
-        
+//
         print(Realm.Configuration.defaultConfiguration.fileURL)
         
         setupGesture()
+        
+        checkAuth()
         
         self.view.addSubview(self.scrollView)
         
@@ -164,8 +224,11 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(self.timeToBrute)
         self.scrollView.addSubview(self.regLabel)
         self.scrollView.addSubview(self.regButton)
+        self.scrollView.addSubview(self.faceButton)
         self.textFieldsStackView.addArrangedSubview(self.loginTextField)
         self.textFieldsStackView.addArrangedSubview(self.passwordTextField)
+        
+        self.generateButton.isHidden = true
         
         NSLayoutConstraint.activate ([
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -196,16 +259,25 @@ class LogInViewController: UIViewController {
             
             self.editButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
             self.editButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
-            self.editButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
-            self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
+            self.editButton.rightAnchor.constraint(equalTo: self.faceButton.leftAnchor, constant: -5),
+            self.editButton.bottomAnchor.constraint(equalTo: self.editButton.topAnchor, constant: 50),
+//            self.editButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
+            
+            self.faceButton.topAnchor.constraint(equalTo: self.textFieldsStackView.bottomAnchor, constant: 16),
+            self.faceButton.leftAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 135),
+//            self.faceButton.leftAnchor.constraint(equalTo: self.editButton.leftAnchor, constant: 5),
+            self.faceButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
+            self.faceButton.bottomAnchor.constraint(equalTo: self.editButton.topAnchor, constant: 50),
+//            self.faceButton.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.058072),
             
             self.regLabel.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 16),
 
             self.regLabel.bottomAnchor.constraint(equalTo: self.regLabel.topAnchor, constant: 16),
-            self.regLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -24),
+            self.regLabel.leftAnchor.constraint(equalTo: self.editButton.leftAnchor,constant: 10),
             
             self.regButton.topAnchor.constraint(equalTo: self.editButton.bottomAnchor, constant: 16),
             self.regButton.leftAnchor.constraint(equalTo: self.regLabel.rightAnchor,constant: 5),
+//            self.regButton.rightAnchor.constraint(equalTo: self.editButton.rightAnchor, constant: -10),
             self.regButton.bottomAnchor.constraint(equalTo: self.regButton.topAnchor, constant: 16),
             
             ])
@@ -224,6 +296,18 @@ class LogInViewController: UIViewController {
         self.loginTextField.becomeFirstResponder()
         self.passwordTextField.text = ""
         
+    }
+    
+    func checkAuth() {
+        let authType = autorizationService.biometricType
+        switch authType {
+        case .none:
+            print("Device not support Biometric")
+        case .touchID:
+            self.faceButton.setImage(UIImage(systemName: "touchid"), for: .normal)
+        case .faceID:
+            self.faceButton.setImage(UIImage(systemName: "faceid"), for: .normal)
+        }
     }
     
     func checkAuthorization() {
@@ -278,16 +362,16 @@ class LogInViewController: UIViewController {
     
     func setupRegistrationPopUpView() -> EKFormMessageView {
         
-        let title = EKProperty.LabelContent(text: "Registration", style: .init(font: UIFont.systemFont(ofSize: 20), color: .black))
+        let title = EKProperty.LabelContent(text: "Registration", style: .init(font: UIFont.systemFont(ofSize: 20), color: .init(light: .black, dark: .white)))
         
         let email = EKProperty.LabelContent(text: "Email...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
         let pass = EKProperty.LabelContent(text:"Password...", style: .init(font: UIFont.systemFont(ofSize: 13), color: .init(red: 208, green: 208, blue: 208)))
         
-        var emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black), leadingImage: UIImage(systemName: "person"))
+        var emailTextField = EKProperty.TextFieldContent(placeholder: email, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .init(light: .black, dark: .white)), leadingImage: UIImage(systemName: "person"))
         
         emailTextField.textContent = self.loginTextField.text ?? ""
         
-        var passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .black), leadingImage: UIImage(systemName: "key"))
+        var passTextField = EKProperty.TextFieldContent(placeholder: pass, textStyle: .init(font: UIFont.systemFont(ofSize: 15), color: .init(light: .black, dark: .white)), leadingImage: UIImage(systemName: "key"))
         
         passTextField.textContent = self.passwordTextField.text ?? ""
         passTextField.isSecure = true
@@ -331,6 +415,12 @@ class LogInViewController: UIViewController {
         
     @objc private func buttonAction() {
         
+//        //skip login
+//        let user = User(email: "", password: "", name: "Alex", image: UIImage(named: "p6")!, label: "Im very tired")
+//        let profileViewController = ProfileViewController(user: user)
+//        self.navigationController?.pushViewController(profileViewController, animated: true)
+//        //
+        
         let checkerService = CheckerService()
 
         checkerService.checkCredentials(for: loginTextField.text!, and: passwordTextField.text!) { result in
@@ -343,10 +433,10 @@ class LogInViewController: UIViewController {
                 alert.addAction(UIAlertAction(title: "Close", style: .cancel))
 
                 let signUp = UIAlertAction(title: "Sign Up", style: .default) { _ in
-                    
+
                     self.registrationAllert()
                 }
-                
+
                 alert.addAction(signUp)
                 self.present(alert, animated: true)
                 print("Error of date",error)
@@ -370,6 +460,34 @@ class LogInViewController: UIViewController {
 //        }
 //
 //    }
+    
+    @objc private func buttonFaceAction() {
+        
+        let profileAuth = realm.objects(ProfileDate.self)
+        let check = autorizationService.checkAvailability()
+
+        if self.loginTextField.text == profileAuth.first?.login {
+
+            if check == false {
+                let alert = UIAlertController(title: "error_faceIdTitle".localized, message: "error_faceID".localized, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                self.present(alert, animated: true)
+            } else {
+                autorizationService.authorizeIfPossible { authorizationFinished in
+                    if authorizationFinished == true {
+                        DispatchQueue.main.async {
+                            self.checkAuthorization()
+                        }
+                    }
+                }
+            }
+
+        } else {
+            let alert = UIAlertController(title: "User not found!", message: "Please, registration a new account or enter correct Email", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self.present(alert, animated:  true)
+        }
+    }
     
     @objc private func regButtonAction() {
         registrationAllert()
@@ -431,5 +549,10 @@ extension String {
     var isValidPass: Bool {
         NSPredicate(format: "SELF MATCHES %@", "^[A-Za-z\\d]{6,}$").evaluate(with: self)
     }
+    
+    var localized: String {
+        NSLocalizedString(self, comment: "")
+    }
+    
 }
 

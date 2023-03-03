@@ -18,6 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let profileViewController = UINavigationController(rootViewController: LogInViewController())
     
+    let favoriteNewsViewController = UINavigationController(rootViewController: FavoriteNewsViewController())
+
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -28,14 +31,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         tabBarController.tabBar.backgroundColor = .white
         
-        tabBarController.viewControllers = [profileViewController, feedViewController]
+        tabBarController.viewControllers = [profileViewController, feedViewController, favoriteNewsViewController]
         
-        tabBarController.viewControllers?.enumerated().forEach {
-            $1.tabBarItem.title = $0 == 0 ? "Profile" : "Feed"
-            $1.tabBarItem.image = $0 == 0
-            ? UIImage(systemName: "person.circle")
-            : UIImage(systemName: "textbox")
-        }
+        profileViewController.tabBarItem.title = NSLocalizedString("tab_bar_profile", comment: "")
+        feedViewController.tabBarItem.title = NSLocalizedString("tab_bar_feed", comment: "")
+        favoriteNewsViewController.tabBarItem.title = NSLocalizedString("tab_bar_favorite", comment: "")
+        
+        profileViewController.tabBarItem.image = UIImage(systemName: "person.circle")
+        feedViewController.tabBarItem.image = UIImage(systemName: "square.fill.text.grid.1x2")
+        favoriteNewsViewController.tabBarItem.image = UIImage(systemName: "text.badge.star")
+        
+//        tabBarController.viewControllers?.enumerated().forEach {
+//            $1.tabBarItem.title = $0 == 0 ? "Profile" : "Feed"
+//            $1.tabBarItem.image = $0 == 0
+//            ? UIImage(systemName: "person.circle")
+//            : UIImage(systemName: "textbox")
+//        }
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
         

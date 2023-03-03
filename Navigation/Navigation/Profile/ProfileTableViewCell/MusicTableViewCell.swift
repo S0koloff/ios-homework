@@ -9,10 +9,42 @@ import UIKit
 
 class MusicTableViewCell: UITableViewCell {
     
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var text: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    
     private lazy var title: UILabel = {
         let title = UILabel()
-        title.text = "Music"
-        title.textColor = .systemBlue
+        title.text = NSLocalizedString("profile_music_title", comment: "")
+        title.textColor = MusicTableViewCell.text
+        title.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
     }()
@@ -20,7 +52,7 @@ class MusicTableViewCell: UITableViewCell {
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "music.note.tv")
-        image.tintColor = .systemBlue
+        image.tintColor = MusicTableViewCell.text
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -35,6 +67,8 @@ class MusicTableViewCell: UITableViewCell {
     }
     
     private func setupView() {
+        
+        self.contentView.backgroundColor = MusicTableViewCell.background
         
         self.contentView.addSubview(self.title)
         self.contentView.addSubview(self.image)

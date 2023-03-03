@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftEntryKit
+import CoreData
 
 class ProfileViewController: UIViewController {
     
@@ -23,6 +24,35 @@ class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    static var background: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 0.10, green: 0.10, blue: 0.10, alpha: 1.00)
+                } else {
+                    return UIColor.white
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
+    static var text: UIColor = {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                    
+                }
+            }
+        } else {
+            return UIColor.white
+        }
+    }()
+    
     private lazy var profileHeaderView: ProfileHeaderViewTable = {
         let profileHeaderView = ProfileHeaderViewTable(frame: .zero)
         return profileHeaderView
@@ -32,6 +62,7 @@ class ProfileViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.backgroundColor = ProfileViewController.background
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
@@ -74,28 +105,31 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Profile"
+        self.navigationItem.title = NSLocalizedString("profile_navig_title", comment: "")
         self.view.insertSubview(tableView, at: 0)
+        self.view.backgroundColor = ProfileViewController.background
         self.view.addSubview(self.avatar)
         self.view.addSubview(self.backButton)
         self.profileHeaderView.setup(with: self.profile)
-        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.backgroundColor = ProfileViewController.background
         self.setupProfileView ()
         self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.backgroundColor = ProfileViewController.background
         
         self.timerPremiumAllert()
         
         #if DEBUG
-        view.backgroundColor = .blue
+        view.backgroundColor = ProfileViewController.background
         
         #else
         view.backgroundColor = .white
         
         #endif
+
     }
     
     private func setupProfileView () {
-        
+                
         self.avatarHeightConstraint = self.avatar.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1)
         self.avatarWidthConstraint = self.avatar.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.1)
         self.avatarLeadingConstant = self.avatar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
@@ -149,7 +183,7 @@ class ProfileViewController: UIViewController {
     }
 
     @objc private func premiumAllert() {
-        SwiftEntryKit.display(entry: CustomPopUpView(image: user.image, name: "Приветствуем, \(user.name)! Для вас есть специальное предложение на Premium подписку с крутой скидкой"), using: setupAttributes())
+        SwiftEntryKit.display(entry: CustomPopUpView(image: user.image, name: "\(user.name)\(NSLocalizedString("prem_alert", comment: ""))"), using: setupAttributes())
     }
     
     @objc func backButtonAction() {
@@ -157,8 +191,6 @@ class ProfileViewController: UIViewController {
         self.backButton.isHidden = true
     }
 }
-
-
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -211,6 +243,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                     let post = posts[indexPath.row]
                     cell.selectionStyle = UITableViewCell.SelectionStyle.none
                     cell.setup(with: post)
+                    
                     return cell
                 }
             }
